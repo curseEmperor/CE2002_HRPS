@@ -52,12 +52,13 @@ public class ReservationUI {
                             createNewReservation();
                             break;
                         case "Y":
-                            System.out.println("Returning to Main Menu!");
+                            System.out.println("Returning to Main Menu, please create Guest account first.");
                             return;
                     }
                     break;
                 case 2:
                     readOneDets();
+                    ReservationController.getInstance().read();
                     break;
                 case 3:
                     update();

@@ -75,7 +75,8 @@ public class ReservationController {
 
     public void read() {
         for (Reservation reservation : reservationList) {
-            System.out.println(reservation);
+            System.out.println(reservation.getID());
+            System.out.println();
         }
     }
 
