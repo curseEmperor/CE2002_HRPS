@@ -188,7 +188,7 @@ public class CreditcardController
 
         for (int i = 0; i<this.creditList.size(); i++)
         {
-            System.out.format("%s %s %", this.creditList.get(i).getguestID(), this.creditList.get(i).getcreditcardNum(), this.creditList.get(i).getcreditcardType(), this.creditList.get(i).getcreditcardExp(), this.creditList.get(i).getcreditcardCVV());
+            System.out.format("%s %s %s %s %s", this.creditList.get(i).getguestID(), this.creditList.get(i).getcreditcardNum(), this.creditList.get(i).getcreditcardType(), this.creditList.get(i).getcreditcardExp(), this.creditList.get(i).getcreditcardCVV());
         }
         return n;
     }
