@@ -75,6 +75,7 @@ public class PaymentController
         System.out.format("Date: %d", payment.getDate());
         System.out.println("--------------------------------------------------------------------------");
         payment.printOrderList();
+        payment.printInvoice();
         System.out.println("Make payment? (Y/N): ");
         String choice = sc.nextLine();
         if (choice == "Y")
