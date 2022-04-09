@@ -13,7 +13,7 @@ public class Payment implements Serializable
     private ArrayList<Order> OrderList; //store all orderIDs for a roomID, should be from room
     private boolean paymentStatus; //paid or unpaid (true = paid, false = unpaid)
     private String date;
-    private double total = 0;
+    private double Total = 0;
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 
 
@@ -29,7 +29,6 @@ public class Payment implements Serializable
         this.date = d;
         PaymentID ++;
     }
-
 
     ////////////////////////Setters and Getters///////////////////////////////
     public int getPaymentID()
@@ -64,12 +63,12 @@ public class Payment implements Serializable
 
     public double getTotal()
     {
-        return total;
+        return Total;
     }
 
-    public void setTotal(double total)
+    public void setTotal(double Total)
     {
-        this.total = total;
+        this.Total = Total;
     }
 
     public String getDate()
@@ -89,22 +88,37 @@ public class Payment implements Serializable
 
     public double calcSubTotal()
     {
-        double subTotal = 0;
+        double SubTotal = 0;
         if (getOrderList() != null)
         {
-            for (int i=0; i< this.OrderList.size(); i++) {
-                subTotal += this.OrderList.get(i).calcOrderPrice();
+            for (int i=0; i< this.OrderList.size(); i++)
+            {
+                SubTotal += this.OrderList.get(i).calcOrderPrice();
             }
         }
-        return subTotal;
+        return SubTotal;
     }
 
-    public double calcTotal(Payment payment, int roomID)
+    public double calcTotal()
     {
-        double subTotal = calcSubTotal();
-        double total = subTotal * 1.07 * 1.10;
-        payment.setTotal(total);
-        return total;
+        double SubTotal = calcSubTotal();
+        Total = SubTotal * 1.07 * 1.10;
+        setTotal(Total);
+        return Total;
+    }
+
+    public void printInvoice()
+    {
+        double SubTotal = calcSubTotal();
+        double Total, GST, SvcCharge;
+        Total = calcTotal();
+        GST = SubTotal * 0.07;
+        SvcCharge = SubTotal * 0.07 * 0.10;
+        System.out.format("Subtotal: %f", SubTotal);
+        System.out.format("GST: %f", GST);
+        System.out.format("Service Charge: %f", SvcCharge);
+        System.out.println("=================================================================================");
+        System.out.format("Total: %f", Total);
     }
 
     public void printOrderList()
