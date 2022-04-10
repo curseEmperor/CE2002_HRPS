@@ -1,0 +1,11 @@
+//itemID;itemName;itemDesc;itemPrice;itemType
+//Type: 0=NIL, 1=Appetizers, 2=Entrees, 3=Sides, 4=Desserts, 5=Drinks
+101;Mushroom Soup;Creamy umami bomb;3.50;1;
+102;Tomato Soup;Seasonsed with pepper, salt, and love;2.80;1;
+201;Beef Wellington;Gordan Ramsays' best dish;12.00;2;
+202;Chicken Waffle;Who doesn't love this?;8.70;2;
+301;Cheese;Oozing cheddar cheese;4.00;3;
+401;Apple Crumble;Crumbly sweet surprise!;4.00;4;
+402;Vanilla Ice Cream;Classic sweet ice cream!;3.00;4;
+501;Matcha Latte;Japanese tasteful tea;2.50;5;
+502;Latte;Creamy arabica beans coffee;3.00;5;
