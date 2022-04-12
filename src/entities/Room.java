@@ -1,83 +1,91 @@
-package Entity;
+package entities;
 
-public class Room {
-	private int roomID; //4 digit room number. first 2 digits represent level, last 2 digits are room number
-	private int guestID;
+import java.io.Serializable;
+
+import Enums.BedTypes;
+import Enums.RoomStatus;
+import Enums.RoomTypes;
+import Enums.RoomView;
+
+public class Room implements Serializable {
+	private String roomID; // 4 digit room number. first 2 digits represent level, last 2 digits are room
+							// number
+	private String guestID;
 	private double roomPrice;
-	private int roomType; //single, double, deluxe, suite
-	private int bedType;	//single, double, queen, king
+	private RoomTypes roomType; // single, double, deluxe, suite
+	private BedTypes bedType; // single, double, queen, king
 	private boolean WiFi;
-	private int view;
+	private RoomView view;
 	private boolean smoke;
-	private String roomStatus; //Vacant, Occupied, Reserved, Under Maintenance
-	
-	public Room() {} // constructor
-	
-	public Room(int roomID, int guestID, double roomPrice, int roomType, int bedType, boolean WiFi, int view, boolean smoke, String roomStatus) {
+	private RoomStatus roomStatus; // Vacant, Occupied, Reserved, Under Maintenance
+
+	public Room(String roomID, double roomPrice, RoomTypes roomType, BedTypes bedType, boolean WiFi,
+			RoomView view,
+			boolean smoke) {
 		this.roomID = roomID;
-		this.guestID = guestID;
+		this.guestID = null;
 		this.roomPrice = roomPrice;
 		this.roomType = roomType;
 		this.bedType = bedType;
 		this.WiFi = WiFi;
 		this.view = view;
 		this.smoke = smoke;
-		this.roomStatus = roomStatus;
-	} // constructor
-	
-	public void setRoomID(int roomID) {
+		this.roomStatus = RoomStatus.VACANT;
+	}
+
+	public void setRoomID(String roomID) {
 		this.roomID = roomID;
 	}
-	
-	public int getRoomID() {
+
+	public String getRoomID() {
 		return roomID;
 	}
-	
-	public void setGuestID(int guestID) {
+
+	public void setGuestID(String guestID) {
 		this.guestID = guestID;
 	}
-	
-	public int getGuestID() {
+
+	public String getGuestID() {
 		return guestID;
 	}
-	
+
 	public void setRoomPrice(double roomPrice) {
 		this.roomPrice = roomPrice;
 	}
-	
+
 	public double getRoomPrice() {
 		return roomPrice;
 	}
 
-	public void setRoomType(int roomType) {
+	public void setRoomType(RoomTypes roomType) {
 		this.roomType = roomType;
 	}
-	
-	public int getRoomType() {
+
+	public RoomTypes getRoomType() {
 		return roomType;
 	}
-	
-	public void setBedType(int bedType) {
+
+	public void setBedType(BedTypes bedType) {
 		this.bedType = bedType;
 	}
-	
-	public int getBedType() {
+
+	public BedTypes getBedType() {
 		return bedType;
 	}
 
 	public void setWiFi(boolean WiFi) {
 		this.WiFi = WiFi;
 	}
-	
+
 	public boolean getWiFi() {
 		return WiFi;
 	}
-	
-	public void setView(int view) {
+
+	public void setView(RoomView view) {
 		this.view = view;
 	}
 
-	public int getView() {
+	public RoomView getView() {
 		return view;
 	}
 
@@ -88,13 +96,33 @@ public class Room {
 	public boolean getSmoke() {
 		return smoke;
 	}
-	
-	public void setRoomStatus(String roomStatus) {
+
+	public void setRoomStatus(RoomStatus roomStatus) {
 		this.roomStatus = roomStatus;
 	}
-	
-	public String getRoomStatus() {
+
+	public RoomStatus getRoomStatus() {
 		return roomStatus;
 	}
-	
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		String newLine = System.getProperty("line.separator");
+
+		result.append(this.getClass().getName() + newLine);
+
+		result.append("roomID: " + this.roomID + newLine);
+		result.append("guestID: " + this.guestID + newLine);
+		result.append("roomPrice: " + this.roomPrice + newLine);
+		result.append("roomType: " + this.roomType + newLine);
+		result.append("bedType: " + this.bedType + newLine);
+		result.append("WiFi: " + this.WiFi + newLine);
+		result.append("view: " + this.view + newLine);
+		result.append("smoke: " + this.smoke + newLine);
+		result.append("roomStatus: " + this.roomStatus + newLine);
+
+		return result.toString();
+	}
+
 }

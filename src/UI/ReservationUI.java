@@ -30,14 +30,12 @@ public class ReservationUI {
         System.out.println("2) Read");
         System.out.println("3) Update");
         System.out.println("4) Delete");
-        System.out.println("5) Check In");
-        System.out.println("6) Check Out");
-        System.out.println("7) Return to MainUI");
+        System.out.println("5) Return to MainUI");
 
-        return 7;
+        return 5;
     }
 
-    public void mainMenu() throws ParseException {
+    public void mainMenu() {
         do {
             qSize = showSelection();
             choice = getUserChoice(qSize);
@@ -53,7 +51,11 @@ public class ReservationUI {
                             break;
                         case "Y":
                             System.out.println("Returning to Main Menu, please create Guest account first.");
+                            GuestUI.getInstance().creatNewGuest();
                             return;
+                        default:
+                            System.out.println("Please enter only Y/N");
+                            break;
                     }
                     break;
                 case 2:
@@ -67,38 +69,33 @@ public class ReservationUI {
                     delete();
                     break;
                 case 5:
-                    checkIn();
-                    break;
-                case 6:
-                    checkOut();
-                    break;
-                case 7:
                     break;
             }
 
         } while (choice < qSize);
     }
 
-    public void createNewReservation() throws ParseException {
+    public void createNewReservation() {
 
         System.out.println("Enter Guest ID: ");
         String guestID = getUserString();
 
-        System.out.println("Enter Room ID: ");
-        String roomID = getUserString();
+        // RoomUI.getInstance().viewOccupancyReport();
+        // System.out.println("Enter Room ID: ");
+        // String roomID = getUserString();
 
         System.out.println("Enter Check-in day: ");
         String checkInString = getUserString();
-        Date checkInDate = new SimpleDateFormat("dd/MM/yyyy").parse(checkInString);
+        Date checkInDate = dateValid(checkInString);
 
-        if (ReservationController.getInstance().checkExistence(checkInString + roomID) != null) {
+        if (ReservationController.getInstance().checkExistence(guestID + checkInDate) != null) {
             System.out.println("Reservation already exist!");
-            return;
+            // return (guestID + checkInDate);
         }
 
-        System.out.println("Enter Check- out day:");
+        System.out.println("Enter Check-out day:");
         String checkOutString = getUserString();
-        Date checkOutDate = new SimpleDateFormat("dd/MM/yyyy").parse(checkOutString);
+        Date checkOutDate = dateValid(checkOutString);
 
         System.out.println("enter number of children: ");
         int numOfChild = sc.nextInt();
@@ -110,11 +107,12 @@ public class ReservationUI {
         // new SimpleDateFormat("dd/MM/yyyy").parse("17/10/1999"), 3,
         // 2);
 
-        Reservation rawReservation = new Reservation(guestID, roomID, checkInDate,
+        Reservation rawReservation = new Reservation(guestID, checkInDate,
                 checkOutDate, numOfChild,
                 numOfAdults);
 
         ReservationController.getInstance().create(rawReservation);
+        // return (guestID + checkInDate);
 
     }
 
@@ -131,25 +129,25 @@ public class ReservationUI {
 
     }
 
-    public void update() throws ParseException {
+    public void update() {
         System.out.println("Enter your Reservation ID: ");
         String reservationID = getUserString();
 
         Reservation toBeUpdated = ReservationController.getInstance().checkExistence(reservationID);
         if (toBeUpdated == null) {
-            System.out.println("Guest does not exist");
+            System.out.println("Reservation does not exist");
         } else {
             // TODO: do while loop
             System.out.println("What do u want to update");
-            System.out.println("2) check out day (dd/MM/yy): ");
-            System.out.println("3) child numbers");
-            System.out.println("4) adult number");
-            System.out.println("5) Reservation status");
+            System.out.println("1) check out day (dd/MM/yy): ");
+            System.out.println("2) child numbers");
+            System.out.println("3) adult numbers");
+            System.out.println("4) Reservation status: 1)confirm 2)checkin 3)expired 4)waitlist");
 
-            int choice = getUserChoice(5);
+            choice = getUserChoice(4);
 
             System.out.println("Enter the relevant details:");
-            String content = sc.nextLine();
+            String content = getUserString();
 
             ReservationController.getInstance().update(toBeUpdated, choice, content);
 
@@ -167,34 +165,6 @@ public class ReservationUI {
         } else {
             ReservationController.getInstance().delete(toBeDeleted);
         }
-    }
-
-    public void checkIn() throws ParseException {
-        System.out.println("Enter your Reservation ID: ");
-        String reservationID = getUserString();
-
-        Reservation toBeUpdated = ReservationController.getInstance().checkExistence(reservationID);
-        if (toBeUpdated == null) {
-            System.out.println("Guest does not exist");
-            return;
-        }
-        ReservationController.getInstance().update(toBeUpdated, 5, "Checked IN");
-    }
-
-    public void checkOut() throws ParseException {
-        System.out.println("Enter your Reservation ID: ");
-        String reservationID = getUserString();
-
-        Reservation toBeCheckOut = ReservationController.getInstance().checkExistence(reservationID);
-        if (toBeCheckOut == null) {
-            System.out.println("reservation does not exist");
-            return;
-        }
-        ReservationController.getInstance().update(toBeCheckOut, 5, "Checked Out");
-
-        // ReservationController.getInstance().checkOut(toBeCheckOut);
-        // GuestController.getInstance().checkOut();
-        // RoomController.getInstance().checkOut();
     }
 
     private int getUserChoice(int n) {
@@ -219,6 +189,19 @@ public class ReservationUI {
     private String getUserString() {
         String input = sc.nextLine().toUpperCase();
         return input;
+    }
+
+    private Date dateValid(String dateInString) {
+        SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yy");
+        sdfrmt.setLenient(false);
+
+        try {
+            Date javaDate = sdfrmt.parse(dateInString);
+            return javaDate;
+        } catch (ParseException e) {
+            System.out.println(dateInString + " is Invalid Date format");
+            return null;
+        }
     }
 
 }

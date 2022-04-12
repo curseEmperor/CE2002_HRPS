@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 
 import Controller.RoomController;
+import Enums.BedTypes;
 import Enums.RoomStatus;
+import Enums.RoomTypes;
+import Enums.RoomView;
 import entities.Room;
 
 public class RoomUI {
@@ -74,31 +77,187 @@ public class RoomUI {
 
     public String createNewRoom() {
 
+        System.out.println("Enter ur roomID: ");
+        String roomID = getUserString();
+
+        System.out.println("Enter Room Price: ");
+        double roomPrice = sc.nextDouble();
+
+        while (roomPrice < 0.0) {
+            System.out.println("Enter Positive number: ");
+            roomPrice = sc.nextDouble();
+        }
+
+        System.out.println("Choose Room Type: ");
+        System.out.println("(1) Single ");
+        System.out.println("(2) Double ");
+        System.out.println("(3) Deluxe ");
+        System.out.println("(4) Suite ");
+        RoomTypes roomType = null;
+
+        choice = getUserChoice(4);
+        switch (choice) {
+            case 1:
+                roomType = RoomTypes.SINGLE;
+                break;
+            case 2:
+                roomType = RoomTypes.DOUBLE;
+                break;
+            case 3:
+                roomType = RoomTypes.DELUXE;
+                break;
+            case 4:
+                roomType = RoomTypes.SUITE;
+                break;
+            default:
+                break;
+        }
+
+        System.out.println("Enter Bed Type: ");
+        System.out.println("(1) Single Bed");
+        System.out.println("(2) Double Bed");
+        System.out.println("(3) Queen Bed");
+        System.out.println("(4) King Bed");
+        BedTypes bedType = null;
+
+        choice = getUserChoice(4);
+        switch (choice) {
+            case 1:
+                bedType = BedTypes.SINGLE;
+                break;
+            case 2:
+                bedType = BedTypes.DOUBLE;
+                break;
+            case 3:
+                bedType = BedTypes.QUEEN;
+                break;
+            case 4:
+                bedType = BedTypes.KING;
+                break;
+            default:
+                break;
+        }
+
+        System.out.println("Please select if this room is WiFi enabled: ");
+        System.out.println("(1) WiFi Enabled");
+        System.out.println("(2) Not WiFi Enabled");
+
+        choice = getUserChoice(2);
+        boolean WiFi = choice == 1 ? true : false;
+
+        System.out.println("Please select the room's view: ");
+        System.out.println("(1) City View");
+        System.out.println("(2) Pool View");
+        System.out.println("(3) No View");
+        RoomView view = null;
+
+        choice = getUserChoice(3);
+        switch (choice) {
+            case 1:
+                view = RoomView.CITY;
+                break;
+            case 2:
+                view = RoomView.POOL;
+                break;
+            case 3:
+                view = RoomView.NIL;
+                break;
+            default:
+                break;
+        }
+
+        System.out.println("Please select if smoking is allowed in this room: ");
+        System.out.println("(1) Smoking Allowed");
+        System.out.println("(2) Smoking Not Allowed");
+
+        choice = getUserChoice(2);
+        boolean smoke = choice == 1 ? true : false;
+
+        Room rawRoom = new Room(roomID, roomPrice, roomType, bedType, WiFi, view, smoke);
+        RoomController.getInstance().create(rawRoom);
+
+        return roomID;
     }
 
     public String readOneDets() {
 
         System.out.println("Enter ur roomID: ");
+        String roomID = getUserString();
 
+        Room roomRead = RoomController.getInstance().checkExistence(roomID);
+        if (roomRead != null)
+            System.out.println(roomRead);
+        else
+            System.out.println("Room does not exist!");
+
+        return roomID;
     }
 
     public void update() {
         System.out.println("Enter ur roomID: ");
         String roomID = getUserString();
 
+        Room toBeUpdated = RoomController.getInstance().checkExistence(roomID);
+        if (toBeUpdated == null) {
+            System.out.println("Room does not exist");
+        } else {
+            // TODO: while loop
+            System.out.println("What do u want to update: ");
+            System.out.println("1) Price");
+            System.out.println("2) Bed Type");
+            System.out.println("3) WiFi enabled");
+            System.out.println("4) Room Status");
+
+            choice = getUserChoice(4);
+
+            System.out.println("Enter the relevant details: ");
+            String content = getUserString();
+
+            RoomController.getInstance().update(toBeUpdated, choice, content);
+
+            System.out.println(toBeUpdated);
+        }
     }
 
     public void delete() {
         System.out.println("Enter ur roomID: ");
         String roomID = getUserString();
 
+        Room toBeDeleted = RoomController.getInstance().checkExistence(roomID);
+        if (toBeDeleted == null) {
+            System.out.println("Room does not exist");
+        } else {
+            RoomController.getInstance().delete(toBeDeleted);
+        }
+    }
+
+    public void viewOccupancyReport() {
+        occupancyReport();
+    }
+
+    private void occupancyReport() {
+        HashMap<RoomTypes, List<Room>> report;
+        report = (HashMap<RoomTypes, List<Room>>) RoomController.getInstance().generateOccupancyReport();
+
+        for (RoomTypes key : report.keySet()) {
+            System.out.println(key + " :  Number : " + report.get(key).size());
+            System.out.println("\tRooms : ");
+            for (Room room : report.get(key)) {
+                System.out.println(room.getRoomID());
+            }
+        }
     }
 
     private void showRoomByStatus() {
-        HashMap<RoomStatus, List<Room>> roomByStatus = new HashMap<>();
+        HashMap<RoomStatus, List<Room>> roomByStatus;
+        roomByStatus = (HashMap<RoomStatus, List<Room>>) RoomController.getInstance().splitRoomByStatus();
 
-        roomByStatus = (HashMap) RoomController.getInstance().splitRoomByStatus();
-
+        for (RoomStatus key : roomByStatus.keySet()) {
+            System.out.println(key + ": ");
+            for (Room room : roomByStatus.get(key)) {
+                System.out.println(room.getRoomID());
+            }
+        }
     }
 
     private int getUserChoice(int n) {

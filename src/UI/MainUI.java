@@ -17,9 +17,9 @@ public class MainUI {
             System.out.println("Welcome: now in MainUI");
             System.out.println("1) For Guest options");
             System.out.println("2) For Reservation options");
-            System.out.println("3) For Room Service options");
+            System.out.println("3) For Room options");
             System.out.println("4) For Menu options");
-            System.out.println("5) For Room options");
+            System.out.println("5) For Room Service options");
             System.out.println("6) Exit App");
 
             do {
@@ -43,6 +43,8 @@ public class MainUI {
                 case 2:
                     ReservationUI.getInstance().mainMenu();
                     break;
+                case 3:
+                    RoomUI.getInstance().mainMenu();
                 case 4:
                     // MenuUI.getInstance().mainMenu();
                 case 6:

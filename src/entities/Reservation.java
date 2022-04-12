@@ -1,8 +1,11 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Reservation {
+import Enums.ReservationStatus;
+
+public class Reservation implements Serializable {
     private String reservationID;
     private String guestID;
     private String roomID;
@@ -10,11 +13,11 @@ public class Reservation {
     private Date checkOut;
     private int childNo;
     private int adultNo;
-    private String reservationStatus;
+    private ReservationStatus reservationStatus;
 
-    public Reservation(String guestID, String roomID, Date checkIn, Date checkOut, int childNo, int adultNo) {
+    public Reservation(String guestID, Date checkIn, Date checkOut, int childNo, int adultNo) {
         this.guestID = guestID;
-        this.roomID = roomID;
+        this.roomID = null;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.childNo = childNo;
@@ -77,11 +80,11 @@ public class Reservation {
         this.adultNo = adultNo;
     }
 
-    public String getReservationStatus() {
+    public ReservationStatus getReservationStatus() {
         return reservationStatus;
     }
 
-    public void setReservationStatus(String reservationStatus) {
+    public void setReservationStatus(ReservationStatus reservationStatus) {
         this.reservationStatus = reservationStatus;
     }
 
