@@ -2,9 +2,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-import Controller.GuestController;
 import UI.MainUI;
-import entities.Guest;
 
 public class App {
     public static void main(String[] args) throws Exception {

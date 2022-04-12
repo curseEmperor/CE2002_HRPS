@@ -88,7 +88,7 @@ public class ReservationController implements IController, IStorage {
 
     public void update(Object entities, int choice, String value) {
         Reservation toBeUpdated = (Reservation) entities;
-
+        Date date1;
         switch (choice) {
             case 1:
                 try {
@@ -118,6 +118,12 @@ public class ReservationController implements IController, IStorage {
                 }
             case 4:
                 toBeUpdated.setReservationStatus(generateStatus(value));
+                break;
+            case 6:
+                date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
+                System.out.println(value + "\t" + date1);
+
+                toBeUpdated.setCheckIn(date1);
                 break;
             default:
                 break;
