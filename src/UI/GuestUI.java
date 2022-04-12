@@ -57,40 +57,41 @@ public class GuestUI {
 
     }
 
-    public String creatNewGuest() {
+    public void creatNewGuest() {
         System.out.println("Enter ur GuestID: ");
         String guestID = getUserString();
 
         if (GuestController.getInstance().checkExistence(guestID) != null) {
             System.out.println("Guest exist!");
-            return guestID;
+            // return guestID;
         }
         System.out.println("Creating new Guest..... ");
 
-        // System.out.println("Enter Guest Name: ");
-        // String guestName = getUserString();
-        // System.out.println("Enter address: ");
-        // String address = getUserString();
-        // System.out.println("Enter Contact: ");
-        // String contact = getUserString();
-        // System.out.println("Enter country: ");
-        // String country = getUserString();
-        // System.out.println("Enter Gender: ");
-        // char gender = getUserString().charAt(0);
-        // System.out.println("Enter nationality: ");
-        // String nationality = getUserString();
+        System.out.println("Enter Guest Name: ");
+        String guestName = getUserString();
+        System.out.println("Enter address: ");
+        String address = getUserString();
+        System.out.println("Enter Contact: ");
+        String contact = getUserString();
+        System.out.println("Enter country: ");
+        String country = getUserString();
+        System.out.println("Enter Gender: ");
+        char gender = getUserString().charAt(0);
+        System.out.println("Enter nationality: ");
+        String nationality = getUserString();
 
-        Guest rawGuest = new Guest(guestID, "guestName", "address", "contact", "country", 'n', "nationality");
+        // Guest rawGuest = new Guest(guestID, "guestName", "address", "contact",
+        // "country", 'n', "nationality");
 
-        // Guest rawGuest = new Guest(guestID, guestName, address, contact, country,
-        // gender, nationality);
+        Guest rawGuest = new Guest(guestID, guestName, address, contact, country,
+                gender, nationality);
         GuestController.getInstance().create(rawGuest);
 
         System.out.println("Guest created and added to guest list");
-        return guestID;
+        // return guestID;
     }
 
-    public String readOneDets() {
+    public void readOneDets() {
 
         System.out.println("Enter ur GuestID: ");
         String guestID = getUserString();
@@ -98,10 +99,10 @@ public class GuestUI {
         Guest guestRead = GuestController.getInstance().checkExistence(guestID);
         if (guestRead != null) {
             System.out.println(guestRead);
-            return guestID;
+            // return guestID;
         } else {
             System.out.println("Guest does not exist");
-            return null;
+            // return null;
         }
 
     }

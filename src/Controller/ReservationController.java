@@ -27,7 +27,9 @@ public class ReservationController implements IController, IStorage {
     public Reservation checkExistence(String reservationID) {
         Date thisDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
+
         System.out.println("Time now is" + formatter.format(thisDate));
+
         Reservation toBeReturned = null;
         // ArrayList<Reservation> toClear = new ArrayList<Reservation>();
 
@@ -68,7 +70,7 @@ public class ReservationController implements IController, IStorage {
         newReservation.setReservationStatus(ReservationStatus.CONFIRM);
 
         reservationList.add(newReservation);
-        System.out.println("Reservation ID generated: " + reservationID);
+        // System.out.println("Reservation ID generated: " + reservationID);
 
         storeData();
     }
@@ -80,9 +82,12 @@ public class ReservationController implements IController, IStorage {
         }
     }
 
-    public void delete(Object reservation) {
-        reservationList.remove(reservation);
-        System.out.println("reservation removed from list in reservation controller");
+    public void delete(Object entities) {
+
+        Reservation toBeDeleted = (Reservation) entities;
+        reservationList.remove(toBeDeleted);
+        // System.out.println("reservation removed from list in reservation
+        // controller");
         storeData();
     }
 
@@ -92,7 +97,7 @@ public class ReservationController implements IController, IStorage {
         switch (choice) {
             case 1:
                 try {
-                    Date date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
+                    date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
                     System.out.println(value + "\t" + date1);
 
                     toBeUpdated.setCheckOut(date1);
@@ -119,12 +124,16 @@ public class ReservationController implements IController, IStorage {
             case 4:
                 toBeUpdated.setReservationStatus(generateStatus(value));
                 break;
-            case 6:
-                date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
-                System.out.println(value + "\t" + date1);
+            // case 6:
+            // try {
+            // date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
+            // System.out.println(value + "\t" + date1);
 
-                toBeUpdated.setCheckIn(date1);
-                break;
+            // toBeUpdated.setCheckIn(date1);
+            // } catch (ParseException e) {
+            // e.printStackTrace();
+            // }
+            // break;
             default:
                 break;
         }

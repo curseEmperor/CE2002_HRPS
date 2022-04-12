@@ -5,15 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import entities.Creditcard;
-import entities.Entities;
 import entities.Guest;
 
-public class GuestController implements Serializable {
+public class GuestController {
     private static GuestController instance = null;
     Scanner sc;
 
@@ -23,7 +20,6 @@ public class GuestController implements Serializable {
         guestList = new ArrayList<>();
     }
 
-    // single instance of GuestController
     public static GuestController getInstance() {
         if (instance == null) {
             instance = new GuestController();
@@ -44,18 +40,10 @@ public class GuestController implements Serializable {
 
     public void create(Object entities) {
 
-        System.out.println("guest list current size: " + guestList.size());
-        Guest guest = (Guest) entities; // downcast here
+        Guest guest = (Guest) entities;
         guestList.add(guest);
-        System.out.println("Guest added, size of guest list is " + guestList.size()); // can return guest to UI to print
 
-        // If entity is not of concrete type Guest throw error
-        // if (entities instanceof Guest) {
-        // } else {
-        // throw new ClassCastException("Object was not of type GUEST");
-        // }
-
-        // TODO: save data
+        storeData();
     }
 
     public void read() {
@@ -64,17 +52,12 @@ public class GuestController implements Serializable {
         }
     }
 
-    public void delete(Object entities) { // removeGuest
+    public void delete(Object entities) {
 
-        if (entities instanceof Guest) {
-            Guest toBeDeleted = (Guest) entities; // downcast here
-            guestList.remove(toBeDeleted);
-            System.out.println("Guest removed alr"); // can return guest to UI to print
-        } else {
-            throw new ClassCastException("Object was not of type GUEST");
-        }
+        Guest toBeDeleted = (Guest) entities;
+        guestList.remove(toBeDeleted);
 
-        // TODO: store data
+        storeData();
     }
 
     public void update(Object entities, int choice, String value) {
@@ -110,7 +93,7 @@ public class GuestController implements Serializable {
         }
 
         System.out.println(toBeUpdated.toString());
-        // store data
+        storeData();
     }
 
     public void storeData() {
