@@ -87,13 +87,13 @@ public class ReservationController {
 
     public void update(Object entities, int choice, String value) throws ParseException {
         Reservation toBeUpdated = (Reservation) entities;
-
+        Date date1;
         switch (choice) {
             case 1:
                 toBeUpdated.setID(value);
                 break;
             case 2:
-                Date date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
+                date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
                 System.out.println(value + "\t" + date1);
 
                 toBeUpdated.setCheckOut(date1);
@@ -108,6 +108,12 @@ public class ReservationController {
                 break;
             case 5:
                 toBeUpdated.setReservationStatus(value);
+                break;
+            case 6:
+            	date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
+                System.out.println(value + "\t" + date1);
+
+                toBeUpdated.setCheckIn(date1);
                 break;
             default:
                 break;

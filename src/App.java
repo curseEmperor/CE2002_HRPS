@@ -1,11 +1,8 @@
-package UI;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-import Controller.GuestController;
-import entities.Guest;
+import UI.MainUI;
 
 public class App {
     public static void main(String[] args) throws Exception {
