@@ -1,7 +1,7 @@
 package Controller;
-import Entity.Order;
-import Entity.item;
-import Entity.menu;
+import entities.Order;
+import entities.Item;
+import Controller.Menu;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -53,8 +53,8 @@ public class OrderController implements Serializable {
 
 		System.out.println("Please enter the itemID of the item you wish to order.");
 		int input = sc.nextInt();
-		menu menu = new menu();
-		item itemToAdd = menu.getItem(input);
+		Menu menu = Menu.getInstance();
+		Item itemToAdd = menu.getItem(input);
 		System.out.printf("Please enter the quantity of item %d.\n", input);
 		int quantityOfItem = sc.nextInt();
 		for (int i=0; i<quantityOfItem; i++) order.addItem(itemToAdd);
@@ -104,9 +104,9 @@ public class OrderController implements Serializable {
 	
 	// if guest wants to "update an order", he/she can either choose to removeOrder then createOrder or updateItemInOrder
 	
-	public void updateItemInOrder(int orderID, item item) {
+	public void updateItemInOrder(int orderID, Item item) {
 		Order order = retrieveOrder(orderID);
-        ArrayList<item> items = order.getItems();
+        ArrayList<Item> items = order.getItems();
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getID() == item.getID()) {
                 items.set(i, item);

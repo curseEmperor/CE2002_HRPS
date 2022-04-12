@@ -2,14 +2,12 @@ package Controller;
 
 import java.util.*;
 
-
+import Database.SerializeDB;
 import entities.Creditcard;
 import entities.Guest;
 import entities.Item;
 import entities.Order;
 import entities.Payment;
-
-import Database.SerializeDB;
 
 public class PaymentController
 {

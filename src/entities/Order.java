@@ -1,4 +1,4 @@
-package Entity;
+package entities;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,12 +10,12 @@ public class Order {
 	private String orderStatus; //confirmed, preparing, delivered
 	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 	private String date;
-	private ArrayList<item> order = new ArrayList<item>();
+	private ArrayList<Item> order = new ArrayList<Item>();
 	private String remarks; //less oil, less salt
 //	Calendar c = Calendar.getInstance();
 //	String d = sdf.format(c.getTime());
 	
-	public Order(int orderID, int roomID, String orderStatus, ArrayList<item> order, String remarks) {
+	public Order(int orderID, int roomID, String orderStatus, ArrayList<Item> order, String remarks) {
 		//this.countID = countID;
 		this.orderID = orderID;
 		this.roomID = roomID;
@@ -76,7 +76,7 @@ public class Order {
         return date;
     }
     
-    public ArrayList<item> getItems() {
+    public ArrayList<Item> getItems() {
         return order;
     }
     
@@ -89,12 +89,12 @@ public class Order {
         return remarks;
     }
     
-    public void addItem(item item) {
+    public void addItem(Item item) {
         this.order.add(item);
     }
     
-    public boolean removeItem(item itemToRemove) {
-        for (item it : order) {
+    public boolean removeItem(Item itemToRemove) {
+        for (Item it : order) {
             if (it.getID() == itemToRemove.getID()) {
                 this.order.remove(it);
                 return true;
@@ -103,7 +103,7 @@ public class Order {
         return false;
     }
    
-	public double calcOrderPrice(ArrayList<item> order) {
+	public double calcOrderPrice() {
 		double orderPrice = 0;
 		for (int i=0; i<order.size(); i++) {
 			orderPrice += order.get(i).getPrice();

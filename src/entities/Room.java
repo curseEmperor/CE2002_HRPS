@@ -1,4 +1,4 @@
-package Entity;
+package entities;
 
 public class Room {
 	private int roomID; //4 digit room number. first 2 digits represent level, last 2 digits are room number
