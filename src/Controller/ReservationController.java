@@ -4,9 +4,14 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import Enums.ReservationStatus;
+import Enums.RoomTypes;
 import entities.Reservation;
+import entities.Room;
 
 public class ReservationController implements IController, IStorage {
     private static ReservationController instance = null;
@@ -177,5 +182,41 @@ public class ReservationController implements IController, IStorage {
             default:
                 return ReservationStatus.WAITLIST;
         }
+    }
+    
+    public Map<ReservationStatus, List<Reservation>> splitReservationByStatus() {
+    	Map<ReservationStatus, List<Reservation>> reservationByStatus = new HashMap<>();
+
+        ArrayList<Reservation> confirmStatus = new ArrayList<Reservation>();
+        ArrayList<Reservation> checkinStatus = new ArrayList<Reservation>();
+        ArrayList<Reservation> expiredStatus = new ArrayList<Reservation>();
+        ArrayList<Reservation> completedStatus = new ArrayList<Reservation>();
+        ArrayList<Reservation> waitlistStatus = new ArrayList<Reservation>();
+
+        for (Reservation reservation : reservationList) {
+            if (reservation.getReservationStatus() == ReservationStatus.CONFIRM) { // single
+            	confirmStatus.add(reservation);
+            }
+            if (reservation.getReservationStatus() == ReservationStatus.CHECKIN) { // single
+            	checkinStatus.add(reservation);
+            }
+            if (reservation.getReservationStatus() == ReservationStatus.EXPIRED) { // single
+            	expiredStatus.add(reservation);
+            }
+            if (reservation.getReservationStatus() == ReservationStatus.COMPLETED) { // single
+            	completedStatus.add(reservation);
+            }
+            if (reservation.getReservationStatus() == ReservationStatus.WAITLIST) { // single
+            	waitlistStatus.add(reservation);
+            }
+        }
+
+        reservationByStatus.put(ReservationStatus.CONFIRM, confirmStatus);
+        reservationByStatus.put(ReservationStatus.CHECKIN, checkinStatus);
+        reservationByStatus.put(ReservationStatus.EXPIRED, expiredStatus);
+        reservationByStatus.put(ReservationStatus.COMPLETED, completedStatus);
+        reservationByStatus.put(ReservationStatus.WAITLIST, waitlistStatus);
+
+        return reservationByStatus;
     }
 }

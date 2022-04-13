@@ -4,11 +4,10 @@ import java.util.Date;
 import java.util.Scanner;
 
 import Enums.RoomTypes;
+import Enums.ReservationStatus;
 import entities.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,9 +56,18 @@ public class CheckInOut {
     	}
     }
     
-    public int noAvailability(Date dateCheck, String roomType) {
+    public int noAvailability(Date dateCheck, RoomTypes roomType) {
     	//No of room type >= Count date is between checkin to checkout date
     	Map<RoomTypes, List<Room>> roomList = RoomController.getInstance().splitRoomByType();
+    	Map<ReservationStatus, List<Reservation>> reservationList = ReservationController.getInstance().splitReservationByStatus();
+    	int reservationCount = 0;
+    	for (Reservation reservation : reservationList.get(ReservationStatus.CONFIRM)) {
+    		if (dateCheck.equals(reservation.getCheckIn())) reservationCount++;
+    		else if (dateCheck.after(reservation.getCheckIn()) && dateCheck.before(reservation.getCheckOut())) reservationCount++;
+    	}
+    	for (Reservation reservation : reservationList.get(ReservationStatus.CHECKIN)) {
+    		if (dateCheck.before(reservation.getCheckOut())) reservationCount++;
+    	}
     	return 0;
     }
 }

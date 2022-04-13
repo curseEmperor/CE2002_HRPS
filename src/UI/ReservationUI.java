@@ -51,7 +51,7 @@ public class ReservationUI implements StandardUI {
                             break;
                         case "Y":
                             System.out.println("Returning to Main Menu, please create Guest account first.");
-                            GuestUI.getInstance().creatNewGuest();
+                            GuestUI.getInstance().create();
                             return;
                         default:
                             System.out.println("Please enter only Y/N");
