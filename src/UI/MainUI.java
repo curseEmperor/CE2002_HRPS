@@ -3,14 +3,10 @@ package UI;
 import java.text.ParseException;
 import java.util.Scanner;
 
-import Controller.MainController;
-
 public class MainUI {
-    MainController mainControl;
     int choice;
 
     public void run() throws ParseException {
-        mainControl = new MainController();
         Scanner sc = new Scanner(System.in);
 
         do {
@@ -45,8 +41,10 @@ public class MainUI {
                     break;
                 case 3:
                     RoomUI.getInstance().mainMenu();
+                    break;
                 case 4:
-                    // MenuUI.getInstance().mainMenu();
+                    MenuUI.getInstance().mainMenu();
+                    break;
                 case 6:
                     break;
             }
