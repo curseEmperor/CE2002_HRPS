@@ -217,6 +217,37 @@ public class RoomController implements IStorage, IController {
 
         return report;
     }
+    
+    public Map<RoomTypes, List<Room>> splitRoomByType() {
+    	Map<RoomTypes, List<Room>> roomByType = new HashMap<>();
+
+        ArrayList<Room> singleType = new ArrayList<Room>();
+        ArrayList<Room> doubleType = new ArrayList<Room>();
+        ArrayList<Room> deluxeType = new ArrayList<Room>();
+        ArrayList<Room> suiteType = new ArrayList<Room>();
+
+        for (Room room : roomList) {
+            if (room.getRoomType() == RoomTypes.SINGLE) { // single
+                singleType.add(room);
+            }
+            if (room.getRoomType() == RoomTypes.DOUBLE) { // double
+                doubleType.add(room);
+            }
+            if (room.getRoomType() == RoomTypes.DELUXE) { // deluxe
+                deluxeType.add(room);
+            }
+            if (room.getRoomType() == RoomTypes.SUITE) { // suite
+                suiteType.add(room);
+            }
+        }
+
+        roomByType.put(RoomTypes.SINGLE, singleType);
+        roomByType.put(RoomTypes.DOUBLE, doubleType);
+        roomByType.put(RoomTypes.DELUXE, deluxeType);
+        roomByType.put(RoomTypes.SUITE, suiteType);
+
+        return roomByType;
+    }
 
     public Map<RoomStatus, List<Room>> splitRoomByStatus() {
         Map<RoomStatus, List<Room>> roomByStatus = new HashMap<>();

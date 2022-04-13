@@ -80,7 +80,7 @@ public class ReservationUI implements StandardUI {
         System.out.println("Enter Guest ID: ");
         String guestID = getUserString();
 
-        // RoomID to be fille via checkin
+        // RoomID to be filled via checkin
 
         System.out.println("Enter Check-in day: ");
         String checkInString = getUserString();

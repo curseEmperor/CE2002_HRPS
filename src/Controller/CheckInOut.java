@@ -2,9 +2,15 @@ package Controller;
 
 import java.util.Date;
 import java.util.Scanner;
+
+import Enums.RoomTypes;
 import entities.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CheckInOut {
 	private static CheckInOut instance = null;
@@ -35,7 +41,7 @@ public class CheckInOut {
     		return;
     	}
     	Date thisDate = new Date();
-    	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
+    	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
     	ReservationController.getInstance().update(reservation, 6, formatter.format(thisDate));
     	ReservationController.getInstance().update(reservation, 5, "Checked In");
     	//Assign room
@@ -49,5 +55,11 @@ public class CheckInOut {
     	catch (Exception e) {
     		e.printStackTrace();
     	}
+    }
+    
+    public int noAvailability(Date dateCheck, String roomType) {
+    	//No of room type >= Count date is between checkin to checkout date
+    	Map<RoomTypes, List<Room>> roomList = RoomController.getInstance().splitRoomByType();
+    	return 0;
     }
 }
