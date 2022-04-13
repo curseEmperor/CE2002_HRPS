@@ -16,13 +16,14 @@ public class MainUI {
             System.out.println("3) For Room options");
             System.out.println("4) For Menu options");
             System.out.println("5) For Room Service options");
-            System.out.println("6) Exit App");
+            System.out.println("6) Check In / Check Out");
+            System.out.println("7) Exit App");
 
             do {
                 if (sc.hasNextInt()) {
                     choice = sc.nextInt();
-                    if (choice <= 0 || choice > 6) {
-                        System.out.println("Please input values between 1 to 6 only!");
+                    if (choice <= 0 || choice > 7) {
+                        System.out.println("Please input values between 1 to 7 only!");
                     } else {
                         break;
                     }
@@ -30,7 +31,7 @@ public class MainUI {
                     System.out.println("Please input only integers!");
                     sc.next();
                 }
-            } while (choice <= 0 || choice > 6);
+            } while (choice <= 0 || choice > 7);
 
             switch (choice) {
                 case 1:
@@ -45,11 +46,17 @@ public class MainUI {
                 case 4:
                     MenuUI.getInstance().mainMenu();
                     break;
+                case 5:
+                    RoomServiceUI.getInstance().mainMenu();
+                    break;
                 case 6:
+                    CheckInOutUI.getInstance().mainMenu();
+                    break;
+                default:
                     break;
             }
 
-        } while (choice < 6);
+        } while (choice < 7);
 
         sc.close();
         System.out.println("Exiting hotel mainUI! Have a nice day!");

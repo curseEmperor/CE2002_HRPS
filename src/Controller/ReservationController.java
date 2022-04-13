@@ -26,35 +26,21 @@ public class ReservationController implements IController, IStorage {
 
     public Reservation checkExistence(String reservationID) {
         Date thisDate = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
-
-        System.out.println("Time now is" + formatter.format(thisDate));
+        // SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
+        // System.out.println("Time now is " + formatter.format(thisDate));
 
         Reservation toBeReturned = null;
-        // ArrayList<Reservation> toClear = new ArrayList<Reservation>();
 
         for (Reservation reservation : reservationList) {
             if (thisDate.compareTo(reservation.getCheckIn()) > 0) {
                 System.out.println("Current date is past check in time");
                 reservation.setReservationStatus(ReservationStatus.EXPIRED);
             }
-            // long time_diff = thisDate.getTime() - reservation.getCheckIn().getTime();
-            // System.out.println("time_diff = " + time_diff);
-
-            // if (time_diff >= 10800 * 1000) // 3 hours
-            // // toClear.add(reservation);
-            // reservation.setReservationStatus("Expired");
 
             if (reservation.getID().equals(reservationID)) {
-                System.out.println(reservation);
                 toBeReturned = reservation;
             }
         }
-
-        // for (Reservation res : toClear) {
-        // reservationList.remove(res);
-        // }
-        // toClear.clear();
 
         return toBeReturned;
     }
@@ -65,7 +51,7 @@ public class ReservationController implements IController, IStorage {
 
         String checkInString = new SimpleDateFormat("ddMMyy").format(newReservation.getCheckIn());
 
-        String reservationID = checkInString + newReservation.getRoomID();
+        String reservationID = checkInString + newReservation.getGuestID();
         newReservation.setID(reservationID);
         newReservation.setReservationStatus(ReservationStatus.CONFIRM);
 
@@ -95,7 +81,7 @@ public class ReservationController implements IController, IStorage {
         Reservation toBeUpdated = (Reservation) entities;
         Date date1;
         switch (choice) {
-            case 1:
+            case 1: // checkout date
                 try {
                     date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
                     System.out.println(value + "\t" + date1);
@@ -106,7 +92,7 @@ public class ReservationController implements IController, IStorage {
                     e.printStackTrace();
                 }
                 break;
-            case 2:
+            case 2: // num of children
                 try {
                     int numOfChild = Integer.parseInt(value);
                     toBeUpdated.setChildNo(numOfChild);
@@ -114,14 +100,14 @@ public class ReservationController implements IController, IStorage {
                     e.printStackTrace();
                 }
                 break;
-            case 3:
+            case 3: // num of adults
                 try {
                     int numOfAdults = Integer.parseInt(value);
                     toBeUpdated.setAdultNo(numOfAdults);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            case 4:
+            case 4: // reservation status
                 toBeUpdated.setReservationStatus(generateStatus(value));
                 break;
             // case 6:

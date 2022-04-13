@@ -8,7 +8,7 @@ import java.util.Scanner;
 import Controller.ReservationController;
 import entities.Reservation;
 
-public class ReservationUI {
+public class ReservationUI implements StandardUI {
     private static ReservationUI instance = null;
     Scanner sc;
     int choice, qSize;
@@ -47,7 +47,7 @@ public class ReservationUI {
                     String select = getUserString();
                     switch (select) {
                         case "N":
-                            createNewReservation();
+                            create();
                             break;
                         case "Y":
                             System.out.println("Returning to Main Menu, please create Guest account first.");
@@ -75,14 +75,12 @@ public class ReservationUI {
         } while (choice < qSize);
     }
 
-    public void createNewReservation() {
+    public void create() {
 
         System.out.println("Enter Guest ID: ");
         String guestID = getUserString();
 
-        // RoomUI.getInstance().viewOccupancyReport();
-        // System.out.println("Enter Room ID: ");
-        // String roomID = getUserString();
+        // RoomID to be fille via checkin
 
         System.out.println("Enter Check-in day: ");
         String checkInString = getUserString();
@@ -90,7 +88,7 @@ public class ReservationUI {
 
         if (ReservationController.getInstance().checkExistence(guestID + checkInDate) != null) {
             System.out.println("Reservation already exist!");
-            // return (guestID + checkInDate);
+            return;
         }
 
         System.out.println("Enter Check-out day:");
@@ -102,17 +100,12 @@ public class ReservationUI {
 
         System.out.println("enter number of adults: ");
         int numOfAdults = sc.nextInt();
-        // Reservation rawReservation = new Reservation("guestID", "01-01",
-        // new SimpleDateFormat("dd/MM/yyyy").parse("15/10/1999"),
-        // new SimpleDateFormat("dd/MM/yyyy").parse("17/10/1999"), 3,
-        // 2);
 
         Reservation rawReservation = new Reservation(guestID, checkInDate,
                 checkOutDate, numOfChild,
                 numOfAdults);
 
         ReservationController.getInstance().create(rawReservation);
-        // return (guestID + checkInDate);
 
     }
 
