@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import Enums.ItemTypes;
 
 public class Item implements Serializable {
 	// Variables
@@ -8,14 +9,15 @@ public class Item implements Serializable {
 	private String itemName;
 	private String itemDesc;
 	private float itemPrice;
-	private int itemType; // 0=NIL, 1=Appetizer, 2=Entree, 3=Side, 4=Dessert, 5=Beverage
+	private ItemTypes itemType;
+	//private int itemType; // 0=NIL, 1=Appetizer, 2=Entree, 3=Side, 4=Dessert, 5=Beverage
 
 	// Constructor
 	public Item() {
 
 	}
 
-	public Item(String itemName, String itemDesc, float itemPrice, int itemType) {
+	public Item(String itemName, String itemDesc, float itemPrice, ItemTypes itemType) {
 		this.itemID = 0;
 		this.itemName = itemName;
 		this.itemDesc = itemDesc;
@@ -40,7 +42,7 @@ public class Item implements Serializable {
 		return itemPrice;
 	}
 
-	public int getType() {
+	public ItemTypes getType() {
 		return itemType;
 	}
 
@@ -61,7 +63,7 @@ public class Item implements Serializable {
 		itemPrice = price;
 	}
 
-	public void setType(int type) {
+	public void setType(ItemTypes type) {
 		itemType = type;
 	}
 }

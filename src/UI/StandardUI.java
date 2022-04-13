@@ -1,15 +1,35 @@
 package UI;
+import java.util.Scanner;
 
-public interface StandardUI {
-    public int showSelection();
+public abstract class StandardUI {
+	int choice;
+	int qSize;
+	Scanner sc;
+	
+	public StandardUI() {
+		sc = new Scanner(System.in);
+	}
+	
+    public abstract int showSelection();
 
-    public void mainMenu();
+    public abstract void mainMenu();
 
-    public void create();
+    public int getUserChoice(int n) {
+        do {
+            if (sc.hasNextInt()) {
+                choice = sc.nextInt();
+                sc.nextLine();
+                if (choice <= 0 || choice > n)
+                    System.out.println("Please input values between 1 to " + n + " only!");
+                else
+                    break;
+            } else {
+                System.out.println("Please input only integers!");
+                sc.next();
+            }
+        } while (choice <= 0 || choice > n);
 
-    public void readOneDets();
-
-    public void update();
-
-    public void delete();
+        return choice;
+    }
 }
+

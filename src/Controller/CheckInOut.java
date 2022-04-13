@@ -25,15 +25,18 @@ public class CheckInOut {
         return instance;
     }
     
-    public void checkOut(String reservationIDs) {
+    public void checkOut(String reservationID) {
     	//Change reservation status
+    	Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
+    	ReservationController.getInstance().update(reservation, 1, "Completed");
     	//Change room status
-    	//Get payment details
+    	Room room = RoomController.getInstance().checkExistence(reservation.getRoomID());
+    	RoomController.getInstance().update(room, 2, "Vacant");
+    	//Get payment details (Room payment, order payments)
     }
     
     public void checkIn(String reservationID) {
     	try {
-    	//Change reservation status
     	Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
     	if (reservation == null) {
     		System.out.println("Invalid Reservation ID");
@@ -41,15 +44,24 @@ public class CheckInOut {
     	}
     	Date thisDate = new Date();
     	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+    	if (!thisDate.equals(reservation.getCheckIn())) {
+    		System.out.println("Check In date does not match");
+    		return;
+    	}
+    	//Assign room
+    	List<Room> vacantRooms = RoomController.getInstance().generateOccupancyReport().get(reservation.getRoomType());
+    	if (vacantRooms.size()==0) {
+    		System.out.println("Room is not ready");
+    		return;
+    	}
+    	Room room = vacantRooms.get(0);
+    	ReservationController.getInstance().update(reservation, 3, room.getRoomID());
+    	//Change reservation status
     	ReservationController.getInstance().update(reservation, 6, formatter.format(thisDate));
     	ReservationController.getInstance().update(reservation, 5, "Checked In");
-    	//Assign room
-    		//1. Get room type
-    		//2. Check available rooms
-    		//3. Assign roomID
     	//Change room status
-    	Room room = RoomController.getInstance().checkExistence(reservation.getRoomID());
-    	RoomController.getInstance().update(reservation, 5, reservation.getGuestID()); //TODO edit choice number
+    	RoomController.getInstance().update(room, 5, reservation.getGuestID());
+    	RoomController.getInstance().update(room, 4, "Occupied");
     	}
     	catch (Exception e) {
     		e.printStackTrace();
@@ -73,7 +85,7 @@ public class CheckInOut {
     			if (dateCheck.before(reservation.getCheckOut())) reservationCount++;
     		}
     	}
-    	//Rooms are available if number of room type is larger than number of guesting using the room at date
+    	//Rooms are available if number of room type is larger than number of guesting using the room type at date
     	return roomList.get(roomType).size() - reservationCount;
     }
 }

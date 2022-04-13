@@ -5,13 +5,11 @@ import java.util.Scanner;
 import Controller.GuestController;
 import entities.Guest;
 
-public class GuestUI implements StandardUI {
+public class GuestUI extends StandardUI implements ControllerUI {
     private static GuestUI instance = null;
-    Scanner sc;
-    int choice, qSize;
 
     private GuestUI() {
-        sc = new Scanner(System.in);
+    	super();
     }
 
     public static GuestUI getInstance() {
@@ -150,25 +148,6 @@ public class GuestUI implements StandardUI {
 
             System.out.println("guest is removed");
         }
-    }
-
-    private int getUserChoice(int n) {
-
-        do {
-            if (sc.hasNextInt()) {
-                choice = sc.nextInt();
-                sc.nextLine();
-                if (choice <= 0 || choice > n)
-                    System.out.println("Please input values between 1 to " + n + " only!");
-                else
-                    break;
-            } else {
-                System.out.println("Please input only integers!");
-                sc.next();
-            }
-        } while (choice <= 0 || choice > n);
-
-        return choice;
     }
 
     private String getUserString() {

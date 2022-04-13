@@ -10,7 +10,7 @@ import Controller.ReservationController;
 import entities.Reservation;
 import Enums.RoomTypes;
 
-public class ReservationUI implements StandardUI {
+public class ReservationUI extends StandardUI implements ControllerUI {
     private static ReservationUI instance = null;
     Scanner sc;
     int choice, qSize;
@@ -197,25 +197,6 @@ public class ReservationUI implements StandardUI {
         } else {
             ReservationController.getInstance().delete(toBeDeleted);
         }
-    }
-
-    private int getUserChoice(int n) {
-
-        do {
-            if (sc.hasNextInt()) {
-                choice = sc.nextInt();
-                sc.nextLine();
-                if (choice <= 0 || choice > n)
-                    System.out.println("Please input values between 1 to " + n + " only!");
-                else
-                    break;
-            } else {
-                System.out.println("Please input only integers!");
-                sc.next();
-            }
-        } while (choice <= 0 || choice > n);
-
-        return choice;
     }
 
     private String getUserString() {

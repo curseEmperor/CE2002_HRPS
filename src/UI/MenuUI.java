@@ -5,7 +5,7 @@ import java.util.Scanner;
 import Controller.Menu;
 import entities.Item;
 
-public class MenuUI {
+public class MenuUI extends StandardUI implements ControllerUI {
     private static MenuUI instance = null;
     Scanner sc;
     int choice, qSize;
@@ -128,25 +128,6 @@ public class MenuUI {
 
     public void catalog() { // view the whole Menu with all the items catagoried
     	Menu.getInstance().printMenu();
-    }
-
-    private int getUserChoice(int n) {
-
-        do {
-            if (sc.hasNextInt()) {
-                choice = sc.nextInt();
-                sc.nextLine();
-                if (choice <= 0 || choice > n)
-                    System.out.println("Please input values between 1 to " + n + " only!");
-                else
-                    break;
-            } else {
-                System.out.println("Please input only integers!");
-                sc.next();
-            }
-        } while (choice <= 0 || choice > n);
-
-        return choice;
     }
 
     private String getUserString() {

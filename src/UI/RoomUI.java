@@ -11,7 +11,7 @@ import Enums.RoomTypes;
 import Enums.RoomView;
 import entities.Room;
 
-public class RoomUI implements StandardUI {
+public class RoomUI extends StandardUI implements ControllerUI {
     private static RoomUI instance = null;
     Scanner sc;
     int choice, qSize;
@@ -255,25 +255,6 @@ public class RoomUI implements StandardUI {
                 System.out.println(room.getRoomID());
             }
         }
-    }
-
-    private int getUserChoice(int n) {
-
-        do {
-            if (sc.hasNextInt()) {
-                choice = sc.nextInt();
-                sc.nextLine();
-                if (choice <= 0 || choice > n)
-                    System.out.println("Please input values between 1 to " + n + " only!");
-                else
-                    break;
-            } else {
-                System.out.println("Please input only integers!");
-                sc.next();
-            }
-        } while (choice <= 0 || choice > n);
-
-        return choice;
     }
 
     private String getUserString() {
