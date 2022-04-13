@@ -14,7 +14,6 @@ import java.text.NumberFormat; //Import this class to set float number format wh
 import java.util.Scanner; //Import the Scanner class to read text files
 import java.util.ArrayList; //Import ArrayList class
 import entities.Item;
-import Controller.DataBase;
 
 public class Menu implements IStorage, IController {
 	// Variables
@@ -28,7 +27,7 @@ public class Menu implements IStorage, IController {
 	private Menu() {
 		noOfItemType = new int[5];
 		listOfItems = new ArrayList<Item>();
-		importDB();
+		loadData();
 		sortDB();
 	}
 
@@ -127,8 +126,8 @@ public class Menu implements IStorage, IController {
 
 		// storeData();
 		sortDB();
-		saveDB();
-		importDB();
+		storeData();
+		loadData();
 
 	}
 
@@ -139,19 +138,19 @@ public class Menu implements IStorage, IController {
 	public void delete(Object entities) {
 
 		Item tempItem = (Item) entities;
-		// int I, ID;
-		// Scanner sc = new Scanner(System.in);
-		// System.out.println("--Removing item--\nItem ID: ");
-		// ID = sc.nextInt();
-		// for (I = 0; I < noOfItems; I++) {
-		// tempItem = listOfItems.get(I);
-		// if (tempItem.getID() == ID)
-		// break;
-		// }
-		// if (I == noOfItems) {
-		// System.out.println("Item does not exist\n");
-		// return;
-		// }
+		 int I, ID;
+		 Scanner sc = new Scanner(System.in);
+		 System.out.println("--Removing item--\nItem ID: ");
+		 ID = sc.nextInt();
+		 for (I = 0; I < noOfItems; I++) {
+		 tempItem = listOfItems.get(I);
+		 if (tempItem.getID() == ID)
+		 break;
+		 }
+		 if (I == noOfItems) {
+		 System.out.println("Item does not exist\n");
+		 return;
+		 }
 		int type;
 		type = tempItem.getType();
 		noOfItems--;
@@ -166,8 +165,8 @@ public class Menu implements IStorage, IController {
 		}
 
 		// storeData();
-		saveDB();
-		importDB();
+		storeData();
+		loadData();
 	}
 
 	public void update(Object entities, int choice, String value) {
@@ -192,12 +191,12 @@ public class Menu implements IStorage, IController {
 		}
 
 		// storeData();
-		saveDB();
-		importDB();
+		storeData();
+		loadData();
 	}
 
-	// TODO: to be sub by storeData
-	public void importDB() {
+	// TODO: to be sub by loadData
+	/*public void loadData() {
 		String cut;
 		int start, end;
 		noOfItems = 0;
@@ -249,10 +248,10 @@ public class Menu implements IStorage, IController {
 			System.out.println("An error occurred...");
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	// TODO: to be sub by storeData
-	public void saveDB() {
+	/*public void storeData() {
 		int I;
 		File currentDir = new File("");
 		File newFile = new File(
@@ -280,7 +279,7 @@ public class Menu implements IStorage, IController {
 			System.out.println("Error saving...");
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	public void storeData() {
 		try {
