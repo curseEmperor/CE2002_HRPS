@@ -127,7 +127,7 @@ public class MenuUI {
     }
 
     public void catalog() { // view the whole Menu with all the items catagoried
-
+    	Menu.getInstance().printMenu();
     }
 
     private int getUserChoice(int n) {
