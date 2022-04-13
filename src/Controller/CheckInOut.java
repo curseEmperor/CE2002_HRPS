@@ -44,7 +44,7 @@ public class CheckInOut {
     		//3. Assign roomID
     	//Change room status
     	Room room = RoomController.getInstance().checkExistence(reservation.getRoomID());
-    	RoomController.getInstance().update(reservation,5 ,reservation.getGuestID());
+    	RoomController.getInstance().update(reservation, 5, reservation.getGuestID()); //TODO edit choice number
     	}
     	catch (Exception e) {
     		e.printStackTrace();
