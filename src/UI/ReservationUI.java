@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+import Controller.CheckInOut;
 import Controller.ReservationController;
 import entities.Reservation;
+import Enums.RoomTypes;
 
 public class ReservationUI implements StandardUI {
     private static ReservationUI instance = null;
@@ -95,16 +97,53 @@ public class ReservationUI implements StandardUI {
         String checkOutString = getUserString();
         Date checkOutDate = dateValid(checkOutString);
 
-        System.out.println("enter number of children: ");
+        System.out.println("Enter number of children: ");
         int numOfChild = sc.nextInt();
 
-        System.out.println("enter number of adults: ");
+        System.out.println("Enter number of adults: ");
         int numOfAdults = sc.nextInt();
 
         Reservation rawReservation = new Reservation(guestID, checkInDate,
                 checkOutDate, numOfChild,
                 numOfAdults);
-
+        
+        int checkAvailability;
+        RoomTypes roomType = RoomTypes.SINGLE; //Pre-set as single to avoid errors
+        while(true) {
+	        System.out.println(
+	        		"1) Single\n"
+	        		+ "2) Double\n"
+	        		+ "3) Deluxe\n"
+	        		+ "4) Suite\n"
+	        		+ "5) Cancel reservation\n"
+	        		+ "Select Room Type: ");
+	        choice = getUserChoice(4);
+	        switch (choice) {
+	            case 1:
+	                roomType = RoomTypes.SINGLE;
+	                break;
+	            case 2:
+	                roomType = RoomTypes.DOUBLE;
+	                break;
+	            case 3:
+	                roomType = RoomTypes.DELUXE;
+	                break;
+	            case 4:
+	                roomType = RoomTypes.SUITE;
+	                break;
+	            case 5:
+	            	return;
+	            default:
+	            	break;
+	        }
+	        checkAvailability = CheckInOut.getInstance().numAvailability(rawReservation.getCheckIn(), roomType);
+	        if (checkAvailability <= 0) System.out.println("Room type not available!");
+	        else break;
+        }
+        if (CheckInOut.getInstance().numAvailability(rawReservation.getCheckIn(), roomType) > 0) {
+        	rawReservation.setRoomType(roomType);
+        }
+        
         ReservationController.getInstance().create(rawReservation);
 
     }

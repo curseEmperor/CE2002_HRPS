@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import Enums.ReservationStatus;
+import Enums.RoomTypes;
 
 public class Reservation implements Serializable {
     private String reservationID;
@@ -14,6 +15,7 @@ public class Reservation implements Serializable {
     private int childNo;
     private int adultNo;
     private ReservationStatus reservationStatus;
+    private RoomTypes roomType;
 
     public Reservation(String guestID, Date checkIn, Date checkOut, int childNo, int adultNo) {
         this.guestID = guestID;
@@ -86,6 +88,14 @@ public class Reservation implements Serializable {
 
     public void setReservationStatus(ReservationStatus reservationStatus) {
         this.reservationStatus = reservationStatus;
+    }
+    
+    public RoomTypes getRoomType() {
+    	return roomType;
+    }
+    
+    public void setRoomType(RoomTypes roomType) {
+    	this.roomType = roomType;
     }
 
     @Override

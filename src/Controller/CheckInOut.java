@@ -56,18 +56,24 @@ public class CheckInOut {
     	}
     }
     
-    public int noAvailability(Date dateCheck, RoomTypes roomType) {
+    public int numAvailability(Date dateCheck, RoomTypes roomType) {
     	//No of room type >= Count date is between checkin to checkout date
     	Map<RoomTypes, List<Room>> roomList = RoomController.getInstance().splitRoomByType();
     	Map<ReservationStatus, List<Reservation>> reservationList = ReservationController.getInstance().splitReservationByStatus();
     	int reservationCount = 0;
+    	Room checkRoom;
     	for (Reservation reservation : reservationList.get(ReservationStatus.CONFIRM)) {
-    		if (dateCheck.equals(reservation.getCheckIn())) reservationCount++;
-    		else if (dateCheck.after(reservation.getCheckIn()) && dateCheck.before(reservation.getCheckOut())) reservationCount++;
+    		if (reservation.getRoomType() == roomType) {
+	    		if (dateCheck.equals(reservation.getCheckIn())) reservationCount++;
+	    		else if (dateCheck.after(reservation.getCheckIn()) && dateCheck.before(reservation.getCheckOut())) reservationCount++;
+    		}
     	}
     	for (Reservation reservation : reservationList.get(ReservationStatus.CHECKIN)) {
-    		if (dateCheck.before(reservation.getCheckOut())) reservationCount++;
+    		if (reservation.getRoomType() == roomType) {
+    			if (dateCheck.before(reservation.getCheckOut())) reservationCount++;
+    		}
     	}
-    	return 0;
+    	//Rooms are available if number of room type is larger than number of guesting using the room at date
+    	return roomList.get(roomType).size() - reservationCount;
     }
 }
