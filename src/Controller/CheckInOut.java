@@ -20,23 +20,34 @@ public class CheckInOut {
         return instance;
     }
     
-    public void checkOut() {
+    public void checkOut(String reservationIDs) {
     	//Change reservation status
     	//Change room status
     	//Get payment details
     }
     
     public void checkIn(String reservationID) {
+    	try {
     	//Change reservation status
-    	Reservation Res = ReservationController.getInstance().checkExistence(reservationID);
-    	if (Res == null) {
+    	Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
+    	if (reservation == null) {
     		System.out.println("Invalid Reservation ID");
     		return;
     	}
     	Date thisDate = new Date();
     	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
-    	ReservationController.getInstance().update(Res, 6, formatter.format(thisDate));
+    	ReservationController.getInstance().update(reservation, 6, formatter.format(thisDate));
+    	ReservationController.getInstance().update(reservation, 5, "Checked In");
     	//Assign room
+    		//1. Get room type
+    		//2. Check available rooms
+    		//3. Assign roomID
     	//Change room status
+    	Room room = RoomController.getInstance().checkExistence(reservation.getRoomID());
+    	RoomController.getInstance().update(reservation,5 ,reservation.getGuestID());
+    	}
+    	catch (Exception e) {
+    		e.printStackTrace();
+    	}
     }
 }
