@@ -125,7 +125,7 @@ public class GuestUI {
             System.out.println("7) nationality");
             System.out.println("8) guestName");
 
-            getUserChoice(8);
+            choice = getUserChoice(8);
 
             System.out.println("Enter the relevant details:");
             String content = getUserString();
@@ -145,6 +145,7 @@ public class GuestUI {
             System.out.println("Guest does not exist");
         } else {
             System.out.println("do you confirm to delete Guest: " + guestID);
+            // TODO: Confirmation check
             GuestController.getInstance().delete(toBeDeleted);
 
             System.out.println("guest is removed");

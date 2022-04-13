@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import entities.Guest;
 
-public class GuestController {
+public class GuestController implements IController, IStorage {
     private static GuestController instance = null;
     Scanner sc;
 
