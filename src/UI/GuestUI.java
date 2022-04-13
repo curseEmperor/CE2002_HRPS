@@ -5,7 +5,7 @@ import java.util.Scanner;
 import Controller.GuestController;
 import entities.Guest;
 
-public class GuestUI {
+public class GuestUI implements StandardUI {
     private static GuestUI instance = null;
     Scanner sc;
     int choice, qSize;
@@ -39,7 +39,7 @@ public class GuestUI {
 
             switch (choice) {
                 case 1:
-                    creatNewGuest();
+                    create();
                     break;
                 case 2:
                     readOneDets();
@@ -57,7 +57,7 @@ public class GuestUI {
 
     }
 
-    public void creatNewGuest() {
+    public void create() {
         System.out.println("Enter ur GuestID: ");
         String guestID = getUserString();
 

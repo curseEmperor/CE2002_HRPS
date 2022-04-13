@@ -11,7 +11,7 @@ import Enums.RoomTypes;
 import Enums.RoomView;
 import entities.Room;
 
-public class RoomUI {
+public class RoomUI implements StandardUI {
     private static RoomUI instance = null;
     Scanner sc;
     int choice, qSize;
@@ -48,7 +48,7 @@ public class RoomUI {
 
             switch (choice) {
                 case 1:
-                    createNewRoom();
+                    create();
                     break;
                 case 2:
                     readOneDets();
@@ -75,7 +75,7 @@ public class RoomUI {
 
     }
 
-    public String createNewRoom() {
+    public void create() {
 
         System.out.println("Enter ur roomID: ");
         String roomID = getUserString();
@@ -175,11 +175,9 @@ public class RoomUI {
 
         Room rawRoom = new Room(roomID, roomPrice, roomType, bedType, WiFi, view, smoke);
         RoomController.getInstance().create(rawRoom);
-
-        return roomID;
     }
 
-    public String readOneDets() {
+    public void readOneDets() {
 
         System.out.println("Enter ur roomID: ");
         String roomID = getUserString();
@@ -190,7 +188,6 @@ public class RoomUI {
         else
             System.out.println("Room does not exist!");
 
-        return roomID;
     }
 
     public void update() {
