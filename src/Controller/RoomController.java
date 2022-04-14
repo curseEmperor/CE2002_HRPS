@@ -287,7 +287,7 @@ public class RoomController implements IStorage, IController {
             out.writeInt(roomList.size());
             for (Room room : roomList)
                 out.writeObject(room);
-            System.out.printf("RoomController: %s Entries Saved.\n", roomList);
+            System.out.printf("%s \n\n--Entries Saved.--\n", roomList.toString().replace("[","").replace("]",""));
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
