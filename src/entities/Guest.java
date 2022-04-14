@@ -11,7 +11,7 @@ public class Guest implements Serializable {
     private String country;
     private char gender;
     private String nationality;
-    private Creditcard card;
+    //private Creditcard card;
 
     public Guest(String guestID, String guestName, String address, String contact, String country, char gender,
             String nationality) { // , CreditCard card
@@ -81,13 +81,13 @@ public class Guest implements Serializable {
         this.nationality = nationality;
     }
 
-    public Creditcard getCard() {
+    /*public Creditcard getCard() {
         return card;
     }
 
     public void setCard(Creditcard card) {
         this.card = card;
-    }
+    }*/
 
     @Override
     public String toString() {
