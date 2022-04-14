@@ -27,7 +27,7 @@ public class CheckInOut {
     public void checkOut(String reservationID) {
     	//Change reservation status
     	Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
-    	ReservationController.getInstance().update(reservation, 1, "Completed");
+    	ReservationController.getInstance().update(reservation, 7, "4");
     	
     	//Change room status
     	Room room = RoomController.getInstance().checkExistence(reservation.getRoomID());

@@ -11,7 +11,6 @@ import java.util.Map;
 import Enums.ReservationStatus;
 import Enums.RoomTypes;
 import entities.Reservation;
-import entities.Room;
 
 public class ReservationController implements IController, IStorage {
     private static ReservationController instance = null;
@@ -37,9 +36,18 @@ public class ReservationController implements IController, IStorage {
         Reservation toBeReturned = null;
 
         for (Reservation reservation : reservationList) {
-            if (thisDate.compareTo(reservation.getCheckIn()) > 0) {
+        	//Check expiration of reservation
+            if (reservation.getReservationStatus()!=ReservationStatus.CONFIRM
+            		&& reservation.getReservationStatus()!=ReservationStatus.EXPIRED
+            		&& thisDate.compareTo(reservation.getCheckIn()) > 0) {
                 System.out.println("Current date is past check in time");
                 reservation.setReservationStatus(ReservationStatus.EXPIRED);
+            }
+            
+            //Check waitlist for confirmation
+            if (reservation.getReservationStatus()==ReservationStatus.WAITLIST) {
+            	if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0)
+            		reservation.setReservationStatus(ReservationStatus.CONFIRM);
             }
 
             if (reservation.getID().equals(reservationID)) {
