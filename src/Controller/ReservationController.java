@@ -87,6 +87,13 @@ public class ReservationController implements IController, IStorage {
         reservationList.remove(toBeDeleted);
         // System.out.println("reservation removed from list in reservation
         // controller");
+        for (Reservation reservation : reservationList) {
+        	//Check waitlist for confirmation
+            if (reservation.getReservationStatus()==ReservationStatus.WAITLIST) {
+            	if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0)
+            		reservation.setReservationStatus(ReservationStatus.CONFIRM);
+            }
+        }
         storeData();
     }
 
