@@ -138,19 +138,19 @@ public class Menu implements IStorage, IController {
 	public void delete(Object entities) {
 
 		Item tempItem = (Item) entities;
-		 int I, ID;
-		 Scanner sc = new Scanner(System.in);
-		 System.out.println("--Removing item--\nItem ID: ");
-		 ID = sc.nextInt();
-		 for (I = 0; I < noOfItems; I++) {
-		 tempItem = listOfItems.get(I);
-		 if (tempItem.getID() == ID)
-		 break;
-		 }
-		 if (I == noOfItems) {
-		 System.out.println("Item does not exist\n");
-		 return;
-		 }
+		int I, ID;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("--Removing item--\nItem ID: ");
+		ID = sc.nextInt();
+		for (I = 0; I < noOfItems; I++) {
+			tempItem = listOfItems.get(I);
+			if (tempItem.getID() == ID)
+				break;
+		}
+		if (I == noOfItems) {
+			System.out.println("Item does not exist\n");
+			return;
+		}
 		int type;
 		type = tempItem.getType();
 		noOfItems--;
@@ -194,92 +194,6 @@ public class Menu implements IStorage, IController {
 		storeData();
 		loadData();
 	}
-
-	// TODO: to be sub by loadData
-	/*public void loadData() {
-		String cut;
-		int start, end;
-		noOfItems = 0;
-		listOfItems.clear();
-		for (start = 0; start < 5; start++) {
-			noOfItemType[start] = 0;
-		}
-		try {
-			File currentDir = new File("");
-			File itemList = new File(
-					currentDir.getAbsolutePath() + File.separator + "src" + File.separator + "itemList.txt");
-			Scanner myReader = new Scanner(itemList);
-			String data = myReader.nextLine();
-			data = myReader.nextLine();
-			while (myReader.hasNextLine()) {
-				tempItem = new Item();
-				data = myReader.nextLine();
-				// itemID
-				start = 0;
-				end = data.indexOf(";", start);
-				cut = data.substring(start, end);
-				tempItem.setID(Integer.parseInt(cut));
-				// itemName
-				start = end + 1;
-				end = data.indexOf(";", start);
-				cut = data.substring(start, end);
-				tempItem.setName(cut);
-				// itemDesc
-				start = end + 1;
-				end = data.indexOf(";", start);
-				cut = data.substring(start, end);
-				tempItem.setDesc(cut);
-				// itemPrice
-				start = end + 1;
-				end = data.indexOf(";", start);
-				cut = data.substring(start, end);
-				tempItem.setPrice(Float.parseFloat(cut));
-				// itemType
-				start = end + 1;
-				end = data.indexOf(";", start);
-				cut = data.substring(start, end);
-				tempItem.setType(Integer.parseInt(cut));
-				noOfItemType[tempItem.getType() - 1]++;
-				listOfItems.add(tempItem);
-				noOfItems++;
-			}
-			myReader.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("An error occurred...");
-			e.printStackTrace();
-		}
-	}*/
-
-	// TODO: to be sub by storeData
-	/*public void storeData() {
-		int I;
-		File currentDir = new File("");
-		File newFile = new File(
-				currentDir.getAbsolutePath() + File.separator + "src" + File.separator + "itemListSave.txt");
-		File oldFile = new File(
-				currentDir.getAbsolutePath() + File.separator + "src" + File.separator + "itemList.txt");
-		NumberFormat formatter = new DecimalFormat("0.00");
-		try {
-			newFile.createNewFile();
-			Writer myWriter = new FileWriter(newFile);
-			myWriter.write("//itemID;itemName;itemDesc;itemPrice;itemType\n");
-			myWriter.write("//Type: 0=NIL, 1=Appetizers, 2=Entrees, 3=Sides, 4=Desserts, 5=Drinks\n");
-			for (I = 0; I < noOfItems; I++) {
-				tempItem = listOfItems.get(I);
-				myWriter.write(String.valueOf(tempItem.getID()) + ";");
-				myWriter.write(tempItem.getName() + ";");
-				myWriter.write(tempItem.getDesc() + ";");
-				myWriter.write(formatter.format(tempItem.getPrice()) + ";");
-				myWriter.write(String.valueOf(tempItem.getType()) + ";\n");
-			}
-			myWriter.close();
-			oldFile.delete();
-			newFile.renameTo(oldFile);
-		} catch (Exception e) {
-			System.out.println("Error saving...");
-			e.printStackTrace();
-		}
-	}*/
 
 	public void storeData() {
 		try {
