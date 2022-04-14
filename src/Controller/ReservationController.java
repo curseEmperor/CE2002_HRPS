@@ -84,49 +84,75 @@ public class ReservationController implements IController, IStorage {
 
     public void update(Object entities, int choice, String value) {
         Reservation toBeUpdated = (Reservation) entities;
-        Date date1;
+        Date date;
         switch (choice) {
-            case 1: // checkout date
-                try {
-                    date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
-                    System.out.println(value + "\t" + date1);
+        case 1: //guestID
+        	toBeUpdated.setGuestID(value);
+        	break;
+        case 2: //roomID
+        	toBeUpdated.setRoomID(value);
+        	break;
+        case 3: //checkIn Date
+        	try {
+                date = new SimpleDateFormat("dd/MM/yy").parse(value);
+                System.out.println(value + "\t" + date);
 
-                    toBeUpdated.setCheckOut(date1);
+                toBeUpdated.setCheckIn(date);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case 2: // num of children
-                try {
-                    int numOfChild = Integer.parseInt(value);
-                    toBeUpdated.setChildNo(numOfChild);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case 3: // num of adults
-                try {
-                    int numOfAdults = Integer.parseInt(value);
-                    toBeUpdated.setAdultNo(numOfAdults);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            case 4: // reservation status
-                toBeUpdated.setReservationStatus(generateStatus(value));
-                break;
-            // case 6:
-            // try {
-            // date1 = new SimpleDateFormat("dd/MM/yy").parse(value);
-            // System.out.println(value + "\t" + date1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        	break;
+        case 4: //checkOut Date
+        	try {
+                date = new SimpleDateFormat("dd/MM/yy").parse(value);
+                System.out.println(value + "\t" + date);
 
-            // toBeUpdated.setCheckIn(date1);
-            // } catch (ParseException e) {
-            // e.printStackTrace();
-            // }
-            // break;
-            default:
+                toBeUpdated.setCheckOut(date);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        	break;
+        case 5: //childNo
+        	try {
+                int numOfChild = Integer.parseInt(value);
+                toBeUpdated.setChildNo(numOfChild);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        	break;
+        case 6: //adultNo
+        	try {
+                int numOfAdults = Integer.parseInt(value);
+                toBeUpdated.setAdultNo(numOfAdults);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        	break;
+        case 7: //reservationStatus
+        	toBeUpdated.setReservationStatus(generateStatus(value));
+        	break;
+        case 8: //roomType
+        	RoomTypes roomType = RoomTypes.SINGLE;
+        	switch (value.charAt(0)) {
+            case '1':
+                roomType = RoomTypes.SINGLE;
                 break;
+            case '2':
+                roomType = RoomTypes.DOUBLE;
+                break;
+            case '3':
+                roomType = RoomTypes.DELUXE;
+                break;
+            case '4':
+                roomType = RoomTypes.SUITE;
+                break;
+        	}
+        	toBeUpdated.setRoomType(roomType);
+        	break;
+        default:
+            break;
         }
 
         System.out.println(toBeUpdated.toString());
@@ -179,8 +205,10 @@ public class ReservationController implements IController, IStorage {
                 return ReservationStatus.EXPIRED;
             case 4:
                 return ReservationStatus.COMPLETED;
-            default:
+            case 5:
                 return ReservationStatus.WAITLIST;
+            default:
+            	return null;
         }
     }
     

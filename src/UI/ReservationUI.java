@@ -115,7 +115,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 	        		+ "2) Double\n"
 	        		+ "3) Deluxe\n"
 	        		+ "4) Suite\n"
-	        		+ "5) Cancel reservation\n"
+	        		+ "5) Cancel update\n"
 	        		+ "Select Room Type: ");
 	        choice = getUserChoice(5);
 	        switch (choice) {
@@ -170,16 +170,70 @@ public class ReservationUI extends StandardUI implements ControllerUI {
             System.out.println("Reservation does not exist");
         } else {
             // TODO: do while loop
-            System.out.println("What do u want to update");
-            System.out.println("1) check out day (dd/MM/yy): ");
-            System.out.println("2) child numbers");
-            System.out.println("3) adult numbers");
-            System.out.println("4) Reservation status: 1)confirm 2)checkin 3)expired 4)waitlist");
+            System.out.println("What do u want to update?");
+            System.out.println("1) Guest ID");
+            System.out.println("2) Room ID");
+            System.out.println("3) Check In Date (dd/MM/yy)");
+            System.out.println("4) Check Out Date (dd/MM/yy)");
+            System.out.println("5) Number of Child(s)");
+            System.out.println("6) Number of Adult(s)");
+            System.out.println("7) Reservation Status");
+            System.out.println("8) Room Type");
 
-            choice = getUserChoice(4);
-
-            System.out.println("Enter the relevant details:");
-            String content = getUserString();
+            choice = getUserChoice(8);
+            int selection;
+            String content;
+            if (choice == 7) {
+            	System.out.println(
+            			"1) Confirmed\n"
+            			+ "2) Checked In\n"
+            			+ "3) Expired\n"
+            			+ "4) Completed\n"
+            			+ "5) Waitlist\n"
+            			+ "Select Status: ");
+            	selection = getUserChoice(5);
+            	content = String.valueOf(selection);
+            }
+            else if (choice == 8) {
+                int checkAvailability;
+                RoomTypes roomType = RoomTypes.SINGLE; //Pre-set as single to avoid errors
+                while(true) {
+        	        System.out.println(
+        	        		"1) Single\n"
+        	        		+ "2) Double\n"
+        	        		+ "3) Deluxe\n"
+        	        		+ "4) Suite\n"
+        	        		+ "5) Cancel reservation\n"
+        	        		+ "Select Room Type: ");
+        	        selection = getUserChoice(5);
+        	        switch (choice) {
+        	            case 1:
+        	                roomType = RoomTypes.SINGLE;
+        	                break;
+        	            case 2:
+        	                roomType = RoomTypes.DOUBLE;
+        	                break;
+        	            case 3:
+        	                roomType = RoomTypes.DELUXE;
+        	                break;
+        	            case 4:
+        	                roomType = RoomTypes.SUITE;
+        	                break;
+        	            case 5:
+        	            	return;
+        	            default:
+        	            	break;
+        	        }
+        	        checkAvailability = CheckInOut.getInstance().numAvailability(toBeUpdated.getCheckIn(), roomType);
+        	        if (checkAvailability <= 0) System.out.println("Room type not available!");
+        	        else break;
+                }
+                content = String.valueOf(selection);
+            }
+            else {
+            	System.out.println("Enter the relevant details: ");
+            	content = getUserString();
+            }
 
             ReservationController.getInstance().update(toBeUpdated, choice, content);
 
