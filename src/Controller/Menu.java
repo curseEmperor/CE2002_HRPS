@@ -121,25 +121,27 @@ public class Menu implements IStorage, IController {
 	}
 
 	public void update(Object entities, int choice, String value) {
-		Item I = (Item) entities;
+		Item item = (Item) entities;
 		switch (choice) {
 			case 1: // itemID
-				I.setName(value);
+				item.setID(value);
 				break;
 			case 2: // itemName
-				I.setDesc(value);
+				item.setName(value);
 				break;
 			case 3: // itemDesc
+				item.setDesc(value);
+				break;
+			case 4: // itemPrice
 				try {
 					Float F = Float.parseFloat(value);
-					I.setPrice(F);
+					item.setPrice(F);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
-			case 4: // itemPrice
-				break;
 			case 5: // itemType
+				
 				break;
 			default:
 				break;

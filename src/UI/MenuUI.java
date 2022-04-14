@@ -97,12 +97,19 @@ public class MenuUI extends StandardUI implements ControllerUI {
         if (toBeUpdated == null) {
             System.out.println("Item does not exist");
         } else {
+        	Menu.getInstance().printItem(toBeUpdated);
             System.out.println("1. ID\n2. Name\n3. Description\n4. Price\n5. Type");
             System.out.println("What do you want to update: ");
             choice = getUserChoice(5);
-
-            System.out.println("Enter the relevant details: ");
-            String content = getUserString();
+            String content;
+            if (choice!=5) {
+            	System.out.println("Enter the relevant details: ");
+            	content = getUserString();
+            }
+            else {
+            	System.out.println("1. Appetizer\n2. Entree\n3. Side\n4. Dessert\n5. Beverage\nEnter type: ");
+            	content = String.valueOf(getUserChoice(5));
+            }
 
             Menu.getInstance().update(toBeUpdated, choice, content);
 
