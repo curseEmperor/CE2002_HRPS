@@ -1,17 +1,10 @@
 package Controller;
 
-import java.io.File; //Import the File class
 import java.io.FileInputStream;
-import java.io.FileNotFoundException; //Import this class to handle errors
 import java.io.FileOutputStream;
-import java.io.FileWriter; //Import the Writer class to create and write files
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Writer; //Import the Writer class to create and write files
-import java.text.DecimalFormat; //Import this class to set float number format when converting to string
-import java.text.NumberFormat; //Import this class to set float number format when converting to string
-import java.util.Scanner; //Import the Scanner class to read text files
 import java.util.ArrayList; //Import ArrayList class
 import java.util.HashMap;
 import java.util.List;
@@ -22,17 +15,13 @@ import Enums.ItemTypes;
 public class Menu implements IStorage, IController {
 	// Variables
 	private ArrayList<Item> itemList;
-	private int noOfItems;
-	private int[] noOfItemType;
 	private static Menu single_instance = null;
-	private Item tempItem;
 
 	// Constructor
 	private Menu() {
-		noOfItemType = new int[5];
 		itemList = new ArrayList<Item>();
 		loadData();
-		sortDB();
+		sortData();
 	}
 
 	public static Menu getInstance() {
@@ -43,40 +32,36 @@ public class Menu implements IStorage, IController {
 
 	// Behaviours
 	public void printMenu() {
-		int num;
-		System.out.println("Number of Items: " + String.valueOf(noOfItems));
-		for (num = 1; num <= 5; num++) {
-			System.out.println("Number of Items: " +
-					String.valueOf(noOfItemType[num - 1]));
-			printCat(num);
+		System.out.println("Number of Items: " + itemList.size());
+		for (ItemTypes itemType : ItemTypes.values()) {
+			printCat(itemType);
 		}
 	}
 
 	public void printCat(ItemTypes itemType) {
-		switch (type) {
-			case 1:
+		List<Item> types = splitItemByType().get(itemType);
+		switch (itemType) {
+			case APPETIZER:
 				System.out.println("--Appetizers--");
 				break;
-			case 2:
+			case ENTREE:
 				System.out.println("--Entrees--");
 				break;
-			case 3:
+			case SIDE:
 				System.out.println("--Sides--");
 				break;
-			case 4:
+			case DESSERT:
 				System.out.println("--Desserts--");
 				break;
-			case 5:
+			case BEVERAGE:
 				System.out.println("--Beverages--");
 				break;
 			default:
 				break;
 		}
-		for (num = 0; num < noOfItems; num++) {
-			tempItem = itemList.get(num);
-			if (tempItem.getType() == itemType) {
-				printItem(num);
-			}
+		System.out.println("Number of items: " + types.size());
+		for (Item item : types) {
+			printItem(item);
 		}
 		System.out.println();
 	}
@@ -87,31 +72,25 @@ public class Menu implements IStorage, IController {
 		System.out.printf(item.getDesc() + "\n");
 	}
 
-	public Item checkExistance(int ID) {
-		int num;
-		for (num = 0; num < noOfItems; num++) {
-			tempItem = itemList.get(num);
-			if (tempItem.getID() == ID)
-				break;
+	public Item checkExistance(String ID) {
+		for (Item item : itemList) {
+			item.getID().equals(ID);
+			return item;
 		}
-		if (num == noOfItems) {
-			return null;
-		}
-		return tempItem;
+		return null;
 	}
 
-	public void sortDB() {
-		int a, b;
-		Item temp0, temp1;
-		for (a = 0; a < noOfItems; a++) {
+	public void sortData() {
+		int a,b;
+		Item temp;
+		for (a = 0; a < itemList.size(); a++) {
 			for (b = a; b > 0; b--) {
-				temp1 = itemList.get(b);
-				temp0 = itemList.get(b - 1);
-				if (temp1.getID() >= temp0.getID())
+				temp = itemList.get(b);
+				if (temp.getID().compareTo(itemList.get(b-1).getID()) > 0)
 					break;
 				else {
-					itemList.set(b - 1, temp1);
-					itemList.set(b, temp0);
+					itemList.set(b, itemList.get(b-1));
+					itemList.set(b-1, temp);
 				}
 			}
 		}
@@ -119,15 +98,9 @@ public class Menu implements IStorage, IController {
 
 	public void create(Object entities) {
 		Item toBeAdded = (Item) entities;
-
-		noOfItemType[toBeAdded.getType() - 1]++;
-		tempItem.setID(toBeAdded.getType() * 100 + noOfItemType[toBeAdded.getType() - 1]);
-
-		noOfItems++;
 		itemList.add(toBeAdded);
-
-		// storeData();
-		sortDB();
+		cleanID();
+		sortData();
 		storeData();
 		loadData();
 
@@ -140,10 +113,9 @@ public class Menu implements IStorage, IController {
 	}
 
 	public void delete(Object entities) {
-
 		Item toBeDeleted = (Item) entities;
 		itemList.remove(toBeDeleted);
-		//cleanID
+		cleanID();
 		storeData();
 		loadData();
 	}
@@ -151,13 +123,13 @@ public class Menu implements IStorage, IController {
 	public void update(Object entities, int choice, String value) {
 		Item I = (Item) entities;
 		switch (choice) {
-			case 1: //itemID
+			case 1: // itemID
 				I.setName(value);
 				break;
-			case 2: //itemName
+			case 2: // itemName
 				I.setDesc(value);
 				break;
-			case 3: //itemDesc
+			case 3: // itemDesc
 				try {
 					Float F = Float.parseFloat(value);
 					I.setPrice(F);
@@ -165,9 +137,9 @@ public class Menu implements IStorage, IController {
 					e.printStackTrace();
 				}
 				break;
-			case 4: //itemPrice
+			case 4: // itemPrice
 				break;
-			case 5: //itemType
+			case 5: // itemType
 				break;
 			default:
 				break;
@@ -205,45 +177,66 @@ public class Menu implements IStorage, IController {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	public Map<ItemTypes, List<Item>> splitItemByType() {
 		Map<ItemTypes, List<Item>> itemByType = new HashMap<>();
-		
+
 		ArrayList<Item> appetizers = new ArrayList<Item>();
 		ArrayList<Item> entrees = new ArrayList<Item>();
 		ArrayList<Item> sides = new ArrayList<Item>();
 		ArrayList<Item> desserts = new ArrayList<Item>();
 		ArrayList<Item> beverages = new ArrayList<Item>();
-		
+
 		for (Item item : itemList) {
-			if (item.getType() == ItemTypes.APPETIZER) appetizers.add(item);
-			if (item.getType() == ItemTypes.ENTREE) entrees.add(item);
-			if (item.getType() == ItemTypes.SIDE) sides.add(item);
-			if (item.getType() == ItemTypes.DESSERT) desserts.add(item);
-			if (item.getType() == ItemTypes.BEVERAGE) beverages.add(item);
+			if (item.getType() == ItemTypes.APPETIZER)
+				appetizers.add(item);
+			if (item.getType() == ItemTypes.ENTREE)
+				entrees.add(item);
+			if (item.getType() == ItemTypes.SIDE)
+				sides.add(item);
+			if (item.getType() == ItemTypes.DESSERT)
+				desserts.add(item);
+			if (item.getType() == ItemTypes.BEVERAGE)
+				beverages.add(item);
 		}
-		
+
 		itemByType.put(ItemTypes.APPETIZER, appetizers);
 		itemByType.put(ItemTypes.ENTREE, entrees);
 		itemByType.put(ItemTypes.SIDE, sides);
 		itemByType.put(ItemTypes.DESSERT, desserts);
 		itemByType.put(ItemTypes.BEVERAGE, beverages);
-		
+
 		return itemByType;
 	}
-	
+
 	private void cleanID() {
 		Map<ItemTypes, List<Item>> itemByType = splitItemByType();
 		int count = 0;
-		for (Item item : itemByType.get(ItemTypes.APPETIZER)) item.setID(100+(count++));
+		for (Item item : itemByType.get(ItemTypes.APPETIZER)) item.setID(String.valueOf(100+(count++)));
 		count = 0;
-		for (Item item : itemByType.get(ItemTypes.ENTREE)) item.setID(200+(count++));
+		for (Item item : itemByType.get(ItemTypes.ENTREE)) item.setID(String.valueOf(200+(count++)));
 		count = 0;
-		for (Item item : itemByType.get(ItemTypes.SIDE)) item.setID(300+(count++));
+		for (Item item : itemByType.get(ItemTypes.SIDE)) item.setID(String.valueOf(300+(count++)));
 		count = 0;
-		for (Item item : itemByType.get(ItemTypes.DESSERT)) item.setID(400+(count++));
+		for (Item item : itemByType.get(ItemTypes.DESSERT)) item.setID(String.valueOf(400+(count++)));
 		count = 0;
-		for (Item item : itemByType.get(ItemTypes.BEVERAGE)) item.setID(500+(count++));
+		for (Item item : itemByType.get(ItemTypes.BEVERAGE)) item.setID(String.valueOf(500+(count++)));
 	}
 
+	public ItemTypes toType(String ID) {
+		switch (ID.charAt(0)) {
+		case '1':
+			return ItemTypes.APPETIZER;
+		case '2':
+			return ItemTypes.ENTREE;
+		case '3':
+			return ItemTypes.SIDE;
+		case '4':
+			return ItemTypes.DESSERT;
+		case '5':
+			return ItemTypes.BEVERAGE;
+		default:
+			return null;
+		}
+	}
 }
