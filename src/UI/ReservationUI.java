@@ -8,6 +8,7 @@ import java.util.Scanner;
 import Controller.CheckInOut;
 import Controller.ReservationController;
 import entities.Reservation;
+import Enums.ReservationStatus;
 import Enums.RoomTypes;
 
 public class ReservationUI extends StandardUI implements ControllerUI {
@@ -44,20 +45,21 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 
             switch (choice) {
                 case 1:
-                    System.out.println("Are you a new Guest?");
-                    System.out.println("Y/N");
+                    System.out.println("Are you a new Guest? (Y/N)");
                     String select = getUserString();
+                    while (select.compareTo("Y")!=0 || select.compareTo("N")!=0) {
+                        System.out.println("Please enter only Y/N\\nY/N");
+                        select = getUserString();
+                    }
                     switch (select) {
-                        case "N":
-                            create();
-                            break;
-                        case "Y":
-                            System.out.println("Returning to Main Menu, please create Guest account first.");
-                            GuestUI.getInstance().create();
-                            return;
-                        default:
-                            System.out.println("Please enter only Y/N");
-                            break;
+                    case "N":
+                        create();
+                        break;
+                    case "Y":
+                        System.out.println("Returning to Main Menu, please create Guest account first.");
+                        GuestUI.getInstance().create();
+                        create();
+                        break;
                     }
                     break;
                 case 2:
@@ -84,7 +86,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 
         // RoomID to be filled via checkin
 
-        System.out.println("Enter Check-in day: ");
+        System.out.println("Enter Check-in day (dd/MM/yy): ");
         String checkInString = getUserString();
         Date checkInDate = dateValid(checkInString);
 
@@ -93,9 +95,15 @@ public class ReservationUI extends StandardUI implements ControllerUI {
             return;
         }
 
-        System.out.println("Enter Check-out day:");
+        System.out.println("Enter Check-out day (dd/MM/yy):");
         String checkOutString = getUserString();
         Date checkOutDate = dateValid(checkOutString);
+        while (checkOutDate.before(checkInDate)||checkOutDate.equals(checkInDate)) {
+        	System.out.println("Check-out day must be after Check-in day");
+        	System.out.println("Enter Check-out day: ");
+        	checkOutString = getUserString();
+            checkOutDate = dateValid(checkOutString);
+        }
 
         System.out.println("Enter number of children: ");
         int numOfChild = sc.nextInt();
@@ -137,12 +145,25 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 	            	break;
 	        }
 	        checkAvailability = CheckInOut.getInstance().numAvailability(rawReservation.getCheckIn(), roomType);
-	        if (checkAvailability <= 0) System.out.println("Room type not available!");
-	        else break;
+	        if (checkAvailability <= 0) {
+	        	System.out.println("Room type not available!");
+	        	System.out.println("Put on waitlist? (Y/N)");
+	        	String select = getUserString();
+	        	while (select.compareTo("Y")!=0 || select.compareTo("N")!=0) {
+                    System.out.println("Please enter only Y/N\nY/N?");
+                    select = getUserString();
+                }
+                if (select.compareTo("Y")==0) {
+                	rawReservation.setReservationStatus(ReservationStatus.WAITLIST);
+                	break;
+                }
+	        }
+	        else {
+	        	rawReservation.setReservationStatus(ReservationStatus.CONFIRM);
+	        	break;
+	        }
         }
-        if (CheckInOut.getInstance().numAvailability(rawReservation.getCheckIn(), roomType) > 0) {
-        	rawReservation.setRoomType(roomType);
-        }
+        rawReservation.setRoomType(roomType);
         
         ReservationController.getInstance().create(rawReservation);
 
@@ -257,14 +278,18 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     private Date dateValid(String dateInString) {
         SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yy");
         sdfrmt.setLenient(false);
-
-        try {
-            Date javaDate = sdfrmt.parse(dateInString);
-            return javaDate;
-        } catch (ParseException e) {
-            System.out.println(dateInString + " is Invalid Date format");
-            return null;
+        Date javaDate = null;
+        while (javaDate == null) {
+        	try {
+	            javaDate = sdfrmt.parse(dateInString);
+	        } catch (ParseException e) {
+	            System.out.println(dateInString + " is Invalid Date format\nEnter date: ");
+	            System.out.println("Enter date (dd/MM/yy): ");
+	            dateInString = getUserString();
+	        }
         }
+        
+        return javaDate;
     }
 
 }

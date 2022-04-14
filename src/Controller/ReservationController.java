@@ -62,11 +62,11 @@ public class ReservationController implements IController, IStorage {
 
         Reservation newReservation = (Reservation) entities;
 
-        String checkInString = new SimpleDateFormat("ddMMyy").format(newReservation.getCheckIn());
+        String checkInString = new SimpleDateFormat("dd/MM/yy").format(newReservation.getCheckIn());
 
         String reservationID = checkInString + newReservation.getGuestID();
         newReservation.setID(reservationID);
-        newReservation.setReservationStatus(ReservationStatus.CONFIRM);
+        //newReservation.setReservationStatus(ReservationStatus.CONFIRM);
 
         reservationList.add(newReservation);
         // System.out.println("Reservation ID generated: " + reservationID);
