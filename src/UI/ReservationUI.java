@@ -117,7 +117,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 	        		+ "4) Suite\n"
 	        		+ "5) Cancel reservation\n"
 	        		+ "Select Room Type: ");
-	        choice = getUserChoice(4);
+	        choice = getUserChoice(5);
 	        switch (choice) {
 	            case 1:
 	                roomType = RoomTypes.SINGLE;
