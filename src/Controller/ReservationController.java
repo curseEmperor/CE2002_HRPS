@@ -174,7 +174,12 @@ public class ReservationController implements IController, IStorage {
             out.writeInt(reservationList.size());
             for (Reservation res : reservationList)
                 out.writeObject(res);
-            System.out.printf("%s \n\n--Entries Saved.--\n", reservationList.toString().replace("[","").replace("]",""));
+            System.out.println("==========================");
+            System.out.println("   Reservation Details: ");
+            System.out.println("==========================");
+            System.out.println(reservationList.toString().replace("[","").replace("]",""));
+            System.out.println("========================");
+            System.out.printf("Entries Saved!");
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
