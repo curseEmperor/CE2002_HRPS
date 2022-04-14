@@ -21,10 +21,10 @@ public class GuestUI extends StandardUI implements ControllerUI {
 
     public int showSelection() {
         System.out.println(" Guest options avaiable: ");
-        System.out.println("1) Create");
-        System.out.println("2) Read");
-        System.out.println("3) Update");
-        System.out.println("4) Delete");
+        System.out.println("1) Add Guest");
+        System.out.println("2) View Guest");
+        System.out.println("3) Update Guest's details");
+        System.out.println("4) Delete Guest");
         System.out.println("5) Return to MainUI");
 
         return 5;
