@@ -152,7 +152,7 @@ public class Menu implements IStorage, IController {
 
 	public void storeData() {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Menu.ser"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src" + File.separator + "Menu.ser"));
 			out.writeInt(itemList.size()); // noOfItems
 			for (Item item : itemList)
 				out.writeObject(item);
@@ -174,7 +174,7 @@ public class Menu implements IStorage, IController {
 			for (int i = 0; i < noOfOrdRecords; i++) {
 				itemList.add((Item) ois.readObject());
 			}
-
+			ois.close();
 		} catch (IOException | ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}

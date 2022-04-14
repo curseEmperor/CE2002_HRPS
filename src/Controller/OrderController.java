@@ -67,7 +67,7 @@ public class OrderController implements IStorage {
         order.setDate(date);
 
         System.out.println("Please enter remarks: ");
-        String remarks = sc.next();
+        String remarks = sc.nextLine();
         order.setRemarks(remarks);
 
         System.out.println("Order " + orderID + " has been confirmed. ");
@@ -197,7 +197,8 @@ public class OrderController implements IStorage {
             out.writeInt(orderList.size());
             for (Order order : orderList)
                 out.writeObject(order);
-            System.out.printf("%s \n\n--Entries Saved.--\n", orderList.toString().replace("[", "").replace("]", ""));
+            //System.out.printf("%s \n\n--Entries Saved.--\n", orderList.toString().replace("[", "").replace("]", ""));
+            System.out.println("--Entries Saved--\n");
             out.close();
         } catch (IOException e1) {
             e1.printStackTrace();

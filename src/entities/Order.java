@@ -116,7 +116,7 @@ public class Order implements Serializable {
         // }
         // System.out.println("=================================================================================");
 
-        System.out.println(toString());
+        System.out.println();
         System.out.println("==========");
         System.out.println("Items ordered for Room Service");
         System.out.println("==========");
