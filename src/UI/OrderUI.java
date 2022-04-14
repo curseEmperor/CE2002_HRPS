@@ -64,8 +64,7 @@ public class OrderUI extends StandardUI {
 
     public void readOneDets() {
         System.out.println("Enter the OrderID: ");
-        int orderID = sc.nextInt();
-        sc.nextLine();
+        String orderID = sc.nextLine();
 
         Order order = OrderController.getInstance().checkExistence(orderID);
         if (order == null) {
@@ -78,7 +77,7 @@ public class OrderUI extends StandardUI {
 
     public void update() {
         System.out.println("Enter the OrderID to be updated: ");
-        int orderID = sc.nextInt();
+        String orderID = sc.nextLine();
 
         Order order = OrderController.getInstance().checkExistence(orderID);
         if (order == null) {
@@ -91,7 +90,7 @@ public class OrderUI extends StandardUI {
 
     public void delete() {
         System.out.println("Enter the OrderID to be deleted: ");
-        int orderID = sc.nextInt();
+        String orderID = sc.nextLine();
 
         Order order = OrderController.getInstance().checkExistence(orderID);
         if (order == null) {

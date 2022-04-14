@@ -71,7 +71,7 @@ public class Item implements Serializable {
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 
-		result.append(this.itemID + "\t" + this.itemName + "\t $" + this.itemPrice);
+		result.append(this.itemID +  "\t $" + this.itemPrice + "\t" + this.itemName);
 
 		return result.toString();
 	}

@@ -3,12 +3,12 @@ package entities;
 import java.util.ArrayList;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+//import java.util.Calendar;
 
 import Enums.OrderStatus;
 
 public class Order implements Serializable {
-    private int orderID;
+    private String orderID;
     private String roomID;
     private OrderStatus orderStatus; // confirmed, preparing, delivered
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
@@ -16,8 +16,7 @@ public class Order implements Serializable {
     private ArrayList<Item> listOfFood;
     private String remarks; // less oil, less salt
 
-    public Order(int orderID, String roomID, ArrayList<Item> order, String remarks) {
-        this.orderID = orderID;
+    /*public Order(String roomID, ArrayList<Item> order, String remarks) {
         this.roomID = roomID;
         this.orderStatus = OrderStatus.CONFIRM;
         this.listOfFood = null;
@@ -26,7 +25,7 @@ public class Order implements Serializable {
         this.date = date;
         this.remarks = remarks;
 
-    } // constructor
+    }*/// constructor
 
     public Order() {
     }
@@ -35,11 +34,11 @@ public class Order implements Serializable {
         return this.listOfFood.size();
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(String orderID) {
         this.orderID = orderID;
     }
 
-    public int getOrderID() {
+    public String getOrderID() {
         return orderID;
     }
 
@@ -115,14 +114,33 @@ public class Order implements Serializable {
         // System.out.println(listOfFood.get(i).toString());
         // }
         // System.out.println("=================================================================================");
+    	sortOrder();
+    	
+    	float cost = 0;
 
         System.out.println();
-        System.out.println("==========");
+        System.out.println("==============================");
         System.out.println("Items ordered for Room Service");
-        System.out.println("==========");
+        System.out.println("==============================");
         for (Item food : listOfFood) {
             System.out.println(food);
+            cost += food.getPrice();
         }
+        System.out.println();
+        System.out.println("Total cost: $" + cost);
+        System.out.printf("Status:\t");
+        switch(orderStatus) {
+        case CONFIRM:
+        	System.out.println("Confirmed");
+        	break;
+        case PREPARING:
+        	System.out.println("Preparing");
+        	break;
+        case DELIVERED:
+        	System.out.println("Delivered");
+        	break;
+        }
+        System.out.println();
     }
 
     @Override
@@ -142,5 +160,21 @@ public class Order implements Serializable {
 
         return result.toString();
     }
+    
+    public void sortOrder() {
+		int a,b;
+		Item temp;
+		for (a = 0; a < listOfFood.size(); a++) {
+			for (b = a; b > 0; b--) {
+				temp = listOfFood.get(b);
+				if (temp.getID().compareTo(listOfFood.get(b-1).getID()) > 0)
+					break;
+				else {
+					listOfFood.set(b, listOfFood.get(b-1));
+					listOfFood.set(b-1, temp);
+				}
+			}
+		}
+	}
 
 }

@@ -23,6 +23,7 @@ public class RoomController implements IStorage, IController {
 
     private RoomController() {
         roomList = new ArrayList<>();
+        initHotel();
     }
 
     public static RoomController getInstance() {

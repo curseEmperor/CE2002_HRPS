@@ -4,7 +4,6 @@ import entities.Order;
 import entities.Item;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import Enums.OrderStatus;
 
@@ -40,9 +39,9 @@ public class OrderController implements IStorage {
     }
 
     // check existence
-    public Order checkExistence(int orderID) { // by orderID eg. 02021
+    public Order checkExistence(String orderID) { // by orderID eg. 02021
         for (Order order : orderList) {
-            if (order.getOrderID() == orderID)
+            if (order.getOrderID().compareTo(orderID)==0)
                 return order;
         }
         return null;
@@ -51,28 +50,37 @@ public class OrderController implements IStorage {
     public void create() {
         Order order = new Order();
 
-        System.out.println("Please enter your Room ID.");
+        System.out.println("Please enter your Room ID:");
         String roomID = sc.nextLine();
+        while(RoomController.getInstance().checkExistence(roomID)==null) {
+        	System.out.println("Please enter valid Room ID:");
+            roomID = sc.nextLine();
+        }
         order.setRoomID(roomID);
 
-        System.out.println("Please enter the Order ID.");
+        /*System.out.println("Please enter the Order ID.");
         int orderID = sc.nextInt();
         sc.nextLine();
-        order.setOrderID(orderID);
+        order.setOrderID(orderID);*/
 
         addItemtoOrder(order);
-
-        Calendar c = Calendar.getInstance();
-        String date = formatter.format(c.getTime());
-        order.setDate(date);
 
         System.out.println("Please enter remarks: ");
         String remarks = sc.nextLine();
         order.setRemarks(remarks);
 
-        System.out.println("Order " + orderID + " has been confirmed. ");
-
+        Calendar c = Calendar.getInstance();
+        Date time = c.getTime();
+        String date = formatter.format(time);
+        order.setDate(date);
+        SimpleDateFormat formatID = new SimpleDateFormat("ddMMyyhhmm");
+        order.setOrderID(roomID + formatID.format(time));
+        
+        order.setOrderStatus(OrderStatus.CONFIRM);
+        
         orderList.add(order);
+        
+        System.out.println("Order " + order.getOrderID() + " has been confirmed. ");
         storeData();
     }
 
@@ -124,17 +132,31 @@ public class OrderController implements IStorage {
         ArrayList<Item> listOfFood = new ArrayList<Item>();
 
         // print out catalog
-        Menu.getInstance().printMenu();
-
-        System.out.println("Please enter the itemID of the item you wish to order.");
-        String itemID = sc.nextLine();
-        Item itemToAdd = Menu.getInstance().checkExistance(itemID);
-
-        System.out.println("Please enter the quantity of item for " + itemID);
-        int quantityOfItem = sc.nextInt();
-        sc.nextLine();
-        for (int i = 0; i < quantityOfItem; i++)
-            listOfFood.add(itemToAdd);
+        while (true) {
+        	Menu.getInstance().printMenu();
+        	System.out.println("Please enter the itemID of the item you wish to order:");
+	        String itemID = sc.nextLine();
+	        Item itemToAdd = Menu.getInstance().checkExistance(itemID);
+	
+	        System.out.println("Please enter the quantity of item for " + itemID);
+	        int quantityOfItem = sc.nextInt();
+	        sc.nextLine();
+	        for (int i = 0; i < quantityOfItem; i++)
+	            listOfFood.add(itemToAdd);
+	        
+	        System.out.println("Any additional items? (Y/N)");
+	        String select = sc.nextLine();
+        	while (!(select.compareToIgnoreCase("Y")==0 || select.compareToIgnoreCase("N")==0)) {
+                System.out.println("Please enter only Y/N");
+                System.out.println("Y/N? ");
+                select = sc.nextLine();
+            }
+            if (select.compareTo("N")==0) {
+            	break;
+            }
+        }
+        
+        listOfFood.addAll(order.getListOfFood());
 
         order.setListOfFood(listOfFood);
     }
