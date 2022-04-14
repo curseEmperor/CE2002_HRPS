@@ -1,5 +1,6 @@
 package Controller;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -166,7 +167,7 @@ public class Menu implements IStorage, IController {
 		ObjectInputStream ois;
 		try {
 			itemList.clear();
-			ois = new ObjectInputStream(new FileInputStream("Menu.ser"));
+			ois = new ObjectInputStream(new FileInputStream("src" + File.separator + "Menu.ser"));
 
 			int noOfOrdRecords = ois.readInt();
 			System.out.println("Menu/ItemController: " + noOfOrdRecords + " Entries Loaded");

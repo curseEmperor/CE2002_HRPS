@@ -62,11 +62,11 @@ public class ReservationController implements IController, IStorage {
 
         Reservation newReservation = (Reservation) entities;
 
-        String checkInString = new SimpleDateFormat("ddMMyy").format(newReservation.getCheckIn());
+        String checkInString = new SimpleDateFormat("dd/MM/yy").format(newReservation.getCheckIn());
 
         String reservationID = checkInString + newReservation.getGuestID();
         newReservation.setID(reservationID);
-        newReservation.setReservationStatus(ReservationStatus.CONFIRM);
+        //newReservation.setReservationStatus(ReservationStatus.CONFIRM);
 
         reservationList.add(newReservation);
         // System.out.println("Reservation ID generated: " + reservationID);
@@ -87,6 +87,13 @@ public class ReservationController implements IController, IStorage {
         reservationList.remove(toBeDeleted);
         // System.out.println("reservation removed from list in reservation
         // controller");
+        for (Reservation reservation : reservationList) {
+        	//Check waitlist for confirmation
+            if (reservation.getReservationStatus()==ReservationStatus.WAITLIST) {
+            	if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0)
+            		reservation.setReservationStatus(ReservationStatus.CONFIRM);
+            }
+        }
         storeData();
     }
 
@@ -174,7 +181,12 @@ public class ReservationController implements IController, IStorage {
             out.writeInt(reservationList.size());
             for (Reservation res : reservationList)
                 out.writeObject(res);
-            System.out.printf("%s \n\n--Entries Saved.--\n", reservationList.toString().replace("[","").replace("]",""));
+            System.out.println("==========================");
+            System.out.println("   Reservation Details: ");
+            System.out.println("==========================");
+            System.out.println(reservationList.toString().replace("[","").replace("]",""));
+            System.out.println("========================");
+            System.out.printf("Entries Saved!");
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
