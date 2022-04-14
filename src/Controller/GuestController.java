@@ -102,7 +102,7 @@ public class GuestController implements IController, IStorage {
             out.writeInt(guestList.size());
             for (Guest guest : guestList)
                 out.writeObject(guest);
-            System.out.printf("GuestController: %s Entries Saved.\n", guestList);
+            System.out.printf("Guest Details:\n%s \n\n--Entries Saved.--\n", guestList.toString().replace("[","").replace("]",""));
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
