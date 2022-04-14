@@ -61,7 +61,13 @@ public class MenuUI extends StandardUI implements ControllerUI {
 
     public void create() {
 
-        System.out.println("--Adding item--\n1. Appetizer\n2. Entree\n3. Side\n4. Dessert\n5. Beverage\nItem type: ");
+        System.out.println("--Adding item--\n"
+        		+ "1) Appetizer\n"
+        		+ "2) Entree\n"
+        		+ "3) Side\n"
+        		+ "4) Dessert\n"
+        		+ "5) Beverage\n"
+        		+ "Item type: ");
 
         choice = getUserChoice(5);
 
@@ -98,7 +104,12 @@ public class MenuUI extends StandardUI implements ControllerUI {
             System.out.println("Item does not exist");
         } else {
         	Menu.getInstance().printItem(toBeUpdated);
-            System.out.println("1. ID\n2. Name\n3. Description\n4. Price\n5. Type");
+            System.out.println(
+            		"1) ID\n"
+            		+ "2) Name\n"
+            		+ "3) Description\n"
+            		+ "4) Price\n"
+            		+ "5) Type");
             System.out.println("What do you want to update: ");
             choice = getUserChoice(5);
             String content;
@@ -107,7 +118,13 @@ public class MenuUI extends StandardUI implements ControllerUI {
             	content = getUserString();
             }
             else {
-            	System.out.println("1. Appetizer\n2. Entree\n3. Side\n4. Dessert\n5. Beverage\nEnter type: ");
+            	System.out.println(
+            			"1) Appetizer\n"
+            			+ "2) Entree\n"
+            			+ "3) Side\n"
+            			+ "4) Dessert\n"
+            			+ "5) Beverage\n"
+            			+ "Enter type: ");
             	content = String.valueOf(getUserChoice(5));
             }
 
