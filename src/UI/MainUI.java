@@ -49,10 +49,10 @@ public class MainUI {
                     MenuUI.getInstance().mainMenu();
                     break;
                 case 5:
-                    //RoomServiceUI.getInstance().mainMenu();
+                    OrderUI.getInstance().mainMenu();
                     break;
                 case 6:
-                    //CheckInOutUI.getInstance().mainMenu();
+                    // CheckInOutUI.getInstance().mainMenu();
                     break;
                 default:
                     break;

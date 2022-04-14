@@ -1,22 +1,25 @@
 package entities;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Order {
+import Enums.OrderStatus;
+
+public class Order implements Serializable {
     private int orderID;
     private String roomID;
-    private String orderStatus; // confirmed, preparing, delivered
+    private OrderStatus orderStatus; // confirmed, preparing, delivered
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
     private String date;
     private ArrayList<Item> listOfFood;
     private String remarks; // less oil, less salt
 
-    public Order(int orderID, String roomID, String orderStatus, ArrayList<Item> order, String remarks) {
+    public Order(int orderID, String roomID, ArrayList<Item> order, String remarks) {
         this.orderID = orderID;
         this.roomID = roomID;
-        this.orderStatus = orderStatus;
+        this.orderStatus = OrderStatus.CONFIRM;
         this.listOfFood = null;
         Calendar c = Calendar.getInstance();
         String date = formatter.format(c.getTime());
@@ -48,11 +51,11 @@ public class Order {
         return roomID;
     }
 
-    public void setOrderStatus(String status) {
+    public void setOrderStatus(OrderStatus status) {
         this.orderStatus = status;
     }
 
-    public String getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
@@ -103,20 +106,41 @@ public class Order {
     // }
 
     public void viewOrder() {
-        System.out.println("ID   Room   Date                          Remarks                       Status   ");
+        // System.out.println("ID Room Date Remarks Status ");
+        // System.out.println(toString());
+        // System.out.println("=================================================================================");
+        // System.out.println("ID Name Description Price(S$)");
+        // System.out.println("=================================================================================");
+        // for (int i = 0; i < listOfFood.size(); i++) {
+        // System.out.println(listOfFood.get(i).toString());
+        // }
+        // System.out.println("=================================================================================");
+
         System.out.println(toString());
-        System.out.println("=================================================================================");
-        System.out.println("ID   Name                          Description                          Price(S$)");
-        System.out.println("=================================================================================");
-        for (int i = 0; i < listOfFood.size(); i++) {
-            System.out.println(listOfFood.get(i).toString());
+        System.out.println("==========");
+        System.out.println("Items ordered for Room Service");
+        System.out.println("==========");
+        for (Item food : listOfFood) {
+            System.out.println(food);
         }
-        System.out.println("=================================================================================");
     }
 
+    @Override
     public String toString() {
+        StringBuilder result = new StringBuilder();
+        String newLine = System.getProperty("line.separator");
 
-        return (String.format("%-5d%-7s%-30s%-30s%-10s", orderID, roomID, date, remarks, orderStatus));
+        // return (String.format("%-5d%-7s%-30s%-30s%-10s", orderID, roomID, date,
+        // remarks, orderStatus));
+
+        result.append(this.getClass().getName() + newLine);
+
+        result.append("Date: " + this.date + newLine);
+        result.append("orderID: " + this.orderID + "\tStatus: " + this.orderStatus + newLine);
+        result.append("For Room: " + this.roomID + newLine);
+        result.append("Remarks: " + this.remarks + newLine);
+
+        return result.toString();
     }
 
 }

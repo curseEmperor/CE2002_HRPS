@@ -6,6 +6,8 @@ import entities.Item;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import Enums.OrderStatus;
+
 import java.util.*;
 
 import java.io.FileInputStream;
@@ -56,6 +58,7 @@ public class OrderController implements Serializable {
 
         System.out.println("Please enter the Order ID.");
         int orderID = sc.nextInt();
+        sc.nextLine();
         order.setOrderID(orderID);
 
         addItemtoOrder(order);
@@ -68,8 +71,7 @@ public class OrderController implements Serializable {
         String remarks = sc.next();
         order.setRemarks(remarks);
 
-        order.setOrderStatus("Confirmed");
-        System.out.println("Order %d has been confirmed: " + orderID);
+        System.out.println("Order " + orderID + " has been confirmed. ");
 
         orderList.add(order);
         storeData();
@@ -77,15 +79,17 @@ public class OrderController implements Serializable {
 
     // order can be cancelled as long as it has yet to be delivered
     // delete() - to delete the whole order from stockpile of orders
-    public void delete(Order orderToCancel) {
+    public void delete(Object entities) {
 
-        for (Order order : orderList) {
-            if (order.getOrderID() == orderToCancel.getOrderID() && orderToCancel.getOrderStatus() != "Delivered") {
-                this.orderList.remove(order);
-                System.out.println("Order is deleted");
-            }
+        Order toBeDeleted = (Order) entities;
+
+        if (toBeDeleted.getOrderStatus() != OrderStatus.DELIVERED) {
+            orderList.remove(toBeDeleted);
+            System.out.println("Order is deleted.");
+            return;
         }
-        System.out.println("Order not found.");
+
+        System.out.println("Order can't be deleted as it is delivered.");
     }
 
     // if guest wants to "update an order",
@@ -94,7 +98,7 @@ public class OrderController implements Serializable {
 
         Order order = (Order) entities;
 
-        if (order.getOrderStatus() == "CONFIRM") {
+        if (order.getOrderStatus() == OrderStatus.CONFIRM) {
             System.out.println("Choose either to (1)add or (2)remove item from order.");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -124,12 +128,12 @@ public class OrderController implements Serializable {
         Menu.getInstance().printMenu();
 
         System.out.println("Please enter the itemID of the item you wish to order.");
-        String input = sc.nextLine();
-        Menu menu = Menu.getInstance();
-        Item itemToAdd = menu.checkExistance(input);
+        String itemID = sc.nextLine();
+        Item itemToAdd = Menu.getInstance().checkExistance(itemID);
 
-        System.out.printf("Please enter the quantity of item %d.\n", input);
+        System.out.println("Please enter the quantity of item for " + itemID);
         int quantityOfItem = sc.nextInt();
+        sc.nextLine();
         for (int i = 0; i < quantityOfItem; i++)
             listOfFood.add(itemToAdd);
 
@@ -149,10 +153,10 @@ public class OrderController implements Serializable {
 
     }
 
-    public void updateStatus(int orderID, String newOrderStatus) {
-        Order order = checkExistence(orderID);
-        order.setOrderStatus(newOrderStatus);
-    }
+    // public void updateStatus(int orderID, String newOrderStatus) {
+    // Order order = checkExistence(orderID);
+    // order.setOrderStatus(newOrderStatus);
+    // }
 
     public void read(Order order) { // read a single order
         order.viewOrder();
@@ -194,7 +198,7 @@ public class OrderController implements Serializable {
             out.writeInt(orderList.size());
             for (Order order : orderList)
                 out.writeObject(order);
-            System.out.printf("%s \n\n--Entries Saved.--\n", orderList.toString().replace("[","").replace("]",""));
+            System.out.printf("%s \n\n--Entries Saved.--\n", orderList.toString().replace("[", "").replace("]", ""));
             out.close();
         } catch (IOException e1) {
             e1.printStackTrace();

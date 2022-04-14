@@ -12,6 +12,7 @@ public class OrderUI extends StandardUI {
 
     private OrderUI() {
         super();
+        sc = new Scanner(System.in);
     }
 
     public static OrderUI getInstance() {
@@ -22,7 +23,7 @@ public class OrderUI extends StandardUI {
     }
 
     public int showSelection() {
-        System.out.println(" Guest options avaiable: ");
+        System.out.println(" Order/Room Service options avaiable: ");
         System.out.println("1) Create");
         System.out.println("2) Read");
         System.out.println("3) Update");
@@ -64,6 +65,7 @@ public class OrderUI extends StandardUI {
     public void readOneDets() {
         System.out.println("Enter the OrderID: ");
         int orderID = sc.nextInt();
+        sc.nextLine();
 
         Order order = OrderController.getInstance().checkExistence(orderID);
         if (order == null) {
@@ -84,7 +86,7 @@ public class OrderUI extends StandardUI {
             return;
         }
 
-        OrderController.getInstance().update(orderID);
+        OrderController.getInstance().update(order);
     }
 
     public void delete() {

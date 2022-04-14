@@ -10,7 +10,8 @@ public class Item implements Serializable {
 	private String itemDesc;
 	private float itemPrice;
 	private ItemTypes itemType;
-	//private int itemType; // 0=NIL, 1=Appetizer, 2=Entree, 3=Side, 4=Dessert, 5=Beverage
+	// private int itemType; // 0=NIL, 1=Appetizer, 2=Entree, 3=Side, 4=Dessert,
+	// 5=Beverage
 
 	// Constructor
 	public Item() {
@@ -64,5 +65,14 @@ public class Item implements Serializable {
 
 	public void setType(ItemTypes type) {
 		itemType = type;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+
+		result.append(this.itemID + "\t" + this.itemName + "\t $" + this.itemPrice);
+
+		return result.toString();
 	}
 }
