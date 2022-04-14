@@ -239,4 +239,21 @@ public class Menu implements IStorage, IController {
 			return null;
 		}
 	}
+	
+	public ItemTypes toType(int ID) {
+		switch (ID) {
+		case 1:
+			return ItemTypes.APPETIZER;
+		case 2:
+			return ItemTypes.ENTREE;
+		case 3:
+			return ItemTypes.SIDE;
+		case 4:
+			return ItemTypes.DESSERT;
+		case 5:
+			return ItemTypes.BEVERAGE;
+		default:
+			return null;
+		}
+	}
 }

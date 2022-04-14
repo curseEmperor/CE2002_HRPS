@@ -42,7 +42,7 @@ public class MenuUI extends StandardUI implements ControllerUI {
                     create();
                     break;
                 case 2:
-                    read();
+                	readOneDets();
                     break;
                 case 3:
                     update();
@@ -63,7 +63,7 @@ public class MenuUI extends StandardUI implements ControllerUI {
 
         System.out.println("--Adding item--\n1. Appetizer\n2. Entree\n3. Side\n4. Dessert\n5. Beverage\nItem type: ");
 
-        int itemType = getUserChoice(5);
+        choice = getUserChoice(5);
 
         System.out.println("Item name: ");
         String itemName = getUserString();
@@ -74,14 +74,17 @@ public class MenuUI extends StandardUI implements ControllerUI {
         System.out.println("Item price: ");
         float itemPrice = sc.nextFloat();
 
-        Item tempItem = new Item(itemName, itemDesc, itemPrice, itemType);
+        Item tempItem = new Item(itemName, itemDesc, itemPrice, Menu.getInstance().toType(choice));
 
         Menu.getInstance().create(tempItem);
         System.out.println("\nItem added!\n");
     }
 
-    public void read() { // read one Item
-
+    public void readOneDets() { // read one Item
+    	System.out.println("Item ID: ");
+    	Item item = Menu.getInstance().checkExistance(getUserString());
+    	if (item == null) System.out.println("Invalid ID");
+    	else Menu.getInstance().printItem(item);
     }
 
     public void update() { // update a single item
@@ -95,7 +98,7 @@ public class MenuUI extends StandardUI implements ControllerUI {
         if (toBeUpdated == null) {
             System.out.println("Item does not exist");
         } else {
-            System.out.println("WHat do you want to update: ");
+            System.out.println("What do you want to update: ");
             System.out.println("1. Name\n2. Description\n3. Price");
             choice = getUserChoice(3);
 
