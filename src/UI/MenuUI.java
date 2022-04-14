@@ -97,8 +97,8 @@ public class MenuUI extends StandardUI implements ControllerUI {
         if (toBeUpdated == null) {
             System.out.println("Item does not exist");
         } else {
-            System.out.println("What do you want to update: ");
             System.out.println("1. ID\n2. Name\n3. Description\n4. Price\n5. Type");
+            System.out.println("What do you want to update: ");
             choice = getUserChoice(5);
 
             System.out.println("Enter the relevant details: ");
@@ -107,17 +107,15 @@ public class MenuUI extends StandardUI implements ControllerUI {
             Menu.getInstance().update(toBeUpdated, choice, content);
 
             System.out.println("Item edited!\n");
-
         }
 
     }
 
     public void delete() {
         System.out.println("--Removing item--\nItem ID: ");
-        int itemID = sc.nextInt();
-        sc.nextLine();
+        String itemID = getUserString();
 
-        Item toBeDeleted = Menu.getInstance().getItem(itemID);
+        Item toBeDeleted = Menu.getInstance().checkExistance(itemID);
         if (toBeDeleted == null) {
             System.out.println("Item does not exist");
         } else {
