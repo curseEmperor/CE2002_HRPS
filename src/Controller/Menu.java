@@ -1,6 +1,5 @@
 package Controller;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -152,8 +151,6 @@ public class Menu implements IStorage, IController {
 
 	public void storeData() {
 		try {
-			//File menu = new File("Menu.ser");
-			//menu.delete();
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Menu.ser"));
 			out.writeInt(itemList.size()); // noOfItems
 			for (Item item : itemList)

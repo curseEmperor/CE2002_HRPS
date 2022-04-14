@@ -21,7 +21,7 @@ public class MenuUI extends StandardUI implements ControllerUI {
     }
 
     public int showSelection() {
-        System.out.println(" Menu options avaiable: ");
+        System.out.println("Menu options avaiable: ");
         System.out.println("1) Create / Add Items");
         System.out.println("2) Read");
         System.out.println("3) Update");
