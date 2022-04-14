@@ -29,10 +29,10 @@ public class RoomUI extends StandardUI implements ControllerUI {
 
     public int showSelection() {
         System.out.println(" Room options avaiable: ");
-        System.out.println("1) Create");
-        System.out.println("2) Read");
-        System.out.println("3) Update");
-        System.out.println("4) Delete");
+        System.out.println("1) Add Room");
+        System.out.println("2) View Room");
+        System.out.println("3) Update Room Detail");
+        System.out.println("4) Remove Room");
         System.out.println("5) Occupancy Report");
         System.out.println("6) Show room by status");
         System.out.println("7) INIT hotel......");
