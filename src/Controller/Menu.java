@@ -33,7 +33,7 @@ public class Menu implements IStorage, IController {
 
 	// Behaviours
 	public void printMenu() {
-		System.out.println("Number of Items: " + itemList.size());
+		System.out.println("Total number of Items: " + itemList.size() + "\n");
 		for (ItemTypes itemType : ItemTypes.values()) {
 			printCat(itemType);
 		}
@@ -213,15 +213,15 @@ public class Menu implements IStorage, IController {
 
 	private void cleanID() {
 		Map<ItemTypes, List<Item>> itemByType = splitItemByType();
-		int count = 0;
+		int count = 1;
 		for (Item item : itemByType.get(ItemTypes.APPETIZER)) item.setID(String.valueOf(100+(count++)));
-		count = 0;
+		count = 1;
 		for (Item item : itemByType.get(ItemTypes.ENTREE)) item.setID(String.valueOf(200+(count++)));
-		count = 0;
+		count = 1;
 		for (Item item : itemByType.get(ItemTypes.SIDE)) item.setID(String.valueOf(300+(count++)));
-		count = 0;
+		count = 1;
 		for (Item item : itemByType.get(ItemTypes.DESSERT)) item.setID(String.valueOf(400+(count++)));
-		count = 0;
+		count = 1;
 		for (Item item : itemByType.get(ItemTypes.BEVERAGE)) item.setID(String.valueOf(500+(count++)));
 	}
 

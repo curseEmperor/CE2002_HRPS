@@ -25,6 +25,7 @@ public abstract class StandardUI {
                     break;
             } else {
                 System.out.println("Please input only integers!");
+                choice = n+1;
                 sc.next();
             }
         } while (choice <= 0 || choice > n);
