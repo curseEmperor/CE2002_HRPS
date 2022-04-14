@@ -1,5 +1,6 @@
 package Controller;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -67,8 +68,7 @@ public class Menu implements IStorage, IController {
 	}
 
 	public void printItem(Item item) {
-		System.out.printf("%d", item.getID());
-		System.out.printf(" " + item.getName() + " $%.2f\n", item.getPrice());
+		System.out.printf(item.getID() + " " + item.getName() + " $%.2f\n", item.getPrice());
 		System.out.printf(item.getDesc() + "\n");
 	}
 
@@ -144,13 +144,14 @@ public class Menu implements IStorage, IController {
 			default:
 				break;
 		}
-
 		storeData();
 		loadData();
 	}
 
 	public void storeData() {
 		try {
+			//File menu = new File("Menu.ser");
+			//menu.delete();
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Menu.ser"));
 			out.writeInt(itemList.size()); // noOfItems
 			for (Item item : itemList)
@@ -165,7 +166,8 @@ public class Menu implements IStorage, IController {
 	public void loadData() {
 		ObjectInputStream ois;
 		try {
-			ois = new ObjectInputStream(new FileInputStream("Item.ser"));
+			itemList.clear();
+			ois = new ObjectInputStream(new FileInputStream("Menu.ser"));
 
 			int noOfOrdRecords = ois.readInt();
 			System.out.println("Menu/ItemController: " + noOfOrdRecords + " Entries Loaded");
