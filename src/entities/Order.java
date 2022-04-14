@@ -5,23 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Order {
-    // private int countID; // number of items
     private int orderID;
-    private int roomID;
+    private String roomID;
     private String orderStatus; // confirmed, preparing, delivered
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
     private String date;
-    private ArrayList<Item> order = new ArrayList<Item>();
+    private ArrayList<Item> listOfFood;
     private String remarks; // less oil, less salt
-    // Calendar c = Calendar.getInstance();
-    // String d = sdf.format(c.getTime());
 
-    public Order(int orderID, int roomID, String orderStatus, ArrayList<Item> order, String remarks) {
-        // this.countID = countID;
+    public Order(int orderID, String roomID, String orderStatus, ArrayList<Item> order, String remarks) {
         this.orderID = orderID;
         this.roomID = roomID;
         this.orderStatus = orderStatus;
-        this.order = order;
+        this.listOfFood = null;
         Calendar c = Calendar.getInstance();
         String date = formatter.format(c.getTime());
         this.date = date;
@@ -33,16 +29,8 @@ public class Order {
     }
 
     public int size() {
-        return this.order.size();
+        return this.listOfFood.size();
     }
-
-    // public void setcountID(int ID) {
-    // countID = ID;
-    // }
-    //
-    // public int getcountID() {
-    // return countID;
-    // }
 
     public void setOrderID(int orderID) {
         this.orderID = orderID;
@@ -52,11 +40,11 @@ public class Order {
         return orderID;
     }
 
-    public void setRoomID(int roomID) {
+    public void setRoomID(String roomID) {
         this.roomID = roomID;
     }
 
-    public int getRoomID() {
+    public String getRoomID() {
         return roomID;
     }
 
@@ -76,8 +64,12 @@ public class Order {
         return date;
     }
 
-    public ArrayList<Item> getItems() {
-        return order;
+    public ArrayList<Item> getListOfFood() {
+        return listOfFood;
+    }
+
+    public void setListOfFood(ArrayList<Item> listOfFood) {
+        this.listOfFood = listOfFood;
     }
 
     public void setRemarks(String remarks) {
@@ -88,27 +80,27 @@ public class Order {
         return remarks;
     }
 
-    public void addItem(Item item) {
-        this.order.add(item);
-    }
+    // public void addItem(Item item) {
+    // this.order.add(item);
+    // }
 
-    public boolean removeItem(Item itemToRemove) {
-        for (Item it : order) {
-            if (it.getID() == itemToRemove.getID()) {
-                this.order.remove(it);
-                return true;
-            }
-        }
-        return false;
-    }
+    // public boolean removeItem(Item itemToRemove) {
+    // for (Item it : order) {
+    // if (it.getID() == itemToRemove.getID()) {
+    // this.order.remove(it);
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
 
-    public double calcOrderPrice() {
-        double orderPrice = 0;
-        for (int i = 0; i < order.size(); i++) {
-            orderPrice += order.get(i).getPrice();
-        }
-        return orderPrice;
-    }
+    // public double calcOrderPrice() {
+    // double orderPrice = 0;
+    // for (int i = 0; i < order.size(); i++) {
+    // orderPrice += order.get(i).getPrice();
+    // }
+    // return orderPrice;
+    // }
 
     public void viewOrder() {
         System.out.println("ID   Room   Date                          Remarks                       Status   ");
