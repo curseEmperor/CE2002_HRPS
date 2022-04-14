@@ -5,7 +5,7 @@ import Enums.ItemTypes;
 
 public class Item implements Serializable {
 	// Variables
-	private int itemID;
+	private String itemID;
 	private String itemName;
 	private String itemDesc;
 	private float itemPrice;
@@ -18,7 +18,6 @@ public class Item implements Serializable {
 	}
 
 	public Item(String itemName, String itemDesc, float itemPrice, ItemTypes itemType) {
-		this.itemID = 0;
 		this.itemName = itemName;
 		this.itemDesc = itemDesc;
 		this.itemPrice = itemPrice;
@@ -26,7 +25,7 @@ public class Item implements Serializable {
 	}
 
 	// Get values
-	public int getID() {
+	public String getID() {
 		return itemID;
 	}
 
@@ -47,7 +46,7 @@ public class Item implements Serializable {
 	}
 
 	// Set values
-	public void setID(int ID) {
+	public void setID(String ID) {
 		itemID = ID;
 	}
 
