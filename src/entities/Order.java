@@ -108,8 +108,8 @@ public class Order {
         System.out.println("=================================================================================");
         System.out.println("ID   Name                          Description                          Price(S$)");
         System.out.println("=================================================================================");
-        for (int i = 0; i < order.size(); i++) {
-            System.out.println(order.get(i).toString());
+        for (int i = 0; i < listOfFood.size(); i++) {
+            System.out.println(listOfFood.get(i).toString());
         }
         System.out.println("=================================================================================");
     }

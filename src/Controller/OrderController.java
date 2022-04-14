@@ -154,8 +154,7 @@ public class OrderController implements Serializable {
         order.setOrderStatus(newOrderStatus);
     }
 
-    public void read(int orderID) { // read a single order
-        Order order = checkExistence(orderID);
+    public void read(Order order) { // read a single order
         order.viewOrder();
     }
 
@@ -171,7 +170,7 @@ public class OrderController implements Serializable {
             return null;
     }
 
-    public float checkOutProcedures() {
+    public float checkOutProcedures() { // include calculating order price
 
         float totalPrice = 0;
 
