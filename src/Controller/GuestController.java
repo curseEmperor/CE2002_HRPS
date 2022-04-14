@@ -107,7 +107,7 @@ public class GuestController implements IController, IStorage {
             System.out.println("========================");
             System.out.println(guestList.toString().replace("[","").replace("]",""));
             System.out.println("========================");
-            System.out.println("Entries Saved!");
+            System.out.printf("Entries Saved!");
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
