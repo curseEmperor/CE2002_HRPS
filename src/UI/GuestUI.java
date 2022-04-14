@@ -56,26 +56,27 @@ public class GuestUI extends StandardUI implements ControllerUI {
     }
 
     public void create() {
-        System.out.println("Enter ur GuestID: ");
+        System.out.println("Enter GuestID: ");
         String guestID = getUserString();
 
         if (GuestController.getInstance().checkExistence(guestID) != null) {
             System.out.println("Guest exist!");
+            return;
             // return guestID;
         }
-        System.out.println("Creating new Guest..... ");
+        System.out.println("Creating new Guest......");
 
         System.out.println("Enter Guest Name: ");
         String guestName = getUserString();
-        System.out.println("Enter address: ");
+        System.out.println("Enter Address: ");
         String address = getUserString();
         System.out.println("Enter Contact: ");
         String contact = getUserString();
-        System.out.println("Enter country: ");
+        System.out.println("Enter Country: ");
         String country = getUserString();
         System.out.println("Enter Gender: ");
         char gender = getUserString().charAt(0);
-        System.out.println("Enter nationality: ");
+        System.out.println("Enter Nationality: ");
         String nationality = getUserString();
 
         // Guest rawGuest = new Guest(guestID, "guestName", "address", "contact",
@@ -91,7 +92,7 @@ public class GuestUI extends StandardUI implements ControllerUI {
 
     public void readOneDets() {
 
-        System.out.println("Enter ur GuestID: ");
+        System.out.println("Enter your GuestID: ");
         String guestID = getUserString();
 
         Guest guestRead = GuestController.getInstance().checkExistence(guestID);
@@ -112,9 +113,10 @@ public class GuestUI extends StandardUI implements ControllerUI {
         Guest toBeUpdated = GuestController.getInstance().checkExistence(guestID);
         if (toBeUpdated == null) {
             System.out.println("Guest does not exist");
+            return;
         } else {
             // TODO: do while loop
-            System.out.println("What do u want to update");
+            System.out.println("What do you want to update?");
             System.out.println("2) guestName");
             System.out.println("3) address");
             System.out.println("4) contact");
@@ -135,7 +137,7 @@ public class GuestUI extends StandardUI implements ControllerUI {
     }
 
     public void delete() {
-        System.out.println("Enter ur GuestID: ");
+        System.out.println("Enter your GuestID: ");
         String guestID = getUserString();
 
         Guest toBeDeleted = GuestController.getInstance().checkExistence(guestID);
