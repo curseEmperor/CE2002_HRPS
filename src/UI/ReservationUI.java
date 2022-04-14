@@ -47,9 +47,11 @@ public class ReservationUI extends StandardUI implements ControllerUI {
                 case 1:
                     System.out.println("Are you a new Guest? (Y/N)");
                     String select = getUserString();
-                    while (select.compareTo("Y")!=0 || select.compareTo("N")!=0) {
-                        System.out.println("Please enter only Y/N\\nY/N");
+                    while (!(select.compareToIgnoreCase("Y")==0 || select.compareToIgnoreCase("N")==0)) {
+                    	System.out.println("Please enter only Y/N");
+                        System.out.println("Y/N? ");
                         select = getUserString();
+                        System.out.println(select);
                     }
                     switch (select) {
                     case "N":
@@ -89,6 +91,13 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         System.out.println("Enter Check-in day (dd/MM/yy): ");
         String checkInString = getUserString();
         Date checkInDate = dateValid(checkInString);
+        Date today = new Date();
+        while (checkInDate.before(today)) {
+        	System.out.println("Check-out day must be after today");
+        	System.out.println("Enter Check-out day (dd/MM/yy): ");
+        	checkInString = getUserString();
+            checkInDate = dateValid(checkInString);
+        }
 
         if (ReservationController.getInstance().checkExistence(guestID + checkInDate) != null) {
             System.out.println("Reservation already exist!");
@@ -100,7 +109,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         Date checkOutDate = dateValid(checkOutString);
         while (checkOutDate.before(checkInDate)||checkOutDate.equals(checkInDate)) {
         	System.out.println("Check-out day must be after Check-in day");
-        	System.out.println("Enter Check-out day: ");
+        	System.out.println("Enter Check-out day (dd/MM/yy): ");
         	checkOutString = getUserString();
             checkOutDate = dateValid(checkOutString);
         }
@@ -149,8 +158,9 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 	        	System.out.println("Room type not available!");
 	        	System.out.println("Put on waitlist? (Y/N)");
 	        	String select = getUserString();
-	        	while (select.compareTo("Y")!=0 || select.compareTo("N")!=0) {
-                    System.out.println("Please enter only Y/N\nY/N?");
+	        	while (!(select.compareToIgnoreCase("Y")==0 || select.compareToIgnoreCase("N")==0)) {
+                    System.out.println("Please enter only Y/N");
+                    System.out.println("Y/N? ");
                     select = getUserString();
                 }
                 if (select.compareTo("Y")==0) {
