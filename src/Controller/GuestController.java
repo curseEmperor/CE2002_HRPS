@@ -28,7 +28,7 @@ public class GuestController implements IController, IStorage {
     }
 
     public Guest checkExistence(String guestID) {
-        System.out.println("GuestController.checkExistence()");
+        System.out.println("Checking whether guestID exists...");
         for (Guest guest : guestList) {
             if (guest.getID().equals(guestID)) {
                 System.out.println(guestID);
