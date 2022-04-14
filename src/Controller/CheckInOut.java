@@ -88,4 +88,8 @@ public class CheckInOut {
     	//Rooms are available if number of room type is larger than number of guesting using the room type at date
     	return roomList.get(roomType).size() - reservationCount;
     }
+    
+    public void payment() {
+    	
+    }
 }
