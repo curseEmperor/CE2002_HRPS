@@ -21,7 +21,7 @@ public class Menu implements IStorage, IController {
 	private Menu() {
 		itemList = new ArrayList<Item>();
 		loadData();
-		sortData();
+		cleanID();
 	}
 
 	public static Menu getInstance() {
@@ -73,8 +73,7 @@ public class Menu implements IStorage, IController {
 
 	public Item checkExistance(String ID) {
 		for (Item item : itemList) {
-			item.getID().equals(ID);
-			return item;
+			if (item.getID().compareTo(ID)==0) return item;
 		}
 		return null;
 	}
@@ -99,7 +98,6 @@ public class Menu implements IStorage, IController {
 		Item toBeAdded = (Item) entities;
 		itemList.add(toBeAdded);
 		cleanID();
-		sortData();
 		storeData();
 		loadData();
 
@@ -124,6 +122,7 @@ public class Menu implements IStorage, IController {
 		switch (choice) {
 			case 1: // itemID
 				item.setID(value);
+				sortData();
 				break;
 			case 2: // itemName
 				item.setName(value);
@@ -140,11 +139,12 @@ public class Menu implements IStorage, IController {
 				}
 				break;
 			case 5: // itemType
-				
+				item.setType(toType(value));
 				break;
 			default:
 				break;
 		}
+		cleanID();
 		storeData();
 		loadData();
 	}
@@ -222,6 +222,7 @@ public class Menu implements IStorage, IController {
 		for (Item item : itemByType.get(ItemTypes.DESSERT)) item.setID(String.valueOf(400+(count++)));
 		count = 1;
 		for (Item item : itemByType.get(ItemTypes.BEVERAGE)) item.setID(String.valueOf(500+(count++)));
+		sortData();
 	}
 
 	public ItemTypes toType(String ID) {
