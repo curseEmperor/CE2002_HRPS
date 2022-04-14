@@ -10,7 +10,9 @@ public class MainUI {
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.println("Welcome: now in MainUI");
+            System.out.println("======================");
+            System.out.println("Welcome to Main Menu!");
+            System.out.println("======================");
             System.out.println("1) For Guest options");
             System.out.println("2) For Reservation options");
             System.out.println("3) For Room options");
