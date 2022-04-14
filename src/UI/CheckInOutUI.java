@@ -20,9 +20,10 @@ public class CheckInOutUI extends StandardUI{
     	System.out.println(" Check In/Out options avaiable: ");
         System.out.println("1) Check In");
         System.out.println("2) Check Out");
-        System.out.println("3) Return to MainUI");
+        System.out.println("3) Make Payment");
+        System.out.println("4) Return to MainUI");
 
-        return 3;
+        return 4;
     }
     
     public void mainMenu() {
@@ -43,6 +44,8 @@ public class CheckInOutUI extends StandardUI{
                     break;
                 case 3:
                     break;
+                case 4:
+                	return;
             }
         } while (choice < qSize);
     }
