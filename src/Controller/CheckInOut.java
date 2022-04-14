@@ -14,7 +14,6 @@ import java.util.Map;
 public class CheckInOut {
 	private static CheckInOut instance = null;
     Scanner sc;
-    int CheckInOut;
 
     private CheckInOut() {
         sc = new Scanner(System.in);
@@ -29,9 +28,11 @@ public class CheckInOut {
     	//Change reservation status
     	Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
     	ReservationController.getInstance().update(reservation, 1, "Completed");
+    	
     	//Change room status
     	Room room = RoomController.getInstance().checkExistence(reservation.getRoomID());
     	RoomController.getInstance().update(room, 2, "Vacant");
+    	
     	//Get payment details (Room payment, order payments)
     }
     
@@ -48,6 +49,7 @@ public class CheckInOut {
     		System.out.println("Check In date does not match");
     		return;
     	}
+    	
     	//Assign room
     	List<Room> vacantRooms = RoomController.getInstance().generateOccupancyReport().get(reservation.getRoomType());
     	if (vacantRooms.size()==0) {
@@ -55,10 +57,11 @@ public class CheckInOut {
     		return;
     	}
     	Room room = vacantRooms.get(0);
-    	ReservationController.getInstance().update(reservation, 3, room.getRoomID());
+    	ReservationController.getInstance().update(reservation, 2, room.getRoomID());
+    	
     	//Change reservation status
-    	ReservationController.getInstance().update(reservation, 6, formatter.format(thisDate));
-    	ReservationController.getInstance().update(reservation, 5, "Checked In");
+    	ReservationController.getInstance().update(reservation, 7, "2");
+    	
     	//Change room status
     	RoomController.getInstance().update(room, 5, reservation.getGuestID());
     	RoomController.getInstance().update(room, 4, "Occupied");
@@ -73,7 +76,6 @@ public class CheckInOut {
     	Map<RoomTypes, List<Room>> roomList = RoomController.getInstance().splitRoomByType();
     	Map<ReservationStatus, List<Reservation>> reservationList = ReservationController.getInstance().splitReservationByStatus();
     	int reservationCount = 0;
-    	Room checkRoom;
     	for (Reservation reservation : reservationList.get(ReservationStatus.CONFIRM)) {
     		if (reservation.getRoomType() == roomType) {
 	    		if (dateCheck.equals(reservation.getCheckIn())) reservationCount++;
@@ -85,6 +87,7 @@ public class CheckInOut {
     			if (dateCheck.before(reservation.getCheckOut())) reservationCount++;
     		}
     	}
+    	
     	//Rooms are available if number of room type is larger than number of guesting using the room type at date
     	return roomList.get(roomType).size() - reservationCount;
     }
