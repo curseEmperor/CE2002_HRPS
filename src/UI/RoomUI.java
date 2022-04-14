@@ -257,9 +257,4 @@ public class RoomUI extends StandardUI implements ControllerUI {
         }
     }
 
-    private String getUserString() {
-        String input = sc.nextLine().toUpperCase();
-        return input;
-    }
-
 }

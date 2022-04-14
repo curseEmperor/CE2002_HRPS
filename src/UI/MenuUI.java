@@ -91,23 +91,21 @@ public class MenuUI extends StandardUI implements ControllerUI {
 
         System.out.println("--Editing item--\nItem ID: ");
 
-        int itemID = sc.nextInt();
-        sc.nextLine();
+        String itemID = getUserString();
 
-        Item toBeUpdated = Menu.getInstance().getItem(itemID); // check existence
+        Item toBeUpdated = Menu.getInstance().checkExistance(itemID); // check existence
         if (toBeUpdated == null) {
             System.out.println("Item does not exist");
         } else {
             System.out.println("What do you want to update: ");
-            System.out.println("1. Name\n2. Description\n3. Price");
-            choice = getUserChoice(3);
+            System.out.println("1. ID\n2. Name\n3. Description\n4. Price\n5. Type");
+            choice = getUserChoice(5);
 
-            System.out.println("Enter the relevant details:");
+            System.out.println("Enter the relevant details: ");
             String content = getUserString();
 
             Menu.getInstance().update(toBeUpdated, choice, content);
 
-            // System.out.println(toBeUpdated);
             System.out.println("Item edited!\n");
 
         }
@@ -133,8 +131,4 @@ public class MenuUI extends StandardUI implements ControllerUI {
     	Menu.getInstance().printMenu();
     }
 
-    private String getUserString() {
-        String input = sc.nextLine().toUpperCase();
-        return input;
-    }
 }

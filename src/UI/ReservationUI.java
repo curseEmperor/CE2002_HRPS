@@ -199,11 +199,6 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         }
     }
 
-    private String getUserString() {
-        String input = sc.nextLine().toUpperCase();
-        return input;
-    }
-
     private Date dateValid(String dateInString) {
         SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yy");
         sdfrmt.setLenient(false);

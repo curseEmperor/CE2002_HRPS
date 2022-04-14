@@ -150,9 +150,4 @@ public class GuestUI extends StandardUI implements ControllerUI {
         }
     }
 
-    private String getUserString() {
-        String input = sc.nextLine().toUpperCase();
-        return input;
-    }
-
 }

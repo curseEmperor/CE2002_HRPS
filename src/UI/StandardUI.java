@@ -31,5 +31,10 @@ public abstract class StandardUI {
 
         return choice;
     }
+    
+    public String getUserString() {
+        String input = sc.nextLine().toUpperCase();
+        return input;
+    }
 }
 
