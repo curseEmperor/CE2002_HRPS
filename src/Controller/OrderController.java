@@ -195,7 +195,7 @@ public class OrderController implements Serializable {
             out.writeInt(orderList.size());
             for (Order order : orderList)
                 out.writeObject(order);
-            System.out.printf("OrderController: %s Entries Saved.\n", orderList);
+            System.out.printf("%s \n\n--Entries Saved.--\n", orderList.toString().replace("[","").replace("]",""));
             out.close();
         } catch (IOException e1) {
             e1.printStackTrace();
