@@ -81,7 +81,10 @@ public class MenuUI {
     }
 
     public void read() { // read one Item
-
+    	Item item;
+    	System.out.println("Item ID: ");
+    	item = Menu.getInstance().checkExistance(getUserString());
+    	Menu.getInstance().printItem(item);
     }
 
     public void update() { // update a single item
@@ -95,7 +98,7 @@ public class MenuUI {
         if (toBeUpdated == null) {
             System.out.println("Item does not exist");
         } else {
-            System.out.println("WHat do you want to update: ");
+            System.out.println("What do you want to update: ");
             System.out.println("1. Name\n2. Description\n3. Price");
             choice = getUserChoice(3);
 
