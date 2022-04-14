@@ -15,9 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
-public class OrderController implements Serializable {
+public class OrderController implements IStorage {
 
     ArrayList<Order> orderList;
     // Map<String, ArrayList<Order>> allOrders;
