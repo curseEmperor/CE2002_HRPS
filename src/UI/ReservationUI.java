@@ -28,10 +28,10 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 
     public int showSelection() {
         System.out.println("Reservation options avaiable: ");
-        System.out.println("1) Create");
-        System.out.println("2) Read");
-        System.out.println("3) Update");
-        System.out.println("4) Delete");
+        System.out.println("1) Add Reservations");
+        System.out.println("2) View Reservations");
+        System.out.println("3) Update Reservation Info");
+        System.out.println("4) Cancel Reservation");
         System.out.println("5) Return to MainUI");
 
         return 5;
@@ -196,6 +196,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
             System.out.println("Reservation does not exist");
         } else {
             ReservationController.getInstance().delete(toBeDeleted);
+	    System.out.println("Reservation Cancelled.");
         }
     }
 
