@@ -22,7 +22,7 @@ public class Guest implements Serializable {
         this.country = country;
         this.gender = gender;
         this.nationality = nationality;
-        this.card = null;
+        //this.card = null;
     }
 
     public String getID() {
