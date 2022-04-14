@@ -140,7 +140,7 @@ public class ReservationController implements IController, IStorage {
             out.writeInt(reservationList.size());
             for (Reservation res : reservationList)
                 out.writeObject(res);
-            System.out.printf("GuestController: %s Entries Saved.\n", reservationList);
+            System.out.printf("%s \n\n--Entries Saved.--\n", reservationList.toString().replace("[","").replace("]",""));
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
