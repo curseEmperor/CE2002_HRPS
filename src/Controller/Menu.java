@@ -13,11 +13,15 @@ import java.text.DecimalFormat; //Import this class to set float number format w
 import java.text.NumberFormat; //Import this class to set float number format when converting to string
 import java.util.Scanner; //Import the Scanner class to read text files
 import java.util.ArrayList; //Import ArrayList class
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import entities.Item;
+import Enums.ItemTypes;
 
 public class Menu implements IStorage, IController {
 	// Variables
-	private ArrayList<Item> listOfItems;
+	private ArrayList<Item> itemList;
 	private int noOfItems;
 	private int[] noOfItemType;
 	private static Menu single_instance = null;
@@ -26,7 +30,7 @@ public class Menu implements IStorage, IController {
 	// Constructor
 	private Menu() {
 		noOfItemType = new int[5];
-		listOfItems = new ArrayList<Item>();
+		itemList = new ArrayList<Item>();
 		loadData();
 		sortDB();
 	}
@@ -48,7 +52,7 @@ public class Menu implements IStorage, IController {
 		}
 	}
 
-	public void printCat(int type) {
+	public void printCat(ItemTypes itemType) {
 		switch (type) {
 			case 1:
 				System.out.println("--Appetizers--");
@@ -68,27 +72,25 @@ public class Menu implements IStorage, IController {
 			default:
 				break;
 		}
-		int num;
 		for (num = 0; num < noOfItems; num++) {
-			tempItem = listOfItems.get(num);
-			if (tempItem.getType() == type) {
+			tempItem = itemList.get(num);
+			if (tempItem.getType() == itemType) {
 				printItem(num);
 			}
 		}
 		System.out.println();
 	}
 
-	public void printItem(int itemNo) {
-		tempItem = listOfItems.get(itemNo);
-		System.out.printf("%d", tempItem.getID());
-		System.out.printf(" " + tempItem.getName() + " $%.2f\n", tempItem.getPrice());
-		System.out.printf(tempItem.getDesc() + "\n");
+	public void printItem(Item item) {
+		System.out.printf("%d", item.getID());
+		System.out.printf(" " + item.getName() + " $%.2f\n", item.getPrice());
+		System.out.printf(item.getDesc() + "\n");
 	}
 
-	public Item getItem(int ID) {
+	public Item checkExistance(int ID) {
 		int num;
 		for (num = 0; num < noOfItems; num++) {
-			tempItem = listOfItems.get(num);
+			tempItem = itemList.get(num);
 			if (tempItem.getID() == ID)
 				break;
 		}
@@ -103,13 +105,13 @@ public class Menu implements IStorage, IController {
 		Item temp0, temp1;
 		for (a = 0; a < noOfItems; a++) {
 			for (b = a; b > 0; b--) {
-				temp1 = listOfItems.get(b);
-				temp0 = listOfItems.get(b - 1);
+				temp1 = itemList.get(b);
+				temp0 = itemList.get(b - 1);
 				if (temp1.getID() >= temp0.getID())
 					break;
 				else {
-					listOfItems.set(b - 1, temp1);
-					listOfItems.set(b, temp0);
+					itemList.set(b - 1, temp1);
+					itemList.set(b, temp0);
 				}
 			}
 		}
@@ -122,7 +124,7 @@ public class Menu implements IStorage, IController {
 		tempItem.setID(toBeAdded.getType() * 100 + noOfItemType[toBeAdded.getType() - 1]);
 
 		noOfItems++;
-		listOfItems.add(toBeAdded);
+		itemList.add(toBeAdded);
 
 		// storeData();
 		sortDB();
@@ -132,39 +134,16 @@ public class Menu implements IStorage, IController {
 	}
 
 	public void read() {
-
+		for (Item item : itemList) {
+			System.out.println(item);
+		}
 	}
 
 	public void delete(Object entities) {
 
-		Item tempItem = (Item) entities;
-		int I, ID;
-		Scanner sc = new Scanner(System.in);
-		System.out.println("--Removing item--\nItem ID: ");
-		ID = sc.nextInt();
-		for (I = 0; I < noOfItems; I++) {
-			tempItem = listOfItems.get(I);
-			if (tempItem.getID() == ID)
-				break;
-		}
-		if (I == noOfItems) {
-			System.out.println("Item does not exist\n");
-			return;
-		}
-		int type;
-		type = tempItem.getType();
-		noOfItems--;
-		listOfItems.remove(I);
-
-		for (I = I; I < noOfItems; I++) {
-			tempItem = listOfItems.get(I);
-			if (tempItem.getType() == type)
-				tempItem.setID(tempItem.getID() - 1);
-			else
-				break;
-		}
-
-		// storeData();
+		Item toBeDeleted = (Item) entities;
+		itemList.remove(toBeDeleted);
+		// cleanID
 		storeData();
 		loadData();
 	}
@@ -172,13 +151,13 @@ public class Menu implements IStorage, IController {
 	public void update(Object entities, int choice, String value) {
 		Item I = (Item) entities;
 		switch (choice) {
-			case 1:
+			case 1: // itemID
 				I.setName(value);
 				break;
-			case 2:
+			case 2: // itemName
 				I.setDesc(value);
 				break;
-			case 3:
+			case 3: // itemDesc
 				try {
 					Float F = Float.parseFloat(value);
 					I.setPrice(F);
@@ -186,11 +165,14 @@ public class Menu implements IStorage, IController {
 					e.printStackTrace();
 				}
 				break;
+			case 4: // itemPrice
+				break;
+			case 5: // itemType
+				break;
 			default:
 				break;
 		}
 
-		// storeData();
 		storeData();
 		loadData();
 	}
@@ -198,10 +180,10 @@ public class Menu implements IStorage, IController {
 	public void storeData() {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Menu.ser"));
-			out.writeInt(listOfItems.size()); // noOfItems
-			for (Item item : listOfItems)
+			out.writeInt(itemList.size()); // noOfItems
+			for (Item item : itemList)
 				out.writeObject(item);
-			System.out.printf("Menu/Itemcontroller: %s Entries Saved.\n", listOfItems.size());
+			System.out.printf("Menu/Itemcontroller: %s Entries Saved.\n", itemList.size());
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -211,17 +193,67 @@ public class Menu implements IStorage, IController {
 	public void loadData() {
 		ObjectInputStream ois;
 		try {
-			ois = new ObjectInputStream(new FileInputStream("Menu.ser"));
+			ois = new ObjectInputStream(new FileInputStream("Item.ser"));
 
 			int noOfOrdRecords = ois.readInt();
 			System.out.println("Menu/ItemController: " + noOfOrdRecords + " Entries Loaded");
 			for (int i = 0; i < noOfOrdRecords; i++) {
-				listOfItems.add((Item) ois.readObject());
+				itemList.add((Item) ois.readObject());
 			}
 
 		} catch (IOException | ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	public Map<ItemTypes, List<Item>> splitItemByType() {
+		Map<ItemTypes, List<Item>> itemByType = new HashMap<>();
+
+		ArrayList<Item> appetizers = new ArrayList<Item>();
+		ArrayList<Item> entrees = new ArrayList<Item>();
+		ArrayList<Item> sides = new ArrayList<Item>();
+		ArrayList<Item> desserts = new ArrayList<Item>();
+		ArrayList<Item> beverages = new ArrayList<Item>();
+
+		for (Item item : itemList) {
+			if (item.getType() == ItemTypes.APPETIZER)
+				appetizers.add(item);
+			if (item.getType() == ItemTypes.ENTREE)
+				entrees.add(item);
+			if (item.getType() == ItemTypes.SIDE)
+				sides.add(item);
+			if (item.getType() == ItemTypes.DESSERT)
+				desserts.add(item);
+			if (item.getType() == ItemTypes.BEVERAGE)
+				beverages.add(item);
+		}
+
+		itemByType.put(ItemTypes.APPETIZER, appetizers);
+		itemByType.put(ItemTypes.ENTREE, entrees);
+		itemByType.put(ItemTypes.SIDE, sides);
+		itemByType.put(ItemTypes.DESSERT, desserts);
+		itemByType.put(ItemTypes.BEVERAGE, beverages);
+
+		return itemByType;
+	}
+
+	private void cleanID() {
+		Map<ItemTypes, List<Item>> itemByType = splitItemByType();
+		int count = 0;
+		for (Item item : itemByType.get(ItemTypes.APPETIZER))
+			item.setID(100 + (count++));
+		count = 0;
+		for (Item item : itemByType.get(ItemTypes.ENTREE))
+			item.setID(200 + (count++));
+		count = 0;
+		for (Item item : itemByType.get(ItemTypes.SIDE))
+			item.setID(300 + (count++));
+		count = 0;
+		for (Item item : itemByType.get(ItemTypes.DESSERT))
+			item.setID(400 + (count++));
+		count = 0;
+		for (Item item : itemByType.get(ItemTypes.BEVERAGE))
+			item.setID(500 + (count++));
 	}
 
 }
