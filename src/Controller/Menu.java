@@ -11,8 +11,11 @@ import entities.Item;
 public class Menu implements IStorage, IController {
 	// Variables
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private ArrayList<Item> itemList;
 =======
+=======
+>>>>>>> parent of 9618ceb (Update Menu.java)
 	private ArrayList<Item> listOfItems;
 	private int noOfItems;
 	private int[] noOfItemType;
@@ -22,7 +25,12 @@ public class Menu implements IStorage, IController {
 	// Constructor
 	private Menu() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		itemList = new ArrayList<Item>();
+=======
+		noOfItemType = new int[5];
+		listOfItems = new ArrayList<Item>();
+>>>>>>> parent of 9618ceb (Update Menu.java)
 =======
 		noOfItemType = new int[5];
 		listOfItems = new ArrayList<Item>();
@@ -46,11 +54,14 @@ public class Menu implements IStorage, IController {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public void printCat(ItemTypes itemType) {
 		List<Item> types = splitItemByType().get(itemType);
 		switch (itemType) {
 			case APPETIZER:
 =======
+=======
+>>>>>>> parent of 9618ceb (Update Menu.java)
 	public void printCat(int type) {
 		switch (type) {
 			case 1:
@@ -73,10 +84,13 @@ public class Menu implements IStorage, IController {
 				break;
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
 		System.out.println("Number of items: " + types.size());
 		for (Item item : types) {
 			printItem(item);
 =======
+=======
+>>>>>>> parent of 9618ceb (Update Menu.java)
 		int num;
 		for (num = 0; num < noOfItems; num++) {
 			tempItem = listOfItems.get(num);
@@ -96,11 +110,14 @@ public class Menu implements IStorage, IController {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public Item checkExistance(String ID) {
 		for (Item item : itemList) {
 			item.getID().equals(ID);
 			return item;
 =======
+=======
+>>>>>>> parent of 9618ceb (Update Menu.java)
 	public Item getItem(int ID) {
 		int num;
 		for (num = 0; num < noOfItems; num++) {
@@ -121,6 +138,7 @@ public class Menu implements IStorage, IController {
 		for (a = 0; a < itemList.size(); a++) {
 			for (b = a; b > 0; b--) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 				temp = itemList.get(b);
 				if (temp.getID().compareTo(itemList.get(b-1).getID()) > 0)
 					break;
@@ -128,6 +146,8 @@ public class Menu implements IStorage, IController {
 					itemList.set(b, itemList.get(b-1));
 					itemList.set(b-1, temp);
 =======
+=======
+>>>>>>> parent of 9618ceb (Update Menu.java)
 				temp1 = listOfItems.get(b);
 				temp0 = listOfItems.get(b - 1);
 				if (temp1.getID() >= temp0.getID())
@@ -135,6 +155,9 @@ public class Menu implements IStorage, IController {
 				else {
 					listOfItems.set(b - 1, temp1);
 					listOfItems.set(b, temp0);
+<<<<<<< HEAD
+>>>>>>> parent of 9618ceb (Update Menu.java)
+=======
 >>>>>>> parent of 9618ceb (Update Menu.java)
 				}
 			}
@@ -169,6 +192,7 @@ public class Menu implements IStorage, IController {
 
 	public void delete(Object entities) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		Item toBeDeleted = (Item) entities;
 		itemList.remove(toBeDeleted);
 <<<<<<< Updated upstream
@@ -177,6 +201,8 @@ public class Menu implements IStorage, IController {
 		cleanID();
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> parent of 9618ceb (Update Menu.java)
 
 		Item tempItem = (Item) entities;
 		 int I, ID;
@@ -206,6 +232,9 @@ public class Menu implements IStorage, IController {
 		}
 
 		// storeData();
+<<<<<<< HEAD
+>>>>>>> parent of 9618ceb (Update Menu.java)
+=======
 >>>>>>> parent of 9618ceb (Update Menu.java)
 		storeData();
 		loadData();
@@ -355,6 +384,7 @@ public class Menu implements IStorage, IController {
 		}
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	public Map<ItemTypes, List<Item>> splitItemByType() {
 		Map<ItemTypes, List<Item>> itemByType = new HashMap<>();
@@ -417,6 +447,8 @@ public class Menu implements IStorage, IController {
 		for (Item item : itemByType.get(ItemTypes.BEVERAGE)) item.setID(String.valueOf(500+(count++)));
 >>>>>>> Stashed changes
 	}
+=======
+>>>>>>> parent of 9618ceb (Update Menu.java)
 =======
 >>>>>>> parent of 9618ceb (Update Menu.java)
 
