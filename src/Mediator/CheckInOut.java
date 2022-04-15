@@ -104,7 +104,7 @@ public class CheckInOut {
     	//Calculate number of weekends and weekdays
     	Date checkIn = reservation.getCheckIn();
     	Date checkOut = reservation.getCheckOut();
-    	long days = TimeUnit.DAYS.convert(checkIn.getTime()-checkOut.getTime(), TimeUnit.MILLISECONDS);
+    	long days = TimeUnit.DAYS.convert(checkOut.getTime()-checkIn.getTime(), TimeUnit.MILLISECONDS);
     	long weekends = countWeekends(reservation.getCheckIn(),reservation.getCheckOut());
     	long weekdays = days - weekends;
     	

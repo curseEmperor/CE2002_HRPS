@@ -6,7 +6,6 @@ import entities.Item;
 import java.text.SimpleDateFormat;
 
 import Enums.OrderStatus;
-import Enums.RoomStatus;
 
 import java.util.*;
 
@@ -21,12 +20,10 @@ public class OrderController implements IController {
     ArrayList<Order> orderList;
     private static OrderController instance = null;
     SimpleDateFormat formatter;
-    Scanner sc;
 
     // constructor
     private OrderController() {
         orderList = new ArrayList<Order>();
-        sc = new Scanner(System.in);
         formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
     }
 
@@ -49,19 +46,6 @@ public class OrderController implements IController {
 
     public void create(Object entities) {
         Order order = (Order) entities;
-        /*
-         * if (RoomController.getInstance().checkExistence(roomID).getRoomStatus()!=
-         * RoomStatus.OCCUPIED) {
-         * System.out.println("Room has no guest");
-         * return;
-         * }
-         */
-
-        addItemtoOrder(order);
-
-        System.out.println("Please enter remarks: ");
-        String remarks = sc.nextLine();
-        order.setRemarks(remarks);
 
         Calendar c = Calendar.getInstance();
         Date time = c.getTime();
@@ -71,10 +55,10 @@ public class OrderController implements IController {
         order.setOrderID(order.getRoomID() + formatID.format(time));
 
         order.setOrderStatus(OrderStatus.CONFIRM);
+        order.setListOfFood(new ArrayList<Item>());
 
         orderList.add(order);
 
-        System.out.println("Order " + order.getOrderID() + " has been confirmed. ");
         storeData();
     }
 
@@ -98,86 +82,45 @@ public class OrderController implements IController {
     public void update(Object entities, int choice, String value) {
 
         Order order = (Order) entities;
-
-        if (choice == 3) { // update status
-            OrderStatus status = generateStatus(value);
+        
+        switch (choice) {
+        case 1: //roomID
+        	order.setRoomID(value);
+        	break;
+        case 2: //remarks
+        	order.setRemarks(value);
+        	break;
+        case 3: //orderStatus
+        	OrderStatus status = generateStatus(value);
             order.setOrderStatus(status);
-        } else if (order.getOrderStatus() == OrderStatus.CONFIRM) {
-            order.viewOrder();
-
-            switch (choice) {
-                case 1:
-                    addItemtoOrder(order);
-                    break;
-                case 2:
-                    deleteItemfromOrder(order);
-                    if (order.getListOfFood().size() == 0) {
-                        System.out.println("No items left... Deleting order...");
-                        orderList.remove(order);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            System.out.println("Order is preparing or is delivered, no changes can be made.");
-
+        	break;
         }
 
         storeData();
     }
 
-    private void addItemtoOrder(Order order) {
-        ArrayList<Item> listOfFood = new ArrayList<Item>();
-
-        // print out catalog
-        while (true) {
-            Menu.getInstance().printMenu();
-            System.out.println("Please enter the itemID of the item you wish to order:");
-            String itemID = sc.nextLine();
-            Item itemToAdd = Menu.getInstance().checkExistance(itemID);
-            while (itemToAdd==null) {
-            	System.out.println("Please valid itemID:");
-                itemID = sc.nextLine();
-                itemToAdd = Menu.getInstance().checkExistance(itemID);
-            }
-
-            System.out.println("Please enter the quantity of item for " + itemID);
-            int quantityOfItem = sc.nextInt();
-            sc.nextLine();
-            for (int i = 0; i < quantityOfItem; i++)
-                listOfFood.add(itemToAdd);
-
-            System.out.println("Any additional items? (Y/N)");
-            String select = sc.nextLine();
-            while (!(select.compareToIgnoreCase("Y") == 0 || select.compareToIgnoreCase("N") == 0)) {
-                System.out.println("Please enter only Y/N");
-                System.out.println("Y/N? ");
-                select = sc.nextLine();
-            }
-            if (select.compareTo("N") == 0) {
-                break;
-            }
-        }
-
-        if (order.getListOfFood() != null)
-            for (Item itemToAdd : order.getListOfFood())
-                listOfFood.add(itemToAdd);
-
-        order.setListOfFood(listOfFood);
+    public void addItemtoOrder(Order order, Item itemToAdd) {
+    	if (order.getOrderStatus() != OrderStatus.CONFIRM) {
+    		System.out.println("Order is preparing or is delivered, no changes can be made.");
+    		return;
+    	}
+        order.getListOfFood().add(itemToAdd);
+        storeData();
     }
 
-    private void deleteItemfromOrder(Order order) {
-        System.out.println("Enter ItemID for item to be removed from order: ");
-        String itemID = sc.nextLine();
-
-        ArrayList<Item> listOfFood = order.getListOfFood();
-        for (Item item : listOfFood) {
-            if (item.getID().compareTo(itemID) == 0) {
-                listOfFood.remove(item);
-                break;
+    public void deleteItemfromOrder(Order order, Item itemToDelete) {
+    	if (order.getOrderStatus() != OrderStatus.CONFIRM) {
+    		System.out.println("Order is preparing or is delivered, no changes can be made.");
+    		return;
+    	}
+    	if (order.getListOfFood().remove(itemToDelete)) {
+    		System.out.println("Item removed from order " + order.getOrderID());
+    		if (order.getListOfFood().size() == 0) {
+                System.out.println("No items left... Deleting order...");
+                orderList.remove(order);
             }
-        }
+    	}
+    	storeData();
     }
 
     public void read() {
@@ -200,28 +143,6 @@ public class OrderController implements IController {
             return retrieveOL;
         else
             return null;
-    }
-
-    public void printRoomReceipt(String roomID) {
-        ArrayList<Order> orders = retrieveOrdersOfRoom(roomID);
-    }
-
-    public float checkOutProcedures() { // include calculating order price
-
-        float totalPrice = 0;
-
-        System.out.println("Enter RoomID that is checking out: ");
-        String roomID = sc.nextLine();
-
-        ArrayList<Order> orders = retrieveOrdersOfRoom(roomID);
-
-        for (Order order : orders) {
-            for (Item food : order.getListOfFood()) {
-                totalPrice += food.getPrice();
-            }
-        }
-        System.out.println("Price of Room Service is " + totalPrice);
-        return totalPrice;
     }
 
     private OrderStatus generateStatus(String value) {
