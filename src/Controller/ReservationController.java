@@ -171,7 +171,7 @@ public class ReservationController implements IController {
                 break;
         }
 
-        System.out.println(toBeUpdated.toString());
+        //System.out.println(toBeUpdated.toString());
 
         storeData();
     }
