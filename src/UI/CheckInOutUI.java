@@ -31,15 +31,19 @@ public class CheckInOutUI extends StandardUI{
             choice = getUserChoice(qSize);
             String ID;
             switch (choice) {
-                case 1:
+                case 1: //checkIn
                     System.out.println("Enter reservation ID: ");
-                    ID = sc.nextLine();
+                    ID = getUserString();
                     CheckInOut.getInstance().checkIn(ID);
                     break;
-                case 2:
+                case 2: //checkOut
                 	System.out.println("Enter reservation ID: ");
-                    ID = sc.nextLine();
-                    CheckInOut.getInstance().checkOut(ID);
+                    ID = getUserString();
+                    System.out.println("Room Discount (%): ");
+                    float roomDiscount = (float)getUserChoice(100) / 100;
+                    System.out.println("Order Discount (%): ");
+                    float orderDiscount = (float)getUserChoice(100) / 100;
+                    CheckInOut.getInstance().checkOut(ID, roomDiscount, orderDiscount);
                     break;
                 case 3:
                 	return;

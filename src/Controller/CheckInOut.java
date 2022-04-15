@@ -25,7 +25,7 @@ public class CheckInOut {
         return instance;
     }
     
-    public void checkOut(String reservationID) {
+    public void checkOut(String reservationID, float roomDiscount, float orderDiscount) {
     	//Change reservation status
     	Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
     	if (reservation == null) {
@@ -120,5 +120,16 @@ public class CheckInOut {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
+    }
+    
+    private long countWeekends (Date start, Date end) {
+    	long days = TimeUnit.DAYS.convert(end.getTime()-start.getTime(), TimeUnit.MILLISECONDS);
+    	int weekends = 2*(int)(days/7);
+    	days = days - (int)(days/7);
+    	while (days > 0) {
+    		if (start.getDay() == 6 || start.getDay() == 6) weekends++;
+    		
+    	}
+    	return weekends;
     }
 }
