@@ -122,11 +122,22 @@ public class Order implements Serializable {
         System.out.println("==============================");
         System.out.println("Items ordered for Room Service");
         System.out.println("==============================");
+        System.out.println("Order ID: " + orderID);
+        Item temp = null;
+        int count = 0;
         for (Item food : listOfFood) {
-            System.out.println(food);
+        	if (temp == food) {
+        		count++;
+        	}
+        	else {
+        		if (count!=0) System.out.println("\t" + count);
+        		temp = food;
+        		System.out.print(food);
+        		count = 1;
+        	}
             cost += food.getPrice();
         }
-        System.out.println();
+        System.out.println("\t" + count);
         System.out.println("Total cost: $" + cost);
         System.out.printf("Status:\t");
         switch(orderStatus) {
@@ -138,6 +149,9 @@ public class Order implements Serializable {
         	break;
         case DELIVERED:
         	System.out.println("Delivered");
+        	break;
+        case PAID:
+        	System.out.println("Paid");
         	break;
         }
         System.out.println();

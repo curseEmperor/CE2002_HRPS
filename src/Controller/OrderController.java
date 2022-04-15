@@ -6,6 +6,7 @@ import entities.Item;
 import java.text.SimpleDateFormat;
 
 import Enums.OrderStatus;
+import Enums.RoomStatus;
 
 import java.util.*;
 
@@ -56,6 +57,10 @@ public class OrderController implements IStorage {
         	System.out.println("Please enter valid Room ID:");
             roomID = sc.nextLine();
         }
+        /*if (RoomController.getInstance().checkExistence(roomID).getRoomStatus()!=RoomStatus.OCCUPIED) {
+        	System.out.println("Room has no guest");
+        	return;
+        }*/
         order.setRoomID(roomID);
 
         /*System.out.println("Please enter the Order ID.");
@@ -106,23 +111,29 @@ public class OrderController implements IStorage {
         Order order = (Order) entities;
 
         if (order.getOrderStatus() == OrderStatus.CONFIRM) {
+        	order.viewOrder();
             System.out.println("Choose either to (1)add or (2)remove item from order.");
             int choice = sc.nextInt();
             sc.nextLine();
-
+            
             switch (choice) {
                 case 1:
                     addItemtoOrder(order);
                     break;
                 case 2:
                     deleteItemfromOrder(order);
+                    if (order.getListOfFood().size()==0) {
+                    	System.out.println("No items left... Deleting order...");
+                    	orderList.remove(order);
+                    }
+                    break;
                 default:
                     break;
             }
         } else {
-            System.out.println("Order has been delivered, no change can be make.");
-            System.out.println("Create a new order: ");
-            create();
+            System.out.println("Order is preparing or is delivered, no changes can be made.");
+            //System.out.println("Create a new order: ");
+            //create();
         }
 
         storeData();
@@ -156,7 +167,7 @@ public class OrderController implements IStorage {
             }
         }
         
-        listOfFood.addAll(order.getListOfFood());
+        if (order.getListOfFood()!=null) for (Item itemToAdd : order.getListOfFood()) listOfFood.add(itemToAdd);
 
         order.setListOfFood(listOfFood);
     }
@@ -167,11 +178,11 @@ public class OrderController implements IStorage {
 
         ArrayList<Item> listOfFood = order.getListOfFood();
         for (Item item : listOfFood) {
-            if (item.getID().equals(itemID)) {
+            if (item.getID().compareTo(itemID)==0) {
                 listOfFood.remove(item);
+                break;
             }
         }
-
     }
 
     // public void updateStatus(int orderID, String newOrderStatus) {
@@ -186,13 +197,17 @@ public class OrderController implements IStorage {
     public ArrayList<Order> retrieveOrdersOfRoom(String roomID) { // by roomID
         ArrayList<Order> retrieveOL = new ArrayList<Order>();
         for (Order order : orderList) {
-            if (order.getRoomID().equals(roomID))
+            if (order.getRoomID().equals(roomID) && order.getOrderStatus()!=OrderStatus.PAID)
                 retrieveOL.add(order);
         }
         if (retrieveOL.size() > 0)
             return retrieveOL;
         else
             return null;
+    }
+    
+    public void printRoomReceipt(String roomID) {
+    	ArrayList<Order> orders = retrieveOrdersOfRoom(roomID);
     }
 
     public float checkOutProcedures() { // include calculating order price
