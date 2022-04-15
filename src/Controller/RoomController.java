@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import Enums.BedTypes;
 import Enums.PriceFilterType;
@@ -19,7 +18,7 @@ import Enums.RoomView;
 import entities.Node;
 import entities.Room;
 
-public class RoomController implements IController, IStorage {
+public class RoomController implements IController, ICheckOut {
     private static RoomController instance = null;
 
     private ArrayList<Room> roomList;
@@ -37,54 +36,54 @@ public class RoomController implements IController, IStorage {
     }
 
     public void initHotel() {
-        Room r1 = new Room("02-01", 100.21, RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.NIL, false);
-        Room r2 = new Room("02-02", 125.21, RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.NIL, true);
-        Room r3 = new Room("02-03", 125.21, RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.NIL, false);
-        Room r4 = new Room("02-04", 150.21, RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.NIL, true);
-        Room r5 = new Room("02-05", 200.21, RoomTypes.DOUBLE, BedTypes.DOUBLE, false, RoomView.NIL, false);
-        Room r6 = new Room("02-06", 225.21, RoomTypes.DOUBLE, BedTypes.DOUBLE, true, RoomView.NIL, false);
-        Room r7 = new Room("02-07", 225.21, RoomTypes.DOUBLE, BedTypes.QUEEN, false, RoomView.NIL, false);
-        Room r8 = new Room("02-08", 250.21, RoomTypes.DOUBLE, BedTypes.QUEEN, true, RoomView.NIL, false);
-        Room r9 = new Room("03-01", 300.21, RoomTypes.DOUBLE, BedTypes.KING, true, RoomView.NIL, false);
-        Room r10 = new Room("03-02", 350.21, RoomTypes.DOUBLE, BedTypes.KING, true, RoomView.NIL, true);
-        Room r11 = new Room("03-03", 400.21, RoomTypes.DELUXE, BedTypes.DOUBLE, true, RoomView.NIL, false);
-        Room r12 = new Room("03-04", 400.21, RoomTypes.DELUXE, BedTypes.DOUBLE, false, RoomView.NIL, true);
-        Room r13 = new Room("03-05", 450.21, RoomTypes.DELUXE, BedTypes.QUEEN, true, RoomView.NIL, false);
-        Room r14 = new Room("03-06", 450.21, RoomTypes.DELUXE, BedTypes.QUEEN, false, RoomView.NIL, true);
-        Room r15 = new Room("03-07", 500.21, RoomTypes.DELUXE, BedTypes.KING, true, RoomView.NIL, true);
-        Room r16 = new Room("03-08", 500.21, RoomTypes.DELUXE, BedTypes.KING, true, RoomView.NIL, true);
-        Room r17 = new Room("04-01", 150.21, RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.POOL, false);
-        Room r18 = new Room("04-02", 175.21, RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.POOL, true);
-        Room r19 = new Room("04-03", 175.21, RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.POOL, false);
-        Room r20 = new Room("04-04", 200.21, RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.POOL, true);
-        Room r21 = new Room("04-05", 350.21, RoomTypes.DOUBLE, BedTypes.DOUBLE, true, RoomView.POOL, true);
-        Room r22 = new Room("04-06", 350.21, RoomTypes.DOUBLE, BedTypes.QUEEN, true, RoomView.POOL, true);
-        Room r23 = new Room("04-07", 400.21, RoomTypes.DOUBLE, BedTypes.KING, true, RoomView.POOL, true);
-        Room r24 = new Room("04-08", 450.21, RoomTypes.DELUXE, BedTypes.DOUBLE, true, RoomView.POOL, true);
-        Room r25 = new Room("05-01", 500.21, RoomTypes.DELUXE, BedTypes.QUEEN, true, RoomView.POOL, true);
-        Room r26 = new Room("05-02", 500.21, RoomTypes.DELUXE, BedTypes.KING, true, RoomView.POOL, false);
-        Room r27 = new Room("05-03", 550.21, RoomTypes.DELUXE, BedTypes.KING, true, RoomView.POOL, true);
-        Room r28 = new Room("05-04", 550.21, RoomTypes.SUITE, BedTypes.DOUBLE, true, RoomView.POOL, false);
-        Room r29 = new Room("05-05", 600.21, RoomTypes.SUITE, BedTypes.DOUBLE, true, RoomView.POOL, true);
-        Room r30 = new Room("05-06", 600.21, RoomTypes.SUITE, BedTypes.QUEEN, true, RoomView.POOL, true);
-        Room r31 = new Room("05-07", 550.21, RoomTypes.SUITE, BedTypes.KING, true, RoomView.POOL, false);
-        Room r32 = new Room("05-08", 600.21, RoomTypes.SUITE, BedTypes.KING, true, RoomView.POOL, true);
-        Room r33 = new Room("06-01", 150.21, RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.CITY, false);
-        Room r34 = new Room("06-02", 175.21, RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.CITY, true);
-        Room r35 = new Room("06-03", 175.21, RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.CITY, false);
-        Room r36 = new Room("06-04", 200.21, RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.CITY, true);
-        Room r37 = new Room("06-05", 325.21, RoomTypes.DOUBLE, BedTypes.DOUBLE, true, RoomView.CITY, false);
-        Room r38 = new Room("06-06", 350.21, RoomTypes.DOUBLE, BedTypes.DOUBLE, true, RoomView.CITY, true);
-        Room r39 = new Room("06-07", 350.21, RoomTypes.DOUBLE, BedTypes.QUEEN, true, RoomView.CITY, true);
-        Room r40 = new Room("06-08", 400.21, RoomTypes.DOUBLE, BedTypes.KING, true, RoomView.CITY, true);
-        Room r41 = new Room("07-01", 450.21, RoomTypes.DELUXE, BedTypes.DOUBLE, true, RoomView.CITY, true);
-        Room r42 = new Room("07-02", 500.21, RoomTypes.DELUXE, BedTypes.QUEEN, true, RoomView.CITY, true);
-        Room r43 = new Room("07-03", 500.21, RoomTypes.DELUXE, BedTypes.KING, false, RoomView.CITY, true);
-        Room r44 = new Room("07-04", 550.21, RoomTypes.DELUXE, BedTypes.KING, true, RoomView.CITY, true);
-        Room r45 = new Room("07-05", 600.21, RoomTypes.SUITE, BedTypes.DOUBLE, true, RoomView.CITY, true);
-        Room r46 = new Room("07-06", 550.21, RoomTypes.SUITE, BedTypes.QUEEN, true, RoomView.CITY, false);
-        Room r47 = new Room("07-07", 600.21, RoomTypes.SUITE, BedTypes.QUEEN, true, RoomView.CITY, true);
-        Room r48 = new Room("07-08", 600.21, RoomTypes.SUITE, BedTypes.KING, true, RoomView.CITY, true);
+        Room r1 = new Room("02-01", RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.NIL, false);
+        Room r2 = new Room("02-02", RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.NIL, true);
+        Room r3 = new Room("02-03", RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.NIL, false);
+        Room r4 = new Room("02-04", RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.NIL, true);
+        Room r5 = new Room("02-05", RoomTypes.DOUBLE, BedTypes.DOUBLE, false, RoomView.NIL, false);
+        Room r6 = new Room("02-06", RoomTypes.DOUBLE, BedTypes.DOUBLE, true, RoomView.NIL, false);
+        Room r7 = new Room("02-07", RoomTypes.DOUBLE, BedTypes.QUEEN, false, RoomView.NIL, false);
+        Room r8 = new Room("02-08", RoomTypes.DOUBLE, BedTypes.QUEEN, true, RoomView.NIL, false);
+        Room r9 = new Room("03-01", RoomTypes.DOUBLE, BedTypes.KING, true, RoomView.NIL, false);
+        Room r10 = new Room("03-02", RoomTypes.DOUBLE, BedTypes.KING, true, RoomView.NIL, true);
+        Room r11 = new Room("03-03", RoomTypes.DELUXE, BedTypes.DOUBLE, true, RoomView.NIL, false);
+        Room r12 = new Room("03-04", RoomTypes.DELUXE, BedTypes.DOUBLE, false, RoomView.NIL, true);
+        Room r13 = new Room("03-05", RoomTypes.DELUXE, BedTypes.QUEEN, true, RoomView.NIL, false);
+        Room r14 = new Room("03-06", RoomTypes.DELUXE, BedTypes.QUEEN, false, RoomView.NIL, true);
+        Room r15 = new Room("03-07", RoomTypes.DELUXE, BedTypes.KING, true, RoomView.NIL, true);
+        Room r16 = new Room("03-08", RoomTypes.DELUXE, BedTypes.KING, true, RoomView.NIL, true);
+        Room r17 = new Room("04-01", RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.POOL, false);
+        Room r18 = new Room("04-02", RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.POOL, true);
+        Room r19 = new Room("04-03", RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.POOL, false);
+        Room r20 = new Room("04-04", RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.POOL, true);
+        Room r21 = new Room("04-05", RoomTypes.DOUBLE, BedTypes.DOUBLE, true, RoomView.POOL, true);
+        Room r22 = new Room("04-06", RoomTypes.DOUBLE, BedTypes.QUEEN, true, RoomView.POOL, true);
+        Room r23 = new Room("04-07", RoomTypes.DOUBLE, BedTypes.KING, true, RoomView.POOL, true);
+        Room r24 = new Room("04-08", RoomTypes.DELUXE, BedTypes.DOUBLE, true, RoomView.POOL, true);
+        Room r25 = new Room("05-01", RoomTypes.DELUXE, BedTypes.QUEEN, true, RoomView.POOL, true);
+        Room r26 = new Room("05-02", RoomTypes.DELUXE, BedTypes.KING, true, RoomView.POOL, false);
+        Room r27 = new Room("05-03", RoomTypes.DELUXE, BedTypes.KING, true, RoomView.POOL, true);
+        Room r28 = new Room("05-04", RoomTypes.SUITE, BedTypes.DOUBLE, true, RoomView.POOL, false);
+        Room r29 = new Room("05-05", RoomTypes.SUITE, BedTypes.DOUBLE, true, RoomView.POOL, true);
+        Room r30 = new Room("05-06", RoomTypes.SUITE, BedTypes.QUEEN, true, RoomView.POOL, true);
+        Room r31 = new Room("05-07", RoomTypes.SUITE, BedTypes.KING, true, RoomView.POOL, false);
+        Room r32 = new Room("05-08", RoomTypes.SUITE, BedTypes.KING, true, RoomView.POOL, true);
+        Room r33 = new Room("06-01", RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.CITY, false);
+        Room r34 = new Room("06-02", RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.CITY, true);
+        Room r35 = new Room("06-03", RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.CITY, false);
+        Room r36 = new Room("06-04", RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.CITY, true);
+        Room r37 = new Room("06-05", RoomTypes.DOUBLE, BedTypes.DOUBLE, true, RoomView.CITY, false);
+        Room r38 = new Room("06-06", RoomTypes.DOUBLE, BedTypes.DOUBLE, true, RoomView.CITY, true);
+        Room r39 = new Room("06-07", RoomTypes.DOUBLE, BedTypes.QUEEN, true, RoomView.CITY, true);
+        Room r40 = new Room("06-08", RoomTypes.DOUBLE, BedTypes.KING, true, RoomView.CITY, true);
+        Room r41 = new Room("07-01", RoomTypes.DELUXE, BedTypes.DOUBLE, true, RoomView.CITY, true);
+        Room r42 = new Room("07-02", RoomTypes.DELUXE, BedTypes.QUEEN, true, RoomView.CITY, true);
+        Room r43 = new Room("07-03", RoomTypes.DELUXE, BedTypes.KING, false, RoomView.CITY, true);
+        Room r44 = new Room("07-04", RoomTypes.DELUXE, BedTypes.KING, true, RoomView.CITY, true);
+        Room r45 = new Room("07-05", RoomTypes.SUITE, BedTypes.DOUBLE, true, RoomView.CITY, true);
+        Room r46 = new Room("07-06", RoomTypes.SUITE, BedTypes.QUEEN, true, RoomView.CITY, false);
+        Room r47 = new Room("07-07", RoomTypes.SUITE, BedTypes.QUEEN, true, RoomView.CITY, true);
+        Room r48 = new Room("07-08", RoomTypes.SUITE, BedTypes.KING, true, RoomView.CITY, true);
 
         roomList.add(r1);
         roomList.add(r2);
@@ -313,8 +312,6 @@ public class RoomController implements IController, IStorage {
             out.writeInt(roomList.size());
             for (Room room : roomList)
                 out.writeObject(room);
-            // System.out.printf("%s \n\n--Entries Saved.--\n",
-            // roomList.toString().replace("[", "").replace("]", ""));
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -410,7 +407,8 @@ public class RoomController implements IController, IStorage {
 
         Node node = new Node(PriceFilterType.MULTIPLIER, out.getRoomPrice());
 
+        System.out.println("Assigned Room: " + out.getRoomID());
+        System.out.println("Daily Rate of Room: " + out.getRoomPrice());
         return node;
-
     }
 }

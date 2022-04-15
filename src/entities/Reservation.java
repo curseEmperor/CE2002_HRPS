@@ -89,13 +89,13 @@ public class Reservation implements Serializable {
     public void setReservationStatus(ReservationStatus reservationStatus) {
         this.reservationStatus = reservationStatus;
     }
-    
+
     public RoomTypes getRoomType() {
-    	return roomType;
+        return roomType;
     }
-    
+
     public void setRoomType(RoomTypes roomType) {
-    	this.roomType = roomType;
+        this.roomType = roomType;
     }
 
     @Override
@@ -103,18 +103,16 @@ public class Reservation implements Serializable {
         StringBuilder result = new StringBuilder();
         String newLine = System.getProperty("line.separator");
 
-        result.append(this.getClass().getName() + " Object {" + newLine);
-
-        result.append("reservationID" + this.reservationID + newLine);
-        result.append("guestID" + this.guestID + newLine);
-        result.append("RoomID" + this.roomID + newLine);
-        result.append("adult number" + this.adultNo + newLine);
-        result.append("child number" + this.childNo + newLine);
-        result.append("check in" + this.checkIn + newLine);
-        result.append("check out" + this.checkOut + newLine);
-        result.append("status" + this.reservationStatus + newLine);
-
-        result.append("}");
+        result.append(newLine);
+        result.append("Status: " + this.reservationStatus + newLine);
+        result.append("ReservationID: " + this.reservationID + newLine);
+        result.append("GuestID: " + this.guestID + newLine);
+        result.append("RoomID: " + this.roomID + newLine);
+        result.append("Num of Adults: " + this.adultNo + newLine);
+        result.append("Num of Children: " + this.childNo + newLine);
+        result.append("Check In: " + this.checkIn + newLine);
+        result.append("Check Out: " + this.checkOut + newLine);
+        result.append(newLine);
 
         return result.toString();
     }

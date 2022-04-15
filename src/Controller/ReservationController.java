@@ -17,7 +17,7 @@ import Mediator.CheckInOut;
 import entities.Node;
 import entities.Reservation;
 
-public class ReservationController implements IController, IStorage {
+public class ReservationController implements IController, ICheckOut {
     private static ReservationController instance = null;
 
     private ArrayList<Reservation> reservationList;
@@ -36,8 +36,6 @@ public class ReservationController implements IController, IStorage {
     public Reservation checkExistence(String reservationID) {
         Date thisDate = new Date();
         thisDate = removeTime(thisDate);
-        // SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
-        // System.out.println("Time now is " + formatter.format(thisDate));
 
         Reservation toBeReturned = null;
 
@@ -72,10 +70,8 @@ public class ReservationController implements IController, IStorage {
 
         String reservationID = checkInString + newReservation.getGuestID();
         newReservation.setID(reservationID);
-        // newReservation.setReservationStatus(ReservationStatus.CONFIRM);
 
         reservationList.add(newReservation);
-        // System.out.println("Reservation ID generated: " + reservationID);
 
         storeData();
     }
@@ -90,8 +86,7 @@ public class ReservationController implements IController, IStorage {
 
         Reservation toBeDeleted = (Reservation) entities;
         reservationList.remove(toBeDeleted);
-        // System.out.println("reservation removed from list in reservation
-        // controller");
+
         for (Reservation reservation : reservationList) {
             // Check waitlist for confirmation
             if (reservation.getReservationStatus() == ReservationStatus.WAITLIST) {
@@ -175,8 +170,6 @@ public class ReservationController implements IController, IStorage {
                 break;
         }
 
-        // System.out.println(toBeUpdated.toString());
-
         storeData();
     }
 
@@ -186,7 +179,7 @@ public class ReservationController implements IController, IStorage {
             out.writeInt(reservationList.size());
             for (Reservation res : reservationList)
                 out.writeObject(res);
-            System.out.println("Entries Saved!");
+            // System.out.println("Entries Saved!");
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -200,7 +193,7 @@ public class ReservationController implements IController, IStorage {
             ois = new ObjectInputStream(new FileInputStream("Reservation.ser"));
 
             int noOfOrdRecords = ois.readInt();
-            System.out.println("GuestController: " + noOfOrdRecords + " Entries Loaded");
+            System.out.println("ReservationController: " + noOfOrdRecords + " Entries Loaded");
             for (int i = 0; i < noOfOrdRecords; i++) {
                 reservationList.add((Reservation) ois.readObject());
             }
@@ -294,6 +287,9 @@ public class ReservationController implements IController, IStorage {
                 TimeUnit.MILLISECONDS);
 
         Node node = new Node(PriceFilterType.MULTIPLIER, days);
+
+        System.out.println("Resevation ID: " + out.getID());
+        System.out.println("Duration In Hotel: " + days);
         return node;
 
     }

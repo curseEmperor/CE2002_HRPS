@@ -2,19 +2,21 @@ package entities;
 
 import java.io.Serializable;
 
+import Enums.CreditcardType;
+
 public class Guest implements Serializable {
 
-    private String guestID; // driver || passport licence
+    private String guestID;
     private String guestName;
     private String address;
     private String contact;
     private String country;
     private char gender;
     private String nationality;
-    //private Creditcard card;
+    private CreditcardType card;
 
     public Guest(String guestID, String guestName, String address, String contact, String country, char gender,
-            String nationality) { // , CreditCard card
+            String nationality, CreditcardType card) {
         this.guestID = guestID;
         this.guestName = guestName;
         this.address = address;
@@ -22,7 +24,7 @@ public class Guest implements Serializable {
         this.country = country;
         this.gender = gender;
         this.nationality = nationality;
-        //this.card = null;
+        this.card = card;
     }
 
     public String getID() {
@@ -81,13 +83,13 @@ public class Guest implements Serializable {
         this.nationality = nationality;
     }
 
-    /*public Creditcard getCard() {
+    public CreditcardType getCard() {
         return card;
     }
 
-    public void setCard(Creditcard card) {
+    public void setCard(CreditcardType card) {
         this.card = card;
-    }*/
+    }
 
     @Override
     public String toString() {
@@ -96,13 +98,14 @@ public class Guest implements Serializable {
 
         result.append(this.getClass().getName() + newLine);
 
-        result.append("guestID: " + this.guestID + newLine);
-        result.append("guestName: " + this.guestName + newLine);
-        result.append("address: " + this.address + newLine);
-        result.append("contact: " + this.contact + newLine);
-        result.append("country: " + this.country + newLine);
-        result.append("gender: " + this.gender + newLine);
-        result.append("nationality: " + this.nationality + newLine);
+        result.append("GuestID: " + this.guestID + newLine);
+        result.append("GuestName: " + this.guestName + newLine);
+        result.append("Address: " + this.address + newLine);
+        result.append("Contact: " + this.contact + newLine);
+        result.append("Country: " + this.country + newLine);
+        result.append("Gender: " + this.gender + newLine);
+        result.append("Nationality: " + this.nationality + newLine);
+        result.append("Creditcard Type: " + this.card + newLine);
 
         return result.toString();
     }

@@ -43,10 +43,10 @@ public class DiscountFilter implements IPriceFilter {
         String description = "";
         switch (this.card) {
             case VISA:
-                description += " VISA ";
+                description += " Discount From VISA ";
                 break;
             case MASTERCARD:
-                description += " MASTERCARD ";
+                description += " Discount From MASTERCARD ";
                 break;
         }
 

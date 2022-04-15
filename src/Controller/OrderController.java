@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class OrderController implements IController, IStorage {
+public class OrderController implements IController, ICheckOut {
 
     ArrayList<Order> orderList;
     private static OrderController instance = null;
@@ -207,6 +207,7 @@ public class OrderController implements IController, IStorage {
             node = new Node(PriceFilterType.ADDER, 0);
         } else {
             for (Order order : toBeCalc) {
+                order.setOrderStatus(OrderStatus.PAID);
                 for (Item item : order.getListOfFood()) {
                     total += item.getPrice();
                 }
@@ -215,6 +216,7 @@ public class OrderController implements IController, IStorage {
             node = new Node(PriceFilterType.ADDER, total);
         }
 
+        System.out.println("Total cost of Room Service Order: " + total);
         return node;
     }
 

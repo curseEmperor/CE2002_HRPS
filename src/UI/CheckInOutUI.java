@@ -21,8 +21,7 @@ public class CheckInOutUI extends StandardUI {
         System.out.println(" Check In/Out options avaiable: ");
         System.out.println("1) Check In");
         System.out.println("2) Check Out");
-        System.out.println("3) Make Payment");
-        System.out.println("4) Return to MainUI");
+        System.out.println("3) Return to MainUI");
 
         return 4;
     }
@@ -40,56 +39,18 @@ public class CheckInOutUI extends StandardUI {
                 case 2: // checkOut
                     checkOut();
                     break;
-                case 3: // payment
-                    payment();
-                    break;
-                case 4:
+                case 3:
                     return;
             }
         } while (choice < qSize);
     }
 
     private void checkOut() {
-        String ID, select;
+        String ID;
         System.out.println("Enter room ID: ");
         ID = getUserString();
 
-        float roomDiscount = 0;
-        float orderDiscount = 0;
-
-        // Check for room discounts
-        // System.out.println("Any Room Discounts? (Y/N)");
-        // select = getUserYN();
-        // if (select.compareTo("Y") == 0) {
-        // System.out.println("Room Discount (%): ");
-        // roomDiscount = (float) getUserChoice(100) / 100;
-        // }
-
-        // // Check for order discounts
-        // System.out.println("Any Order Discounts? (Y/N)");
-        // select = getUserYN();
-        // if (select.compareTo("Y") == 0) {
-        // System.out.println("Order Discount (%): ");
-        // orderDiscount = (float) getUserChoice(100) / 100;
-        // }
-
-        // Run checkout
         CheckInOut.getInstance().checkOut(ID);
     }
 
-    private void payment() {
-        String ID;
-        System.out.println("Enter reservation ID: ");
-        ID = getUserString();
-        System.out.println("Payment by?");
-        System.out.println("1) Cash");
-        System.out.println("2) Credit/Debit Card");
-        choice = getUserChoice(2);
-        if (choice == 2) {
-            System.out.println("Please enter Credit/Debit Card number:");
-            getUserString();
-        }
-        CheckInOut.getInstance().payment(ID);
-        System.out.println("Payment Completed");
-    }
 }

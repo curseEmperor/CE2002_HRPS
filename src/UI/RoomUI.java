@@ -131,7 +131,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
         choice = getUserChoice(2);
         boolean smoke = choice == 1 ? true : false;
 
-        Room rawRoom = new Room(roomID, roomPrice, roomType, bedType, WiFi, view, smoke);
+        Room rawRoom = new Room(roomID, roomType, bedType, WiFi, view, smoke);
         RoomController.getInstance().create(rawRoom);
     }
 
@@ -158,72 +158,73 @@ public class RoomUI extends StandardUI implements ControllerUI {
         } else {
             // TODO: while loop
             System.out.println("What do you want to update: ");
-            System.out.println("1) Room ID"); //string
-            System.out.println("2) Guest ID"); //string
-            System.out.println("3) Room Price"); //float
-            System.out.println("4) Room Type"); //enum
-            System.out.println("5) Bed Type"); //enum
+            System.out.println("1) Room ID"); // string
+            System.out.println("2) Guest ID"); // string
+            System.out.println("3) Room Price"); // float
+            System.out.println("4) Room Type"); // enum
+            System.out.println("5) Bed Type"); // enum
             System.out.println("6) WiFi Enabled (Y/N)"); // YN
-            System.out.println("7) Room View"); //enum
-            System.out.println("8) Smoking Room (Y/N)"); //enum
-            System.out.println("9) Room Status"); //enum
+            System.out.println("7) Room View"); // enum
+            System.out.println("8) Smoking Room (Y/N)"); // enum
+            System.out.println("9) Room Status"); // enum
             System.out.println("10) Cancel Update");
 
             choice = getUserChoice(10);
-            if (choice==10) return;
+            if (choice == 10)
+                return;
             String content = null;
             int count;
-            
+
             switch (choice) {
-            case 4: //roomType
-            	count = 0;
-            	for (RoomTypes roomType : RoomTypes.values()) {
-            		count++;
-            		System.out.println(count + ") " + roomType.name());
-            	}
-            	System.out.println("Choose room type: ");
-            	content = String.valueOf(getUserChoice(RoomTypes.values().length));
-            	break;
-            case 5: //bedType
-            	count = 0;
-            	for (BedTypes bedType : BedTypes.values()) {
-            		count++;
-            		System.out.println(count + ") " + bedType.name());
-            	}
-            	System.out.println("Choose bed type: ");
-            	content = String.valueOf(getUserChoice(BedTypes.values().length));
-            	break;
-            case 6:
-            	System.out.println("Is the room WiFi Enabled? (Y/N)?");
-            	content = getUserYN();
-            	break;
-            case 7: //roomView
-            	count = 0;
-            	for (RoomView view : RoomView.values()) {
-            		count++;
-            		System.out.println(count + ") " + view.name());
-            	}
-            	System.out.println("Choose view: ");
-            	content = String.valueOf(getUserChoice(RoomView.values().length));
-            	break;
-            case 8: //smoking
-            	System.out.println("Is this a smoking room? (Y/N)?");
-            	content = getUserYN();
-            	break;
-            case 9: //roomStatus
-            	count = 0;
-            	for (RoomStatus roomStatus : RoomStatus.values()) {
-            		count++;
-            		System.out.println(count + ") " + roomStatus.name());
-            	}
-            	System.out.println("Choose status: ");
-            	content = String.valueOf(getUserChoice(RoomStatus.values().length));
-            	break;
-            default:
-            	System.out.println("Enter the relevant details: ");
-            	content = getUserString();
+                case 4: // roomType
+                    count = 0;
+                    for (RoomTypes roomType : RoomTypes.values()) {
+                        count++;
+                        System.out.println(count + ") " + roomType.name());
+                    }
+                    System.out.println("Choose room type: ");
+                    content = String.valueOf(getUserChoice(RoomTypes.values().length));
+                    break;
+                case 5: // bedType
+                    count = 0;
+                    for (BedTypes bedType : BedTypes.values()) {
+                        count++;
+                        System.out.println(count + ") " + bedType.name());
+                    }
+                    System.out.println("Choose bed type: ");
+                    content = String.valueOf(getUserChoice(BedTypes.values().length));
+                    break;
+                case 6:
+                    System.out.println("Is the room WiFi Enabled? (Y/N)?");
+                    content = getUserYN();
+                    break;
+                case 7: // roomView
+                    count = 0;
+                    for (RoomView view : RoomView.values()) {
+                        count++;
+                        System.out.println(count + ") " + view.name());
+                    }
+                    System.out.println("Choose view: ");
+                    content = String.valueOf(getUserChoice(RoomView.values().length));
+                    break;
+                case 8: // smoking
+                    System.out.println("Is this a smoking room? (Y/N)?");
+                    content = getUserYN();
+                    break;
+                case 9: // roomStatus
+                    count = 0;
+                    for (RoomStatus roomStatus : RoomStatus.values()) {
+                        count++;
+                        System.out.println(count + ") " + roomStatus.name());
+                    }
+                    System.out.println("Choose status: ");
+                    content = String.valueOf(getUserChoice(RoomStatus.values().length));
+                    break;
+                default:
+                    System.out.println("Enter the relevant details: ");
+                    content = getUserString();
             }
-            	
+
             RoomController.getInstance().update(toBeUpdated, choice, content);
 
             System.out.println(toBeUpdated);

@@ -19,12 +19,12 @@ public class Room implements Serializable {
 	private boolean smoke;
 	private RoomStatus roomStatus; // Vacant, Occupied, Reserved, Under Maintenance
 
-	public Room(String roomID, double roomPrice, RoomTypes roomType, BedTypes bedType, boolean WiFi,
+	public Room(String roomID, RoomTypes roomType, BedTypes bedType, boolean WiFi,
 			RoomView view,
 			boolean smoke) {
 		this.roomID = roomID;
 		this.guestID = null;
-		this.roomPrice = roomPrice;
+		this.roomPrice = roomType.price + view.price;
 		this.roomType = roomType;
 		this.bedType = bedType;
 		this.WiFi = WiFi;

@@ -1,15 +1,14 @@
 package UI;
 
-import java.util.Scanner;
-
 import Controller.GuestController;
+import Enums.CreditcardType;
 import entities.Guest;
 
 public class GuestUI extends StandardUI implements ControllerUI {
     private static GuestUI instance = null;
 
     private GuestUI() {
-    	super();
+        super();
     }
 
     public static GuestUI getInstance() {
@@ -78,16 +77,14 @@ public class GuestUI extends StandardUI implements ControllerUI {
         char gender = getUserString().charAt(0);
         System.out.println("Enter Nationality: ");
         String nationality = getUserString();
-
-        // Guest rawGuest = new Guest(guestID, "guestName", "address", "contact",
-        // "country", 'n', "nationality");
+        System.out.println("Enter Creditcard Type (VISA/MASTERCARD): ");
+        CreditcardType card = CreditcardType.valueOf(getUserString());
 
         Guest rawGuest = new Guest(guestID, guestName, address, contact, country,
-                gender, nationality);
+                gender, nationality, card);
         GuestController.getInstance().create(rawGuest);
 
         System.out.println("Guest created and added to guest list");
-        // return guestID;
     }
 
     public void readOneDets() {
@@ -98,10 +95,8 @@ public class GuestUI extends StandardUI implements ControllerUI {
         Guest guestRead = GuestController.getInstance().checkExistence(guestID);
         if (guestRead != null) {
             System.out.println(guestRead);
-            // return guestID;
         } else {
             System.out.println("Guest does not exist");
-            // return null;
         }
 
     }
@@ -115,7 +110,6 @@ public class GuestUI extends StandardUI implements ControllerUI {
             System.out.println("Guest does not exist");
             return;
         } else {
-            // TODO: do while loop
             System.out.println("What do you want to update?");
             System.out.println("2) guestName");
             System.out.println("3) address");
@@ -142,13 +136,10 @@ public class GuestUI extends StandardUI implements ControllerUI {
 
         Guest toBeDeleted = GuestController.getInstance().checkExistence(guestID);
         if (toBeDeleted == null) {
-            System.out.println("Guest does not exist");
+            System.out.println("Guest does not exist.");
         } else {
-            System.out.println("do you confirm to delete Guest: " + guestID);
-            // TODO: Confirmation check
             GuestController.getInstance().delete(toBeDeleted);
-
-            System.out.println("guest is removed");
+            System.out.println("Guest " + guestID + " is removed.");
         }
     }
 
