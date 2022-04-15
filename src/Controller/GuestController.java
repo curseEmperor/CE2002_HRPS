@@ -102,12 +102,12 @@ public class GuestController implements IController {
             out.writeInt(guestList.size());
             for (Guest guest : guestList)
                 out.writeObject(guest);
-            System.out.println("========================");
+            /*System.out.println("========================");
             System.out.println("   Guest Details: ");
             System.out.println("========================");
             System.out.println(guestList.toString().replace("[", "").replace("]", ""));
-            System.out.println("========================");
-            System.out.printf("Entries Saved!");
+            System.out.println("========================");*/
+            System.out.println("Entries Saved!");
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -125,7 +125,7 @@ public class GuestController implements IController {
             for (int i = 0; i < noOfOrdRecords; i++) {
                 guestList.add((Guest) ois.readObject());
             }
-            // System.out.printf("GuestController: %s Entires loaded.\n", guestList);
+            // System.out.printf("GuestController: %s Entries loaded.\n", guestList);
 
             for (Guest guest : guestList) {
                 System.out.println(guest);
@@ -135,5 +135,4 @@ public class GuestController implements IController {
             e1.printStackTrace();
         }
     }
-
 }
