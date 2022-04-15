@@ -35,10 +35,9 @@ public class RoomUI extends StandardUI implements ControllerUI {
         System.out.println("4) Remove Room");
         System.out.println("5) Occupancy Report");
         System.out.println("6) Show room by status");
-        System.out.println("7) INIT hotel......");
-        System.out.println("8) Return to MainUI");
+        System.out.println("7) Return to MainUI");
 
-        return 8;
+        return 7;
     }
 
     public void mainMenu() {
@@ -66,9 +65,6 @@ public class RoomUI extends StandardUI implements ControllerUI {
                     showRoomByStatus();
                     break;
                 case 7:
-                    RoomController.getInstance().initHotel();
-                    break;
-                case 8:
                     break;
             }
         } while (choice < qSize);
@@ -252,9 +248,9 @@ public class RoomUI extends StandardUI implements ControllerUI {
 
         for (RoomTypes key : report.keySet()) {
             System.out.println(key + " :  Number : " + report.get(key).size());
-            System.out.println("\tRooms : ");
+            System.out.println("\t  Rooms : ");
             for (Room room : report.get(key)) {
-                System.out.println(room.getRoomID());
+                System.out.println("\t\t   " + room.getRoomID());
             }
         }
     }

@@ -97,7 +97,9 @@ public class GuestUI extends StandardUI implements ControllerUI {
 
         Guest guestRead = GuestController.getInstance().checkExistence(guestID);
         if (guestRead != null) {
+            System.out.printf("========================");
             System.out.println(guestRead);
+            System.out.println("========================");
             // return guestID;
         } else {
             System.out.println("Guest does not exist");
@@ -144,11 +146,10 @@ public class GuestUI extends StandardUI implements ControllerUI {
         if (toBeDeleted == null) {
             System.out.println("Guest does not exist");
         } else {
-            System.out.println("do you confirm to delete Guest: " + guestID);
+            System.out.println("Deleting Guest " + guestID);
             // TODO: Confirmation check
             GuestController.getInstance().delete(toBeDeleted);
-
-            System.out.println("guest is removed");
+            System.out.println("Guest is removed");
         }
     }
 

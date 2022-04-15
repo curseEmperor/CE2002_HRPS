@@ -43,7 +43,7 @@ public class GuestController implements IController {
         System.out.println("========================");
         System.out.println("   Guest Details: ");
         System.out.println("========================");
-        System.out.println(guestList.toString().replace("[", "").replace("]", ""));
+        System.out.printf(guestList.toString().replace("[", "").replace("]", ""));
         System.out.println("========================");
 
         storeData();

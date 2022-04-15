@@ -42,19 +42,19 @@ public class Menu implements IController {
 		List<Item> types = splitItemByType().get(itemType);
 		switch (itemType) {
 			case APPETIZER:
-				System.out.println("--Appetizers--");
+				System.out.println("\033[1m=======Appetizers=======\033[0m");
 				break;
 			case ENTREE:
-				System.out.println("--Entrees--");
+				System.out.println("\033[1m=========Entree=========\033[0m");
 				break;
 			case SIDE:
-				System.out.println("--Sides--");
+				System.out.println("\033[1m=========Sides=========\033[0m");
 				break;
 			case DESSERT:
-				System.out.println("--Desserts--");
+				System.out.println("\033[1m========Desserts========\033[0m");
 				break;
 			case BEVERAGE:
-				System.out.println("--Beverages--");
+				System.out.println("\033[1m=======Beverages=======\033[0m");
 				break;
 			default:
 				break;
@@ -67,8 +67,9 @@ public class Menu implements IController {
 	}
 
 	public void printItem(Item item) {
-		System.out.printf(item.getID() + " " + item.getName() + " $%.2f\n", item.getPrice());
-		System.out.printf(item.getDesc() + "\n");
+		System.out.format("%s %s\n", item.getID(), item.getName());
+		System.out.format("\033[3m%s\033[0m\n", item.getDesc());
+		System.out.printf("Price: $%.2f\n\n", item.getPrice());
 	}
 
 	public Item checkExistance(String ID) {
