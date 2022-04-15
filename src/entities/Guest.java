@@ -94,15 +94,15 @@ public class Guest implements Serializable {
         StringBuilder result = new StringBuilder();
         String newLine = System.getProperty("line.separator");
 
-        result.append(this.getClass().getName() + newLine);
+        //result.append(this.getClass().getName() + newLine);
 
-        result.append("guestID: " + this.guestID + newLine);
-        result.append("guestName: " + this.guestName + newLine);
-        result.append("address: " + this.address + newLine);
-        result.append("contact: " + this.contact + newLine);
-        result.append("country: " + this.country + newLine);
-        result.append("gender: " + this.gender + newLine);
-        result.append("nationality: " + this.nationality + newLine);
+        result.append("Guest ID: " + this.guestID + newLine);
+        result.append("Guest Name: " + this.guestName + newLine);
+        result.append("Address: " + this.address + newLine);
+        result.append("Contact: " + this.contact + newLine);
+        result.append("Country: " + this.country + newLine);
+        result.append("Gender: " + this.gender + newLine);
+        result.append("Nationality: " + this.nationality);
 
         return result.toString();
     }

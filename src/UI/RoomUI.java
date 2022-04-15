@@ -138,7 +138,12 @@ public class RoomUI extends StandardUI implements ControllerUI {
 
         Room roomRead = RoomController.getInstance().checkExistence(roomID);
         if (roomRead != null)
+        {
+            System.out.println("\n==============");
+            System.out.println(" Room Details");
+            System.out.println("==============");
             System.out.println(roomRead);
+        }
         else
             System.out.println("Room does not exist!");
 
@@ -213,7 +218,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
             		System.out.println(count + ") " + roomStatus.name());
             	}
             	System.out.println("Choose status: ");
-            	content = String.valueOf(getUserChoice(RoomStatus.values().length));
+            	content = String.valueOf(getUserChoice(RoomStatus.values().length+1));
             	break;
             default:
             	System.out.println("Enter the relevant details: ");
@@ -247,10 +252,11 @@ public class RoomUI extends StandardUI implements ControllerUI {
         report = (HashMap<RoomTypes, List<Room>>) RoomController.getInstance().generateOccupancyReport();
 
         for (RoomTypes key : report.keySet()) {
-            System.out.println(key + " :  Number : " + report.get(key).size());
-            System.out.println("\t  Rooms : ");
+            System.out.format("\n\033[1m===========%s==========\033[0m\n", key);
+            System.out.println("Number: " + report.get(key).size());
+            System.out.println("Rooms: ");
             for (Room room : report.get(key)) {
-                System.out.println("\t\t   " + room.getRoomID());
+                System.out.println("\t   " + room.getRoomID());
             }
         }
     }

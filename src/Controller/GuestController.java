@@ -40,12 +40,6 @@ public class GuestController implements IController {
 
         Guest guest = (Guest) entities;
         guestList.add(guest);
-        System.out.println("========================");
-        System.out.println("   Guest Details: ");
-        System.out.println("========================");
-        System.out.printf(guestList.toString().replace("[", "").replace("]", ""));
-        System.out.println("========================");
-
         storeData();
     }
 

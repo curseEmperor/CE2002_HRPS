@@ -111,7 +111,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         	System.out.println("Check-out day must be after Check-in day");
         	System.out.println("Enter Check-out day (dd/MM/yy): ");
         	checkOutString = getUserString();
-            checkOutDate = dateValid(checkOutString);
+            checkOutDate = dateValid("checkOutString" );
         }
 
         System.out.println("Enter number of children: ");
@@ -168,10 +168,16 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 	        	break;
 	        }
         }
+        
         rawReservation.setRoomType(roomType);
         
         ReservationController.getInstance().create(rawReservation);
-        
+
+        System.out.println("=================================");
+        System.out.println("      Reservation Details ");
+        System.out.println("=================================");
+        System.out.println(rawReservation.toString().replace("[", "").replace("]", ""));
+        System.out.println("=================================");
         System.out.println("Reservation " + rawReservation.getID() + " has been created");
 
     }
@@ -183,7 +189,13 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 
         Reservation reserveRead = ReservationController.getInstance().checkExistence(reservationID);
         if (reserveRead != null)
-            System.out.println(reserveRead);
+        {
+            System.out.println("=================================");
+            System.out.println("      Reservation Details ");
+            System.out.println("=================================");
+            System.out.println(reserveRead.toString().replace("[", "").replace("]", ""));
+            System.out.println("=================================");
+        }
         else
             System.out.println("Reservation does not exist");
 
