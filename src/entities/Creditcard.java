@@ -10,6 +10,7 @@ public class Creditcard {
 	private Date expiryDate;
 	private int CVC;
 	private CreditcardTypes cardType;
+	private String registeredName;
 	
 	public Creditcard() {
 		
@@ -47,6 +48,14 @@ public class Creditcard {
 		this.cardType = cardType;
 	}
 	
+	public String getRegisteredName() {
+		return registeredName;
+	}
+	
+	public void setRegisteredName(String name) {
+		registeredName = name;
+	}
+	
 	@Override
 	public String toString() {
         StringBuilder result = new StringBuilder();
@@ -59,6 +68,7 @@ public class Creditcard {
         result.append("expiryDate: " + formatter.format(this.expiryDate) + newLine);
         result.append("CVC: " + this.CVC + newLine);
         result.append("Creditcard Type: " + this.cardType.toString() + newLine);
+        result.append("Registered Name: " + this.registeredName + newLine);
         
         return result.toString();
     }
