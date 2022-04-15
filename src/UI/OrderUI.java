@@ -95,7 +95,7 @@ public class OrderUI extends StandardUI {
             return;
         }
 
-        System.out.println("Choose either to \n(1)add item\n(2)remove item \n(3)update status");
+        System.out.println("Choose either to\n1)add item\n2)remove item\n3)update status");
         int choice = getUserChoice(3);
 
         String value = null;
