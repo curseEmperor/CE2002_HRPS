@@ -102,19 +102,22 @@ public class Reservation implements Serializable {
     public String toString() {
         StringBuilder result = new StringBuilder();
         String newLine = System.getProperty("line.separator");
+        Date now = new Date();
+        SimpleDateFormat  checkinTime = new SimpleDateFormat("E yyyy.MM.dd '09:00AM'");
+        SimpleDateFormat checkoutTime = new SimpleDateFormat("E yyyy.MM.dd '12:00PM'");
 
-        result.append(this.getClass().getName() + " Object {" + newLine);
+        //result.append(this.getClass().getName() + " Object {" + newLine);
 
-        result.append("reservationID" + this.reservationID + newLine);
-        result.append("guestID" + this.guestID + newLine);
-        result.append("RoomID" + this.roomID + newLine);
-        result.append("adult number" + this.adultNo + newLine);
-        result.append("child number" + this.childNo + newLine);
-        result.append("check in" + this.checkIn + newLine);
-        result.append("check out" + this.checkOut + newLine);
-        result.append("status" + this.reservationStatus + newLine);
+        result.append("Reservation ID: " + this.reservationID + newLine);
+        result.append("Guest ID: " + this.guestID + newLine);
+        result.append("Room ID: " + this.roomID + newLine);
+        result.append("No. of Adult(s): " + this.adultNo + newLine);
+        result.append("No. of Child(ren): " + this.childNo + newLine);
+        result.append("Check in Date: " + checkinTime.format(this.checkIn) + newLine);
+        result.append("Check out Date: " + checkoutTime.format(this.checkOut) + newLine);
+        result.append("Status: " + this.reservationStatus);
 
-        result.append("}");
+        //result.append("}");
 
         return result.toString();
     }
