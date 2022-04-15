@@ -119,7 +119,7 @@ public class CheckInOut {
     	double orderCost = 0;
     	
     	//Calculate total order costs and view receipt
-    	if (roomOrders.size()!=0) for (Order order : roomOrders) orderCost+=order.viewOrder();
+    	if (roomOrders!=null) for (Order order : roomOrders) orderCost+=order.viewOrder();
     	
     	//Print receipt
     	Date thisDate = new Date();
@@ -148,7 +148,7 @@ public class CheckInOut {
     	Reservation reservation = ReservationController.getInstance().checkExistence(ID);
     	ArrayList<Order> roomOrders = OrderController.getInstance().retrieveOrdersOfRoom(reservation.getRoomID());
     	//update orders to paid
-    	if (roomOrders.size()!=0) for (Order order : roomOrders) OrderController.getInstance().update(order, 3, "4");
+    	if (roomOrders!=null) for (Order order : roomOrders) OrderController.getInstance().update(order, 3, "4");
     }
     
     private Date removeTime(Date date) {

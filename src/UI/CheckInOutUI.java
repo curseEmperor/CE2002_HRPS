@@ -59,7 +59,6 @@ public class CheckInOutUI extends StandardUI{
                     }
                     //Run checkout
                     CheckInOut.getInstance().checkOut(ID, roomDiscount, orderDiscount);
-                    
                     break;
                 case 3: //payment
                 	System.out.println("Enter reservation ID: ");
