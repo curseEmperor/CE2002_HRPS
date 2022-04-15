@@ -19,7 +19,6 @@ import java.io.ObjectOutputStream;
 public class OrderController implements IStorage {
 
     ArrayList<Order> orderList;
-    // Map<String, ArrayList<Order>> allOrders;
     private static OrderController instance = null;
     SimpleDateFormat formatter;
     Scanner sc;
@@ -42,31 +41,21 @@ public class OrderController implements IStorage {
     // check existence
     public Order checkExistence(String orderID) { // by orderID eg. 02021
         for (Order order : orderList) {
-            if (order.getOrderID().compareTo(orderID)==0)
+            if (order.getOrderID().compareTo(orderID) == 0)
                 return order;
         }
         return null;
     }
 
-    public void create() {
-        Order order = new Order();
-
-        System.out.println("Please enter your Room ID:");
-        String roomID = sc.nextLine();
-        while(RoomController.getInstance().checkExistence(roomID)==null) {
-        	System.out.println("Please enter valid Room ID:");
-            roomID = sc.nextLine();
-        }
-        /*if (RoomController.getInstance().checkExistence(roomID).getRoomStatus()!=RoomStatus.OCCUPIED) {
-        	System.out.println("Room has no guest");
-        	return;
-        }*/
-        order.setRoomID(roomID);
-
-        /*System.out.println("Please enter the Order ID.");
-        int orderID = sc.nextInt();
-        sc.nextLine();
-        order.setOrderID(orderID);*/
+    public void create(Object entities) {
+        Order order = (Order) entities;
+        /*
+         * if (RoomController.getInstance().checkExistence(roomID).getRoomStatus()!=
+         * RoomStatus.OCCUPIED) {
+         * System.out.println("Room has no guest");
+         * return;
+         * }
+         */
 
         addItemtoOrder(order);
 
@@ -79,12 +68,12 @@ public class OrderController implements IStorage {
         String date = formatter.format(time);
         order.setDate(date);
         SimpleDateFormat formatID = new SimpleDateFormat("ddMMyyhhmm");
-        order.setOrderID(roomID + formatID.format(time));
-        
+        order.setOrderID(order.getRoomID() + formatID.format(time));
+
         order.setOrderStatus(OrderStatus.CONFIRM);
-        
+
         orderList.add(order);
-        
+
         System.out.println("Order " + order.getOrderID() + " has been confirmed. ");
         storeData();
     }
@@ -106,25 +95,25 @@ public class OrderController implements IStorage {
 
     // if guest wants to "update an order",
     // he can only add new item
-    public void update(Object entities) {
+    public void update(Object entities, int choice, String value) {
 
         Order order = (Order) entities;
 
-        if (order.getOrderStatus() == OrderStatus.CONFIRM) {
-        	order.viewOrder();
-            System.out.println("Choose either to (1)add or (2)remove item from order.");
-            int choice = sc.nextInt();
-            sc.nextLine();
-            
+        if (choice == 3) { // update status
+            OrderStatus status = generateStatus(value);
+            order.setOrderStatus(status);
+        } else if (order.getOrderStatus() == OrderStatus.CONFIRM) {
+            order.viewOrder();
+
             switch (choice) {
                 case 1:
                     addItemtoOrder(order);
                     break;
                 case 2:
                     deleteItemfromOrder(order);
-                    if (order.getListOfFood().size()==0) {
-                    	System.out.println("No items left... Deleting order...");
-                    	orderList.remove(order);
+                    if (order.getListOfFood().size() == 0) {
+                        System.out.println("No items left... Deleting order...");
+                        orderList.remove(order);
                     }
                     break;
                 default:
@@ -132,8 +121,7 @@ public class OrderController implements IStorage {
             }
         } else {
             System.out.println("Order is preparing or is delivered, no changes can be made.");
-            //System.out.println("Create a new order: ");
-            //create();
+
         }
 
         storeData();
@@ -144,30 +132,32 @@ public class OrderController implements IStorage {
 
         // print out catalog
         while (true) {
-        	Menu.getInstance().printMenu();
-        	System.out.println("Please enter the itemID of the item you wish to order:");
-	        String itemID = sc.nextLine();
-	        Item itemToAdd = Menu.getInstance().checkExistance(itemID);
-	
-	        System.out.println("Please enter the quantity of item for " + itemID);
-	        int quantityOfItem = sc.nextInt();
-	        sc.nextLine();
-	        for (int i = 0; i < quantityOfItem; i++)
-	            listOfFood.add(itemToAdd);
-	        
-	        System.out.println("Any additional items? (Y/N)");
-	        String select = sc.nextLine();
-        	while (!(select.compareToIgnoreCase("Y")==0 || select.compareToIgnoreCase("N")==0)) {
+            Menu.getInstance().printMenu();
+            System.out.println("Please enter the itemID of the item you wish to order:");
+            String itemID = sc.nextLine();
+            Item itemToAdd = Menu.getInstance().checkExistance(itemID);
+
+            System.out.println("Please enter the quantity of item for " + itemID);
+            int quantityOfItem = sc.nextInt();
+            sc.nextLine();
+            for (int i = 0; i < quantityOfItem; i++)
+                listOfFood.add(itemToAdd);
+
+            System.out.println("Any additional items? (Y/N)");
+            String select = sc.nextLine();
+            while (!(select.compareToIgnoreCase("Y") == 0 || select.compareToIgnoreCase("N") == 0)) {
                 System.out.println("Please enter only Y/N");
                 System.out.println("Y/N? ");
                 select = sc.nextLine();
             }
-            if (select.compareTo("N")==0) {
-            	break;
+            if (select.compareTo("N") == 0) {
+                break;
             }
         }
-        
-        if (order.getListOfFood()!=null) for (Item itemToAdd : order.getListOfFood()) listOfFood.add(itemToAdd);
+
+        if (order.getListOfFood() != null)
+            for (Item itemToAdd : order.getListOfFood())
+                listOfFood.add(itemToAdd);
 
         order.setListOfFood(listOfFood);
     }
@@ -178,7 +168,7 @@ public class OrderController implements IStorage {
 
         ArrayList<Item> listOfFood = order.getListOfFood();
         for (Item item : listOfFood) {
-            if (item.getID().compareTo(itemID)==0) {
+            if (item.getID().compareTo(itemID) == 0) {
                 listOfFood.remove(item);
                 break;
             }
@@ -197,7 +187,7 @@ public class OrderController implements IStorage {
     public ArrayList<Order> retrieveOrdersOfRoom(String roomID) { // by roomID
         ArrayList<Order> retrieveOL = new ArrayList<Order>();
         for (Order order : orderList) {
-            if (order.getRoomID().equals(roomID) && order.getOrderStatus()!=OrderStatus.PAID)
+            if (order.getRoomID().equals(roomID) && order.getOrderStatus() != OrderStatus.PAID)
                 retrieveOL.add(order);
         }
         if (retrieveOL.size() > 0)
@@ -205,9 +195,9 @@ public class OrderController implements IStorage {
         else
             return null;
     }
-    
+
     public void printRoomReceipt(String roomID) {
-    	ArrayList<Order> orders = retrieveOrdersOfRoom(roomID);
+        ArrayList<Order> orders = retrieveOrdersOfRoom(roomID);
     }
 
     public float checkOutProcedures() { // include calculating order price
@@ -228,13 +218,28 @@ public class OrderController implements IStorage {
         return totalPrice;
     }
 
+    private OrderStatus generateStatus(String value) {
+        int choice = Integer.parseInt(value);
+        switch (choice) {
+            case 1:
+                return OrderStatus.PREPARING;
+            case 2:
+                return OrderStatus.DELIVERED;
+            case 3:
+                return OrderStatus.PAID;
+            default:
+                return null;
+        }
+    }
+
     public void storeData() {
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Order.ser"));
             out.writeInt(orderList.size());
             for (Order order : orderList)
                 out.writeObject(order);
-            //System.out.printf("%s \n\n--Entries Saved.--\n", orderList.toString().replace("[", "").replace("]", ""));
+            // System.out.printf("%s \n\n--Entries Saved.--\n",
+            // orderList.toString().replace("[", "").replace("]", ""));
             System.out.println("--Entries Saved--\n");
             out.close();
         } catch (IOException e1) {

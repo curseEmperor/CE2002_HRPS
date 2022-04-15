@@ -74,22 +74,23 @@ public class Menu implements IStorage, IController {
 
 	public Item checkExistance(String ID) {
 		for (Item item : itemList) {
-			if (item.getID().compareTo(ID)==0) return item;
+			if (item.getID().compareTo(ID) == 0)
+				return item;
 		}
 		return null;
 	}
 
 	public void sortData() {
-		int a,b;
+		int a, b;
 		Item temp;
 		for (a = 0; a < itemList.size(); a++) {
 			for (b = a; b > 0; b--) {
 				temp = itemList.get(b);
-				if (temp.getID().compareTo(itemList.get(b-1).getID()) > 0)
+				if (temp.getID().compareTo(itemList.get(b - 1).getID()) > 0)
 					break;
 				else {
-					itemList.set(b, itemList.get(b-1));
-					itemList.set(b-1, temp);
+					itemList.set(b, itemList.get(b - 1));
+					itemList.set(b - 1, temp);
 				}
 			}
 		}
@@ -152,7 +153,8 @@ public class Menu implements IStorage, IController {
 
 	public void storeData() {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src" + File.separator + "Menu.ser"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Menu.ser")); // "src" + File.separator
+																								// +
 			out.writeInt(itemList.size()); // noOfItems
 			for (Item item : itemList)
 				out.writeObject(item);
@@ -167,7 +169,7 @@ public class Menu implements IStorage, IController {
 		ObjectInputStream ois;
 		try {
 			itemList.clear();
-			ois = new ObjectInputStream(new FileInputStream("src" + File.separator + "Menu.ser"));
+			ois = new ObjectInputStream(new FileInputStream("Menu.ser")); // "src" + File.separator +
 
 			int noOfOrdRecords = ois.readInt();
 			System.out.println("Menu/ItemController: " + noOfOrdRecords + " Entries Loaded");
@@ -214,49 +216,54 @@ public class Menu implements IStorage, IController {
 	private void cleanID() {
 		Map<ItemTypes, List<Item>> itemByType = splitItemByType();
 		int count = 1;
-		for (Item item : itemByType.get(ItemTypes.APPETIZER)) item.setID(String.valueOf(100+(count++)));
+		for (Item item : itemByType.get(ItemTypes.APPETIZER))
+			item.setID(String.valueOf(100 + (count++)));
 		count = 1;
-		for (Item item : itemByType.get(ItemTypes.ENTREE)) item.setID(String.valueOf(200+(count++)));
+		for (Item item : itemByType.get(ItemTypes.ENTREE))
+			item.setID(String.valueOf(200 + (count++)));
 		count = 1;
-		for (Item item : itemByType.get(ItemTypes.SIDE)) item.setID(String.valueOf(300+(count++)));
+		for (Item item : itemByType.get(ItemTypes.SIDE))
+			item.setID(String.valueOf(300 + (count++)));
 		count = 1;
-		for (Item item : itemByType.get(ItemTypes.DESSERT)) item.setID(String.valueOf(400+(count++)));
+		for (Item item : itemByType.get(ItemTypes.DESSERT))
+			item.setID(String.valueOf(400 + (count++)));
 		count = 1;
-		for (Item item : itemByType.get(ItemTypes.BEVERAGE)) item.setID(String.valueOf(500+(count++)));
+		for (Item item : itemByType.get(ItemTypes.BEVERAGE))
+			item.setID(String.valueOf(500 + (count++)));
 		sortData();
 	}
 
 	public ItemTypes toType(String ID) {
 		switch (ID.charAt(0)) {
-		case '1':
-			return ItemTypes.APPETIZER;
-		case '2':
-			return ItemTypes.ENTREE;
-		case '3':
-			return ItemTypes.SIDE;
-		case '4':
-			return ItemTypes.DESSERT;
-		case '5':
-			return ItemTypes.BEVERAGE;
-		default:
-			return null;
+			case '1':
+				return ItemTypes.APPETIZER;
+			case '2':
+				return ItemTypes.ENTREE;
+			case '3':
+				return ItemTypes.SIDE;
+			case '4':
+				return ItemTypes.DESSERT;
+			case '5':
+				return ItemTypes.BEVERAGE;
+			default:
+				return null;
 		}
 	}
-	
+
 	public ItemTypes toType(int ID) {
 		switch (ID) {
-		case 1:
-			return ItemTypes.APPETIZER;
-		case 2:
-			return ItemTypes.ENTREE;
-		case 3:
-			return ItemTypes.SIDE;
-		case 4:
-			return ItemTypes.DESSERT;
-		case 5:
-			return ItemTypes.BEVERAGE;
-		default:
-			return null;
+			case 1:
+				return ItemTypes.APPETIZER;
+			case 2:
+				return ItemTypes.ENTREE;
+			case 3:
+				return ItemTypes.SIDE;
+			case 4:
+				return ItemTypes.DESSERT;
+			case 5:
+				return ItemTypes.BEVERAGE;
+			default:
+				return null;
 		}
 	}
 }
