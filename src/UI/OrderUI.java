@@ -101,10 +101,11 @@ public class OrderUI extends StandardUI {
         String value = null;
         if (choice == 3) {
             System.out.println("Change Order status to:");
-            System.out.println("1) Preparing");
-            System.out.println("2) Delivered");
-            System.out.println("3) Paid");
-            value = String.valueOf(getUserChoice(3));
+            System.out.println("1) Confirmed");
+            System.out.println("2) Preparing");
+            System.out.println("3) Delivered");
+            System.out.println("4) Paid");
+            value = String.valueOf(getUserChoice(4));
         }
         OrderController.getInstance().update(order, choice, value);
     }

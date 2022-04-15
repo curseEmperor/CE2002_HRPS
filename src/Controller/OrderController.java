@@ -227,11 +227,13 @@ public class OrderController implements IController {
     private OrderStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
-            case 1:
-                return OrderStatus.PREPARING;
+	        case 1:
+	        	return OrderStatus.CONFIRM;
             case 2:
-                return OrderStatus.DELIVERED;
+                return OrderStatus.PREPARING;
             case 3:
+                return OrderStatus.DELIVERED;
+            case 4:
                 return OrderStatus.PAID;
             default:
                 return null;
