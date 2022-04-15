@@ -144,10 +144,11 @@ public class CheckInOut {
     	System.out.println();
     }
     
-    public void payment(Reservation reservation) {
+    public void payment(String ID) {
+    	Rerservation reservation = ReservationController.getInstance().checkExistence(ID);
     	ArrayList<Order> roomOrders = OrderController.getInstance().retrieveOrdersOfRoom(reservation.getRoomID());
     	//update orders to paid
-    	if (roomOrders.size()!=0) for (Order order : roomOrders) OrderController.getInstance().update(order, 0, "3");
+    	if (roomOrders.size()!=0) for (Order order : roomOrders) OrderController.getInstance().update(order, 3, "4");
     }
     
     private Date removeTime(Date date) {

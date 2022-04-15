@@ -20,9 +20,10 @@ public class CheckInOutUI extends StandardUI{
     	System.out.println(" Check In/Out options avaiable: ");
         System.out.println("1) Check In");
         System.out.println("2) Check Out");
-        System.out.println("3) Return to MainUI");
+        System.out.println("3) Make Payment");
+        System.out.println("4) Return to MainUI");
 
-        return 3;
+        return 4;
     }
     
     public void mainMenu() {
@@ -58,8 +59,23 @@ public class CheckInOutUI extends StandardUI{
                     }
                     //Run checkout
                     CheckInOut.getInstance().checkOut(ID, roomDiscount, orderDiscount);
+                    
                     break;
-                case 3:
+                case 3: //payment
+                	System.out.println("Enter reservation ID: ");
+                    ID = getUserString();
+                    System.out.println("Payment by?");
+                    System.out.println("1) Cash");
+                    System.out.println("2) Credit/Debit Card");
+                    choice = getUserChoice(2);
+                    if (choice==2) {
+                    	System.out.println("Please enter Credit/Debit Card number:");
+                    	getUserString();
+                    }
+                    CheckInOut.getInstance().payment(ID);
+                    System.out.println("Payment Completed");
+                	break;
+                case 4:
                 	return;
             }
         } while (choice < qSize);
