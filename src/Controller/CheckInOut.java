@@ -32,6 +32,10 @@ public class CheckInOut {
     		System.out.println("Invalid Reservation ID");
     		return;
     	}
+    	if (reservation.getReservationStatus()!=ReservationStatus.CHECKIN) {
+    		System.out.println("Reservation cannot be checked-out");
+    		return;
+    	}
     	/*Date thisDate = new Date();
     	thisDate = removeTime(thisDate);
     	if (!thisDate.equals(reservation.getCheckOut())) {

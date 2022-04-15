@@ -182,12 +182,12 @@ public class ReservationController implements IController {
             out.writeInt(reservationList.size());
             for (Reservation res : reservationList)
                 out.writeObject(res);
-            System.out.println("==========================");
+            /*System.out.println("==========================");
             System.out.println("   Reservation Details: ");
             System.out.println("==========================");
             System.out.println(reservationList.toString().replace("[", "").replace("]", ""));
-            System.out.println("========================");
-            System.out.printf("Entries Saved!");
+            System.out.println("========================");*/
+            System.out.println("Entries Saved!");
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
