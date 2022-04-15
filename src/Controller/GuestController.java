@@ -100,11 +100,11 @@ public class GuestController implements IController {
             out.writeInt(guestList.size());
             for (Guest guest : guestList)
                 out.writeObject(guest);
-            /*System.out.println("========================");
+            System.out.println("========================");
             System.out.println("   Guest Details: ");
             System.out.println("========================");
             System.out.println(guestList.toString().replace("[", "").replace("]", ""));
-            System.out.println("========================");*/
+            System.out.println("========================");
             System.out.println("Entries Saved!");
             out.close();
         } catch (IOException e) {
