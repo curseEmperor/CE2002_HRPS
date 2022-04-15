@@ -1,13 +1,14 @@
 package Controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
 
 import Enums.RoomTypes;
 import Enums.ReservationStatus;
 import entities.*;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -27,13 +28,19 @@ public class CheckInOut {
     public void checkOut(String reservationID) {
     	//Change reservation status
     	Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
+    	if (reservation == null) {
+    		System.out.println("Invalid Reservation ID");
+    		return;
+    	}
     	ReservationController.getInstance().update(reservation, 7, "4");
     	
     	//Change room status
     	Room room = RoomController.getInstance().checkExistence(reservation.getRoomID());
-    	RoomController.getInstance().update(room, 2, "Vacant");
+    	RoomController.getInstance().update(room, 2, null);
+    	RoomController.getInstance().update(room, 9, "1");
     	
     	//Get payment details (Room payment, order payments)
+    	payment(reservation);
     }
     
     public void checkIn(String reservationID) {
@@ -44,9 +51,13 @@ public class CheckInOut {
     		return;
     	}
     	Date thisDate = new Date();
-    	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+    	thisDate = removeTime(thisDate);
     	if (!thisDate.equals(reservation.getCheckIn())) {
     		System.out.println("Check In date does not match");
+    		return;
+    	}
+    	if (reservation.getReservationStatus()!=ReservationStatus.CONFIRM) {
+    		System.out.println("Reservation cannot be checked-in");
     		return;
     	}
     	
@@ -92,7 +103,22 @@ public class CheckInOut {
     	return roomList.get(roomType).size() - reservationCount;
     }
     
-    public void payment() {
+    public void payment(Reservation reservation) {
+    	ArrayList<Order> roomOrders = OrderController.getInstance().retrieveOrdersOfRoom(reservation.getRoomID());
+    	double roomPrice = RoomController.getInstance().checkExistence(reservation.getRoomID()).getRoomPrice();
+    	long days = TimeUnit.DAYS.convert(reservation.getCheckOut().getTime()-reservation.getCheckIn().getTime(), TimeUnit.MILLISECONDS);
+    	double reservationCost = roomPrice*days;
+    	System.out.println("Outstanding payments");
     	
+    }
+    
+    private Date removeTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
     }
 }
