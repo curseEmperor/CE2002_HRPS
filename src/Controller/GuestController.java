@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 import entities.Guest;
+import entities.Creditcard;
 
 public class GuestController implements IController {
     private static GuestController instance = null;
@@ -82,15 +84,17 @@ public class GuestController implements IController {
             case 7: // nationality:
                 toBeUpdated.setNationality(value);
                 break;
-            case 8: // card:
-                // toBeUpdated.setCard(value);
-                break;
             default:
                 break;
         }
 
         System.out.println(toBeUpdated.toString());
         storeData();
+    }
+    
+    public void updateCreditcard(Object entities, String cardNumber, Date expiryDate, int CVC, int type, String cardName) {
+    	Guest toBeUpdated = (Guest) entities;
+    	toBeUpdated.setCard(new Creditcard(cardNumber, expiryDate, CVC, type, cardName));
     }
 
     public void storeData() {

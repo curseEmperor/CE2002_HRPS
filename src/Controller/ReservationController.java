@@ -197,7 +197,7 @@ public class ReservationController implements IController {
             ois = new ObjectInputStream(new FileInputStream("Reservation.ser"));
 
             int noOfOrdRecords = ois.readInt();
-            System.out.println("GuestController: " + noOfOrdRecords + " Entries Loaded");
+            System.out.println("ReservationController: " + noOfOrdRecords + " Entries Loaded");
             for (int i = 0; i < noOfOrdRecords; i++) {
                 reservationList.add((Reservation) ois.readObject());
             }
