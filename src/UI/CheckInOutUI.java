@@ -30,53 +30,65 @@ public class CheckInOutUI extends StandardUI{
     	do {
             qSize = showSelection();
             choice = getUserChoice(qSize);
-            String ID;
-            String select;
             switch (choice) {
                 case 1: //checkIn
                     System.out.println("Enter reservation ID: ");
-                    ID = getUserString();
+                    String ID = getUserString();
                     CheckInOut.getInstance().checkIn(ID);
                     break;
                 case 2: //checkOut
-                	System.out.println("Enter reservation ID: ");
-                    ID = getUserString();
-                    System.out.println("Any Room Discounts? (Y/N)");
-                    select = getUserYN();
-                    float roomDiscount = 0;
-                    float orderDiscount = 0;
-                    //Check for room discounts
-                    if (select.compareTo("Y")==0 ) {
-                    	System.out.println("Room Discount (%): ");
-                    	roomDiscount = (float)getUserChoice(100) / 100;
-                    }
-                    System.out.println("Any Order Discounts? (Y/N)");
-                    select = getUserYN();
-                    //Check for order discounts
-                    if (select.compareTo("Y")==0) {
-                    	System.out.println("Order Discount (%): ");
-                    	orderDiscount = (float)getUserChoice(100) / 100;
-                    }
-                    //Run checkout
-                    CheckInOut.getInstance().checkOut(ID, roomDiscount, orderDiscount);
+                	checkOut();
                     break;
                 case 3: //payment
-                	System.out.println("Enter reservation ID: ");
-                    ID = getUserString();
-                    System.out.println("Payment by?");
-                    System.out.println("1) Cash");
-                    System.out.println("2) Credit/Debit Card");
-                    choice = getUserChoice(2);
-                    if (choice==2) {
-                    	System.out.println("Please enter Credit/Debit Card number:");
-                    	getUserString();
-                    }
-                    CheckInOut.getInstance().payment(ID);
-                    System.out.println("Payment Completed");
+                	payment();
                 	break;
                 case 4:
                 	return;
             }
         } while (choice < qSize);
+    }
+    
+    private void checkOut() {
+    	String ID, select;
+    	System.out.println("Enter reservation ID: ");
+        ID = getUserString();
+        
+        float roomDiscount = 0;
+        float orderDiscount = 0;
+        
+        //Check for room discounts
+        System.out.println("Any Room Discounts? (Y/N)");
+        select = getUserYN();
+        if (select.compareTo("Y")==0 ) {
+        	System.out.println("Room Discount (%): ");
+        	roomDiscount = (float)getUserChoice(100) / 100;
+        }
+        
+        //Check for order discounts
+        System.out.println("Any Order Discounts? (Y/N)");
+        select = getUserYN();
+        if (select.compareTo("Y")==0) {
+        	System.out.println("Order Discount (%): ");
+        	orderDiscount = (float)getUserChoice(100) / 100;
+        }
+        
+        //Run checkout
+        CheckInOut.getInstance().checkOut(ID, roomDiscount, orderDiscount);
+    }
+    
+    private void payment() {
+    	String ID;
+    	System.out.println("Enter reservation ID: ");
+        ID = getUserString();
+        System.out.println("Payment by?");
+        System.out.println("1) Cash");
+        System.out.println("2) Credit/Debit Card");
+        choice = getUserChoice(2);
+        if (choice==2) {
+        	System.out.println("Please enter Credit/Debit Card number:");
+        	getUserString();
+        }
+        CheckInOut.getInstance().payment(ID);
+        System.out.println("Payment Completed");
     }
 }
