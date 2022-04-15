@@ -32,9 +32,23 @@ public class CheckInOutUI extends StandardUI{
             choice = getUserChoice(qSize);
             switch (choice) {
                 case 1: //checkIn
-                    System.out.println("Enter reservation ID: ");
-                    String ID = getUserString();
-                    CheckInOut.getInstance().checkIn(ID);
+                    System.out.println("Have Resrvations?(Y/N)");
+                    String select = getUserYN();
+                    switch (select) {
+                        case "N":
+                            System.out.println("Please create Guest account first.");
+                            GuestUI.getInstance().create();
+                            ReservationUI.getInstance().create();
+                            System.out.println("Enter reservation ID: ");
+                            String ID1 = getUserString();
+                            CheckInOut.getInstance().checkIn(ID1);
+                            break;
+                        case "Y":
+                            System.out.println("Enter reservation ID: ");
+                            String ID2 = getUserString();
+                            CheckInOut.getInstance().checkIn(ID2);
+                            break;
+                    }
                     break;
                 case 2: //checkOut
                 	checkOut();

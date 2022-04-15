@@ -87,7 +87,6 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         }
 
         // RoomID to be filled via checkin
-
         System.out.println("Enter Check-in day (dd/MM/yy): ");
         String checkInString = getUserString();
         Date checkInDate = dateValid(checkInString);
@@ -130,11 +129,12 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 	        System.out.println(
 	        		"1) Single\n"
 	        		+ "2) Double\n"
-	        		+ "3) Deluxe\n"
-	        		+ "4) Suite\n"
-	        		+ "5) Cancel create\n"
+                    + "3) Standard\n"
+	        		+ "4) Deluxe\n"
+	        		+ "5) Suite\n"
+	        		+ "6) Cancel create\n"
 	        		+ "Select Room Type: ");
-	        choice = getUserChoice(5);
+	        choice = getUserChoice(9);
 	        switch (choice) {
 	            case 1:
 	                roomType = RoomTypes.SINGLE;
@@ -143,12 +143,15 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 	                roomType = RoomTypes.DOUBLE;
 	                break;
 	            case 3:
-	                roomType = RoomTypes.DELUXE;
+	                roomType = RoomTypes.STANDARD;
 	                break;
 	            case 4:
+	                roomType = RoomTypes.DELUXE;
+	                break;
+                case 5:
 	                roomType = RoomTypes.SUITE;
 	                break;
-	            case 5:
+	            case 6:
 	            	return;
 	            default:
 	            	break;
@@ -181,6 +184,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         System.out.println("Reservation " + rawReservation.getID() + " has been created");
 
     }
+
 
     public void readOneDets() {
 

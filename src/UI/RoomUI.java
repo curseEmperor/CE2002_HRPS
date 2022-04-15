@@ -87,11 +87,12 @@ public class RoomUI extends StandardUI implements ControllerUI {
         System.out.println("Choose Room Type: ");
         System.out.println("1) Single ");
         System.out.println("2) Double ");
-        System.out.println("3) Deluxe ");
-        System.out.println("4) Suite ");
+        System.out.println("3) Standard ");
+        System.out.println("4) Deluxe ");
+        System.out.println("5) Suite ");
         RoomTypes roomType = null;
 
-        choice = getUserChoice(4);
+        choice = getUserChoice(5);
         roomType = RoomController.getInstance().generateRoomType(String.valueOf(choice));
 
         System.out.println("Enter Bed Type: ");

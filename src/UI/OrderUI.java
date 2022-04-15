@@ -180,7 +180,7 @@ public class OrderUI extends StandardUI {
                 itemToAdd = Menu.getInstance().checkExistance(itemID);
             }
 
-            System.out.println("Please enter the quantity of item for (Up to 50) " + itemID);
+            System.out.format("Please enter the quantity of item for %s(Up to 50) ", itemID);
             int quantityOfItem = getUserChoice(50);
             for (int i = 0; i < quantityOfItem; i++)
                 OrderController.getInstance().addItemtoOrder(order, itemToAdd);

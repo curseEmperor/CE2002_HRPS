@@ -82,6 +82,14 @@ public class RoomController implements IController {
         Room r46 = new Room("07-06", 550.21, RoomTypes.SUITE, BedTypes.QUEEN, true, RoomView.CITY, false);
         Room r47 = new Room("07-07", 600.21, RoomTypes.SUITE, BedTypes.QUEEN, true, RoomView.CITY, true);
         Room r48 = new Room("07-08", 600.21, RoomTypes.SUITE, BedTypes.KING, true, RoomView.CITY, true);
+        Room r49 = new Room("08-01", 150.21, RoomTypes.STANDARD, BedTypes.SINGLE, true, RoomView.NIL, true);
+        Room r50 = new Room("08-02", 190.21, RoomTypes.STANDARD, BedTypes.DOUBLE, true, RoomView.NIL, false);
+        Room r51 = new Room("08-03", 200.21, RoomTypes.STANDARD, BedTypes.DOUBLE, false, RoomView.NIL, true);
+        Room r52 = new Room("08-04", 550.21, RoomTypes.STANDARD, BedTypes.KING, true, RoomView.NIL, false);
+        Room r53 = new Room("08-05", 180.21, RoomTypes.STANDARD, BedTypes.DOUBLE, true, RoomView.NIL, true);
+        Room r54 = new Room("08-06", 160.21, RoomTypes.STANDARD, BedTypes.QUEEN, true, RoomView.NIL, false);
+        Room r55 = new Room("08-07", 160.21, RoomTypes.STANDARD, BedTypes.QUEEN, true, RoomView.NIL, false);
+        Room r56 = new Room("08-08", 1800.21, RoomTypes.STANDARD, BedTypes.KING, true, RoomView.NIL, false);
 
         roomList.add(r1);
         roomList.add(r2);
@@ -131,6 +139,14 @@ public class RoomController implements IController {
         roomList.add(r46);
         roomList.add(r47);
         roomList.add(r48);
+        roomList.add(r49);
+        roomList.add(r50);
+        roomList.add(r51);
+        roomList.add(r52);
+        roomList.add(r53);
+        roomList.add(r54);
+        roomList.add(r55);
+        roomList.add(r56);
     }
 
     public Room checkExistence(String roomID) {
@@ -212,6 +228,7 @@ public class RoomController implements IController {
 
         ArrayList<Room> singleType = new ArrayList<Room>();
         ArrayList<Room> doubleType = new ArrayList<Room>();
+        ArrayList<Room> standardType = new ArrayList<Room>();
         ArrayList<Room> deluxeType = new ArrayList<Room>();
         ArrayList<Room> suiteType = new ArrayList<Room>();
 
@@ -225,6 +242,9 @@ public class RoomController implements IController {
             if (room.getRoomType() == RoomTypes.DOUBLE) { // double
                 doubleType.add(room);
             }
+            if (room.getRoomType() == RoomTypes.STANDARD) { // standard
+                standardType.add(room);
+            }
             if (room.getRoomType() == RoomTypes.DELUXE) { // deluxe
                 deluxeType.add(room);
             }
@@ -235,6 +255,7 @@ public class RoomController implements IController {
 
         report.put(RoomTypes.SINGLE, singleType);
         report.put(RoomTypes.DOUBLE, doubleType);
+        report.put(RoomTypes.DELUXE, standardType);
         report.put(RoomTypes.DELUXE, deluxeType);
         report.put(RoomTypes.SUITE, suiteType);
 
@@ -246,6 +267,7 @@ public class RoomController implements IController {
 
         ArrayList<Room> singleType = new ArrayList<Room>();
         ArrayList<Room> doubleType = new ArrayList<Room>();
+        ArrayList<Room> standardType = new ArrayList<Room>();
         ArrayList<Room> deluxeType = new ArrayList<Room>();
         ArrayList<Room> suiteType = new ArrayList<Room>();
 
@@ -255,6 +277,9 @@ public class RoomController implements IController {
             }
             if (room.getRoomType() == RoomTypes.DOUBLE) { // double
                 doubleType.add(room);
+            }
+            if (room.getRoomType() == RoomTypes.STANDARD) { // deluxe
+                standardType.add(room);
             }
             if (room.getRoomType() == RoomTypes.DELUXE) { // deluxe
                 deluxeType.add(room);
