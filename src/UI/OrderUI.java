@@ -96,8 +96,7 @@ public class OrderUI extends StandardUI {
         }
 
         System.out.println("Choose either to \n(1)add item\n(2)remove item \n(3)update status");
-        int choice = sc.nextInt();
-        sc.nextLine();
+        int choice = getUserChoice(3);
 
         String value = null;
         if (choice == 3) {
@@ -105,7 +104,7 @@ public class OrderUI extends StandardUI {
             System.out.println("1) Preparing");
             System.out.println("2) Delivered");
             System.out.println("3) Paid");
-            value = sc.nextLine();
+            value = String.valueOf(getUserChoice(3));
         }
         OrderController.getInstance().update(order, choice, value);
     }
