@@ -89,82 +89,40 @@ public class RoomUI extends StandardUI implements ControllerUI {
         }
 
         System.out.println("Choose Room Type: ");
-        System.out.println("(1) Single ");
-        System.out.println("(2) Double ");
-        System.out.println("(3) Deluxe ");
-        System.out.println("(4) Suite ");
+        System.out.println("1) Single ");
+        System.out.println("2) Double ");
+        System.out.println("3) Deluxe ");
+        System.out.println("4) Suite ");
         RoomTypes roomType = null;
 
         choice = getUserChoice(4);
-        switch (choice) {
-            case 1:
-                roomType = RoomTypes.SINGLE;
-                break;
-            case 2:
-                roomType = RoomTypes.DOUBLE;
-                break;
-            case 3:
-                roomType = RoomTypes.DELUXE;
-                break;
-            case 4:
-                roomType = RoomTypes.SUITE;
-                break;
-            default:
-                break;
-        }
+        roomType = RoomController.getInstance().generateRoomType(String.valueOf(choice));
 
         System.out.println("Enter Bed Type: ");
-        System.out.println("(1) Single Bed");
-        System.out.println("(2) Double Bed");
-        System.out.println("(3) Queen Bed");
-        System.out.println("(4) King Bed");
+        System.out.println("1) Single Bed");
+        System.out.println("2) Double Bed");
+        System.out.println("3) Queen Bed");
+        System.out.println("4) King Bed");
         BedTypes bedType = null;
 
         choice = getUserChoice(4);
-        switch (choice) {
-            case 1:
-                bedType = BedTypes.SINGLE;
-                break;
-            case 2:
-                bedType = BedTypes.DOUBLE;
-                break;
-            case 3:
-                bedType = BedTypes.QUEEN;
-                break;
-            case 4:
-                bedType = BedTypes.KING;
-                break;
-            default:
-                break;
-        }
+        bedType = RoomController.getInstance().generateBedType(String.valueOf(choice));
 
         System.out.println("Please select if this room is WiFi enabled: ");
-        System.out.println("(1) WiFi Enabled");
-        System.out.println("(2) Not WiFi Enabled");
+        System.out.println("1) WiFi Enabled");
+        System.out.println("2) Not WiFi Enabled");
 
         choice = getUserChoice(2);
         boolean WiFi = choice == 1 ? true : false;
 
         System.out.println("Please select the room's view: ");
-        System.out.println("(1) City View");
-        System.out.println("(2) Pool View");
-        System.out.println("(3) No View");
+        System.out.println("1) City View");
+        System.out.println("2) Pool View");
+        System.out.println("3) No View");
         RoomView view = null;
 
         choice = getUserChoice(3);
-        switch (choice) {
-            case 1:
-                view = RoomView.CITY;
-                break;
-            case 2:
-                view = RoomView.POOL;
-                break;
-            case 3:
-                view = RoomView.NIL;
-                break;
-            default:
-                break;
-        }
+        view = RoomController.getInstance().generateView(String.valueOf(choice));
 
         System.out.println("Please select if smoking is allowed in this room: ");
         System.out.println("(1) Smoking Allowed");

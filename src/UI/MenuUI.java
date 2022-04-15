@@ -79,6 +79,10 @@ public class MenuUI extends StandardUI implements ControllerUI {
 
         System.out.println("Item price: ");
         float itemPrice = sc.nextFloat();
+        while (itemPrice < 0.0) {
+            System.out.println("Enter Positive number: ");
+            itemPrice = sc.nextFloat();
+        }
 
         Item tempItem = new Item(itemName, itemDesc, itemPrice, Menu.getInstance().toType(choice));
 

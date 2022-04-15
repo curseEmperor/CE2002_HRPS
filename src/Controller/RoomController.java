@@ -325,7 +325,7 @@ public class RoomController implements IStorage, IController {
         }
     }
 
-    private RoomStatus generateStatus(String value) {
+    public RoomStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
             case 1:
@@ -342,7 +342,7 @@ public class RoomController implements IStorage, IController {
         }
     }
     
-    private RoomView generateView(String value) {
+    public RoomView generateView(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
             case 1:
@@ -356,7 +356,7 @@ public class RoomController implements IStorage, IController {
         }
     }
     
-    private BedTypes generateBedType(String value) {
+    public BedTypes generateBedType(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
             case 1:
@@ -372,7 +372,7 @@ public class RoomController implements IStorage, IController {
         }
     }
     
-    private RoomTypes generateRoomType(String value) {
+    public RoomTypes generateRoomType(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
             case 1:
