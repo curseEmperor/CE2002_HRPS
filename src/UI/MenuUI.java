@@ -113,9 +113,11 @@ public class MenuUI extends StandardUI implements ControllerUI {
             		+ "2) Name\n"
             		+ "3) Description\n"
             		+ "4) Price\n"
-            		+ "5) Type");
+            		+ "5) Type\n"
+            		+ "6) Cancel Update");
             System.out.println("What do you want to update: ");
             choice = getUserChoice(5);
+            if (choice == 6) return;
             String content;
             if (choice!=5) {
             	System.out.println("Enter the relevant details: ");

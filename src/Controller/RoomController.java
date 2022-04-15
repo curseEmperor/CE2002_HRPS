@@ -191,6 +191,11 @@ public class RoomController implements IStorage, IController {
         	toBeUpdated.setView(generateView(value));
         	break;
         case 8: //smoke
+        	if (value.equals("Y")) {
+        		toBeUpdated.setSmoke(true);
+            } else {
+            	toBeUpdated.setSmoke(false);
+            }
         	break;
         case 9: //roomStatus
         	toBeUpdated.setRoomStatus(generateStatus(value));
