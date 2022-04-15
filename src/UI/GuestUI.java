@@ -1,9 +1,10 @@
 package UI;
 
-import java.util.Scanner;
-
 import Controller.GuestController;
 import entities.Guest;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class GuestUI extends StandardUI implements ControllerUI {
     private static GuestUI instance = null;
@@ -78,12 +79,25 @@ public class GuestUI extends StandardUI implements ControllerUI {
         char gender = getUserString().charAt(0);
         System.out.println("Enter Nationality: ");
         String nationality = getUserString();
+        System.out.println("Enter Creditcard Number: ");
+        String cardNumber = getUserString();
+        System.out.println("Enter Creditcard Expiry Date: ");
+        Date expDate = getValidDate(getUserString());
+        System.out.println("Enter Creditcard CVC: ");
+        int CVC = getUserChoice(999);
+        System.out.println("Enter Creditcard Type: ");
+        System.out.println("1) VISA");
+        System.out.println("2) MASTER");
+        System.out.println("3) AMEX");
+        int type = getUserChoice(3);
+        System.out.println("Enter Creditcard Registered Name: ");
+        String cardName = getUserString();
 
         // Guest rawGuest = new Guest(guestID, "guestName", "address", "contact",
         // "country", 'n', "nationality");
 
         Guest rawGuest = new Guest(guestID, guestName, address, contact, country,
-                gender, nationality);
+                gender, nationality, cardNumber, expDate, CVC,type, cardName);
         GuestController.getInstance().create(rawGuest);
         System.out.println("========================");
         System.out.println("     Guest Details ");
@@ -158,5 +172,22 @@ public class GuestUI extends StandardUI implements ControllerUI {
             System.out.println("Guest is removed.");
         }
     }
-
+    
+    private Date getValidDate(String dateInString) {
+        SimpleDateFormat sdfrmt = new SimpleDateFormat("MM/yy");
+        sdfrmt.setLenient(false);
+        Date javaDate = null;
+        while (javaDate == null) {
+        	try {
+	            javaDate = sdfrmt.parse(dateInString);
+	        } catch (ParseException e) {
+	            System.out.println(dateInString + " is Invalid Date format\nEnter date: ");
+	            System.out.println("Enter date (MM/yy): ");
+	            dateInString = getUserString();
+	        }
+        }
+        
+        return javaDate;
+    }
+    
 }

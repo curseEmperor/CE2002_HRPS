@@ -1,6 +1,8 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Date;
+import Enums.CreditcardTypes;
 
 public class Guest implements Serializable {
 
@@ -11,10 +13,10 @@ public class Guest implements Serializable {
     private String country;
     private char gender;
     private String nationality;
-    //private Creditcard card;
+    private Creditcard card;
 
     public Guest(String guestID, String guestName, String address, String contact, String country, char gender,
-            String nationality) { // , CreditCard card
+            String nationality, String cardNumber, Date expDate, int CVC, int type, String cardName) { // , CreditCard card
         this.guestID = guestID;
         this.guestName = guestName;
         this.address = address;
@@ -22,7 +24,7 @@ public class Guest implements Serializable {
         this.country = country;
         this.gender = gender;
         this.nationality = nationality;
-        //this.card = null;
+        this.card = new Creditcard(cardNumber, expDate, CVC, type, cardName);
     }
 
     public String getID() {
@@ -81,13 +83,14 @@ public class Guest implements Serializable {
         this.nationality = nationality;
     }
 
-    /*public Creditcard getCard() {
+    public Creditcard getCard() {
         return card;
     }
 
     public void setCard(Creditcard card) {
         this.card = card;
-    }*/
+    }
+    
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -101,7 +104,8 @@ public class Guest implements Serializable {
         result.append("Contact: " + this.contact + newLine);
         result.append("Country: " + this.country + newLine);
         result.append("Gender: " + this.gender + newLine);
-        result.append("Nationality: " + this.nationality);
+        result.append("Nationality: " + this.nationality + newLine);
+        result.append("Credit Card Details " + newLine + this.card + newLine);
 
         return result.toString();
     }

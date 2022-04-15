@@ -6,7 +6,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 public class Creditcard {
-	private String cardID;
+	private String cardNumber;
 	private Date expiryDate;
 	private int CVC;
 	private CreditcardTypes cardType;
@@ -16,12 +16,33 @@ public class Creditcard {
 		
 	}
 	
-	public String getCardID() {
-		return cardID;
+	public Creditcard(String cardNumber, Date expiryDate, int CVC, int type, String cardName) {
+		this.cardNumber = cardNumber;
+		this.expiryDate = expiryDate;
+		this.CVC = CVC;
+		switch (type) {
+		case 1:
+			cardType = CreditcardTypes.VISA;
+			break;
+		case 2:
+			cardType = CreditcardTypes.MASTER;
+			break;
+		case 3:
+			cardType = CreditcardTypes.AMEX;
+			break;
+		default:
+			cardType = null;
+			break;
+		}
+		this.registeredName = cardName;
 	}
 	
-	public void setCardID(String cardID) {
-		this.cardID = cardID;
+	public String getCardNumber() {
+		return cardNumber;
+	}
+	
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
 	}
 	
 	public Date getExpiryDate() {
@@ -64,7 +85,7 @@ public class Creditcard {
 
         result.append(this.getClass().getName() + newLine);
 
-        result.append("cardID: " + this.cardID + newLine);
+        result.append("cardNumber: " + this.cardNumber + newLine);
         result.append("expiryDate: " + formatter.format(this.expiryDate) + newLine);
         result.append("CVC: " + this.CVC + newLine);
         result.append("Creditcard Type: " + this.cardType.toString() + newLine);
