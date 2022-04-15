@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import entities.Guest;
 
-public class GuestController implements IController, IStorage {
+public class GuestController implements IController {
     private static GuestController instance = null;
     Scanner sc;
 
@@ -48,7 +48,7 @@ public class GuestController implements IController, IStorage {
 
     public void read() {
         for (Guest guest : guestList) {
-            System.out.println(guest);
+            System.out.println(guest.getID());
         }
     }
 
@@ -105,7 +105,7 @@ public class GuestController implements IController, IStorage {
             System.out.println("========================");
             System.out.println("   Guest Details: ");
             System.out.println("========================");
-            System.out.println(guestList.toString().replace("[","").replace("]",""));
+            System.out.println(guestList.toString().replace("[", "").replace("]", ""));
             System.out.println("========================");
             System.out.printf("Entries Saved!");
             out.close();

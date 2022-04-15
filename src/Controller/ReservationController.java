@@ -13,7 +13,7 @@ import Enums.ReservationStatus;
 import Enums.RoomTypes;
 import entities.Reservation;
 
-public class ReservationController implements IController, IStorage {
+public class ReservationController implements IController {
     private static ReservationController instance = null;
 
     private ArrayList<Reservation> reservationList;
@@ -38,18 +38,18 @@ public class ReservationController implements IController, IStorage {
         Reservation toBeReturned = null;
 
         for (Reservation reservation : reservationList) {
-        	//Check expiration of reservation
-            if (reservation.getReservationStatus()!=ReservationStatus.COMPLETED
-            		&& reservation.getReservationStatus()!=ReservationStatus.EXPIRED
-            		&& thisDate.compareTo(reservation.getCheckIn()) > 0) {
+            // Check expiration of reservation
+            if (reservation.getReservationStatus() != ReservationStatus.COMPLETED
+                    && reservation.getReservationStatus() != ReservationStatus.EXPIRED
+                    && thisDate.compareTo(reservation.getCheckIn()) > 0) {
                 System.out.println("Current date is past check in time");
                 reservation.setReservationStatus(ReservationStatus.EXPIRED);
             }
-            
-            //Check waitlist for confirmation
-            if (reservation.getReservationStatus()==ReservationStatus.WAITLIST) {
-            	if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0)
-            		reservation.setReservationStatus(ReservationStatus.CONFIRM);
+
+            // Check waitlist for confirmation
+            if (reservation.getReservationStatus() == ReservationStatus.WAITLIST) {
+                if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0)
+                    reservation.setReservationStatus(ReservationStatus.CONFIRM);
             }
 
             if (reservation.getID().equals(reservationID)) {
@@ -68,7 +68,7 @@ public class ReservationController implements IController, IStorage {
 
         String reservationID = checkInString + newReservation.getGuestID();
         newReservation.setID(reservationID);
-        //newReservation.setReservationStatus(ReservationStatus.CONFIRM);
+        // newReservation.setReservationStatus(ReservationStatus.CONFIRM);
 
         reservationList.add(newReservation);
         // System.out.println("Reservation ID generated: " + reservationID);
@@ -79,7 +79,6 @@ public class ReservationController implements IController, IStorage {
     public void read() {
         for (Reservation reservation : reservationList) {
             System.out.println(reservation.getID());
-            System.out.println();
         }
     }
 
@@ -90,10 +89,10 @@ public class ReservationController implements IController, IStorage {
         // System.out.println("reservation removed from list in reservation
         // controller");
         for (Reservation reservation : reservationList) {
-        	//Check waitlist for confirmation
-            if (reservation.getReservationStatus()==ReservationStatus.WAITLIST) {
-            	if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0)
-            		reservation.setReservationStatus(ReservationStatus.CONFIRM);
+            // Check waitlist for confirmation
+            if (reservation.getReservationStatus() == ReservationStatus.WAITLIST) {
+                if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0)
+                    reservation.setReservationStatus(ReservationStatus.CONFIRM);
             }
         }
         storeData();
@@ -103,73 +102,73 @@ public class ReservationController implements IController, IStorage {
         Reservation toBeUpdated = (Reservation) entities;
         Date date;
         switch (choice) {
-        case 1: //guestID
-        	toBeUpdated.setGuestID(value);
-        	break;
-        case 2: //roomID
-        	toBeUpdated.setRoomID(value);
-        	break;
-        case 3: //checkIn Date
-        	try {
-                date = new SimpleDateFormat("dd/MM/yy").parse(value);
-                System.out.println(value + "\t" + date);
-
-                toBeUpdated.setCheckIn(date);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        	break;
-        case 4: //checkOut Date
-        	try {
-                date = new SimpleDateFormat("dd/MM/yy").parse(value);
-                System.out.println(value + "\t" + date);
-
-                toBeUpdated.setCheckOut(date);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        	break;
-        case 5: //childNo
-        	try {
-                int numOfChild = Integer.parseInt(value);
-                toBeUpdated.setChildNo(numOfChild);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        	break;
-        case 6: //adultNo
-        	try {
-                int numOfAdults = Integer.parseInt(value);
-                toBeUpdated.setAdultNo(numOfAdults);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        	break;
-        case 7: //reservationStatus
-        	toBeUpdated.setReservationStatus(generateStatus(value));
-        	break;
-        case 8: //roomType
-        	RoomTypes roomType = RoomTypes.SINGLE;
-        	switch (value.charAt(0)) {
-            case '1':
-                roomType = RoomTypes.SINGLE;
+            case 1: // guestID
+                toBeUpdated.setGuestID(value);
                 break;
-            case '2':
-                roomType = RoomTypes.DOUBLE;
+            case 2: // roomID
+                toBeUpdated.setRoomID(value);
                 break;
-            case '3':
-                roomType = RoomTypes.DELUXE;
+            case 3: // checkIn Date
+                try {
+                    date = new SimpleDateFormat("dd/MM/yy").parse(value);
+                    System.out.println(value + "\t" + date);
+
+                    toBeUpdated.setCheckIn(date);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
-            case '4':
-                roomType = RoomTypes.SUITE;
+            case 4: // checkOut Date
+                try {
+                    date = new SimpleDateFormat("dd/MM/yy").parse(value);
+                    System.out.println(value + "\t" + date);
+
+                    toBeUpdated.setCheckOut(date);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
-        	}
-        	toBeUpdated.setRoomType(roomType);
-        	break;
-        default:
-            break;
+            case 5: // childNo
+                try {
+                    int numOfChild = Integer.parseInt(value);
+                    toBeUpdated.setChildNo(numOfChild);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 6: // adultNo
+                try {
+                    int numOfAdults = Integer.parseInt(value);
+                    toBeUpdated.setAdultNo(numOfAdults);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 7: // reservationStatus
+                toBeUpdated.setReservationStatus(generateStatus(value));
+                break;
+            case 8: // roomType
+                RoomTypes roomType = RoomTypes.SINGLE;
+                switch (value.charAt(0)) {
+                    case '1':
+                        roomType = RoomTypes.SINGLE;
+                        break;
+                    case '2':
+                        roomType = RoomTypes.DOUBLE;
+                        break;
+                    case '3':
+                        roomType = RoomTypes.DELUXE;
+                        break;
+                    case '4':
+                        roomType = RoomTypes.SUITE;
+                        break;
+                }
+                toBeUpdated.setRoomType(roomType);
+                break;
+            default:
+                break;
         }
 
         System.out.println(toBeUpdated.toString());
@@ -186,7 +185,7 @@ public class ReservationController implements IController, IStorage {
             System.out.println("==========================");
             System.out.println("   Reservation Details: ");
             System.out.println("==========================");
-            System.out.println(reservationList.toString().replace("[","").replace("]",""));
+            System.out.println(reservationList.toString().replace("[", "").replace("]", ""));
             System.out.println("========================");
             System.out.printf("Entries Saved!");
             out.close();
@@ -230,12 +229,12 @@ public class ReservationController implements IController, IStorage {
             case 5:
                 return ReservationStatus.WAITLIST;
             default:
-            	return null;
+                return null;
         }
     }
-    
+
     public Map<ReservationStatus, List<Reservation>> splitReservationByStatus() {
-    	Map<ReservationStatus, List<Reservation>> reservationByStatus = new HashMap<>();
+        Map<ReservationStatus, List<Reservation>> reservationByStatus = new HashMap<>();
 
         ArrayList<Reservation> confirmStatus = new ArrayList<Reservation>();
         ArrayList<Reservation> checkinStatus = new ArrayList<Reservation>();
@@ -245,19 +244,19 @@ public class ReservationController implements IController, IStorage {
 
         for (Reservation reservation : reservationList) {
             if (reservation.getReservationStatus() == ReservationStatus.CONFIRM) { // single
-            	confirmStatus.add(reservation);
+                confirmStatus.add(reservation);
             }
             if (reservation.getReservationStatus() == ReservationStatus.CHECKIN) { // single
-            	checkinStatus.add(reservation);
+                checkinStatus.add(reservation);
             }
             if (reservation.getReservationStatus() == ReservationStatus.EXPIRED) { // single
-            	expiredStatus.add(reservation);
+                expiredStatus.add(reservation);
             }
             if (reservation.getReservationStatus() == ReservationStatus.COMPLETED) { // single
-            	completedStatus.add(reservation);
+                completedStatus.add(reservation);
             }
             if (reservation.getReservationStatus() == ReservationStatus.WAITLIST) { // single
-            	waitlistStatus.add(reservation);
+                waitlistStatus.add(reservation);
             }
         }
 

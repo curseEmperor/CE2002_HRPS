@@ -13,7 +13,7 @@ import java.util.Map;
 import entities.Item;
 import Enums.ItemTypes;
 
-public class Menu implements IStorage, IController {
+public class Menu implements IController {
 	// Variables
 	private ArrayList<Item> itemList;
 	private static Menu single_instance = null;
@@ -21,7 +21,7 @@ public class Menu implements IStorage, IController {
 	// Constructor
 	private Menu() {
 		itemList = new ArrayList<Item>();
-		loadData();
+		// loadData();
 		cleanID();
 	}
 
@@ -101,13 +101,11 @@ public class Menu implements IStorage, IController {
 		itemList.add(toBeAdded);
 		cleanID();
 		storeData();
-		loadData();
-
 	}
 
 	public void read() {
 		for (Item item : itemList) {
-			System.out.println(item);
+			System.out.println(item.getName());
 		}
 	}
 
@@ -116,7 +114,6 @@ public class Menu implements IStorage, IController {
 		itemList.remove(toBeDeleted);
 		cleanID();
 		storeData();
-		loadData();
 	}
 
 	public void update(Object entities, int choice, String value) {
@@ -148,7 +145,6 @@ public class Menu implements IStorage, IController {
 		}
 		cleanID();
 		storeData();
-		loadData();
 	}
 
 	public void storeData() {
