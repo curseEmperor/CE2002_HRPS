@@ -37,7 +37,7 @@ public class ReservationController implements IController, IStorage {
 
         for (Reservation reservation : reservationList) {
         	//Check expiration of reservation
-            if (reservation.getReservationStatus()!=ReservationStatus.CONFIRM
+            if (reservation.getReservationStatus()!=ReservationStatus.COMPLETED
             		&& reservation.getReservationStatus()!=ReservationStatus.EXPIRED
             		&& thisDate.compareTo(reservation.getCheckIn()) > 0) {
                 System.out.println("Current date is past check in time");

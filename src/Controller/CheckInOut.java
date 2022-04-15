@@ -63,8 +63,8 @@ public class CheckInOut {
     	ReservationController.getInstance().update(reservation, 7, "2");
     	
     	//Change room status
-    	RoomController.getInstance().update(room, 5, reservation.getGuestID());
-    	RoomController.getInstance().update(room, 4, "Occupied");
+    	RoomController.getInstance().update(room, 2, reservation.getGuestID());
+    	RoomController.getInstance().update(room, 9, "2");
     	}
     	catch (Exception e) {
     		e.printStackTrace();

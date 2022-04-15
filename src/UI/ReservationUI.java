@@ -3,6 +3,7 @@ package UI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.Scanner;
 
 import Controller.CheckInOut;
@@ -91,8 +92,8 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         String checkInString = getUserString();
         Date checkInDate = dateValid(checkInString);
         Date today = new Date();
-        while (checkInDate.before(today)) {
-        	System.out.println("Check-out day must be after today");
+        while (checkInDate.before(removeTime(today))) {
+        	System.out.println("Check-in day must not be before today");
         	System.out.println("Enter Check-in day (dd/MM/yy): ");
         	checkInString = getUserString();
             checkInDate = dateValid(checkInString);
@@ -170,6 +171,8 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         rawReservation.setRoomType(roomType);
         
         ReservationController.getInstance().create(rawReservation);
+        
+        System.out.println("Reservation " + rawReservation.getID() + " has been created");
 
     }
 
@@ -305,6 +308,16 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         }
         
         return javaDate;
+    }
+    
+    private Date removeTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
     }
 
 }
