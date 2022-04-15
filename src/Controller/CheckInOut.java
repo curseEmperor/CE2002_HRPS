@@ -32,6 +32,12 @@ public class CheckInOut {
     		System.out.println("Invalid Reservation ID");
     		return;
     	}
+    	/*Date thisDate = new Date();
+    	thisDate = removeTime(thisDate);
+    	if (!thisDate.equals(reservation.getCheckOut())) {
+    		System.out.println("Check Out date does not match");
+    		return;
+    	}*/
     	ReservationController.getInstance().update(reservation, 7, "4");
     	
     	//Change room status
@@ -107,8 +113,12 @@ public class CheckInOut {
     	ArrayList<Order> roomOrders = OrderController.getInstance().retrieveOrdersOfRoom(reservation.getRoomID());
     	double roomPrice = RoomController.getInstance().checkExistence(reservation.getRoomID()).getRoomPrice();
     	long days = TimeUnit.DAYS.convert(reservation.getCheckOut().getTime()-reservation.getCheckIn().getTime(), TimeUnit.MILLISECONDS);
-    	double reservationCost = roomPrice*days;
-    	System.out.println("Outstanding payments");
+    	long weekends = countWeekends(reservation.getCheckIn(),reservation.getCheckOut());
+    	long weekdays = days - weekends;
+    	System.out.println("Weekdays = " + weekdays);
+    	System.out.println("Weekends = " + weekends);
+    	//double reservationCost = roomPrice*days;
+    	//System.out.println("Outstanding payments");
     	
     }
     
@@ -124,11 +134,15 @@ public class CheckInOut {
     
     private long countWeekends (Date start, Date end) {
     	long days = TimeUnit.DAYS.convert(end.getTime()-start.getTime(), TimeUnit.MILLISECONDS);
-    	int weekends = 2*(int)(days/7);
-    	days = days - (int)(days/7);
+    	long weekends = 2*(int)(days/7);
+    	days = days - 7*(int)(days/7);
+    	Calendar c = Calendar.getInstance();
+    	c.setTime(start);
     	while (days > 0) {
-    		if (start.getDay() == 6 || start.getDay() == 6) weekends++;
-    		
+    		int day = c.get(Calendar.DAY_OF_WEEK);
+    		if (day == Calendar.FRIDAY || day == Calendar.SATURDAY) weekends++;
+    		days--;
+    		c.add(Calendar.DATE, 1);
     	}
     	return weekends;
     }
