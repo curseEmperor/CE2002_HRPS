@@ -30,6 +30,7 @@ public class CheckInOutUI extends StandardUI{
             qSize = showSelection();
             choice = getUserChoice(qSize);
             String ID;
+            String select;
             switch (choice) {
                 case 1: //checkIn
                     System.out.println("Enter reservation ID: ");
@@ -39,10 +40,23 @@ public class CheckInOutUI extends StandardUI{
                 case 2: //checkOut
                 	System.out.println("Enter reservation ID: ");
                     ID = getUserString();
-                    System.out.println("Room Discount (%): ");
-                    float roomDiscount = (float)getUserChoice(100) / 100;
-                    System.out.println("Order Discount (%): ");
-                    float orderDiscount = (float)getUserChoice(100) / 100;
+                    System.out.println("Any Room Discounts? (Y/N)");
+                    select = getUserYN();
+                    float roomDiscount = 0;
+                    float orderDiscount = 0;
+                    //Check for room discounts
+                    if (select.compareTo("Y")==0 ) {
+                    	System.out.println("Room Discount (%): ");
+                    	roomDiscount = (float)getUserChoice(100) / 100;
+                    }
+                    System.out.println("Any Order Discounts? (Y/N)");
+                    select = getUserYN();
+                    //Check for order discounts
+                    if (select.compareTo("Y")==0) {
+                    	System.out.println("Order Discount (%): ");
+                    	orderDiscount = (float)getUserChoice(100) / 100;
+                    }
+                    //Run checkout
                     CheckInOut.getInstance().checkOut(ID, roomDiscount, orderDiscount);
                     break;
                 case 3:

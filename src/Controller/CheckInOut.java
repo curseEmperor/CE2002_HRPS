@@ -46,7 +46,7 @@ public class CheckInOut {
     	RoomController.getInstance().update(room, 9, "1");
     	
     	//Get payment details (Room payment, order payments)
-    	payment(reservation);
+    	printReceipt(reservation, roomDiscount, orderDiscount);
     }
     
     public void checkIn(String reservationID) {
@@ -109,7 +109,7 @@ public class CheckInOut {
     	return roomList.get(roomType).size() - reservationCount;
     }
     
-    public void payment(Reservation reservation) {
+    public void printReceipt(Reservation reservation, float roomDiscount, float orderDiscount) {
     	ArrayList<Order> roomOrders = OrderController.getInstance().retrieveOrdersOfRoom(reservation.getRoomID());
     	double roomPrice = RoomController.getInstance().checkExistence(reservation.getRoomID()).getRoomPrice();
     	long days = TimeUnit.DAYS.convert(reservation.getCheckOut().getTime()-reservation.getCheckIn().getTime(), TimeUnit.MILLISECONDS);
@@ -117,9 +117,39 @@ public class CheckInOut {
     	long weekdays = days - weekends;
     	System.out.println("Weekdays = " + weekdays);
     	System.out.println("Weekends = " + weekends);
-    	//double reservationCost = roomPrice*days;
-    	//System.out.println("Outstanding payments");
+    	double roomCost = roomPrice*weekdays + roomPrice*weekends*1.1;
+    	double orderCost = 0;
     	
+    	//Calculate total order costs and view receipt
+    	if (roomOrders.size()!=0) for (Order order : roomOrders) orderCost+=order.viewOrder();
+    	
+    	//Print receipt
+    	Date thisDate = new Date();
+    	System.out.println("============================");
+    	System.out.println("    Outstanding Payments    ");
+    	System.out.println("============================");
+    	System.out.println(thisDate);
+    	System.out.println(" Room");
+    	System.out.println("   - Weekdays: " + weekdays);
+    	System.out.println("   - Weekends: " + weekends);
+    	System.out.println("   - Discount: " + roomDiscount*100 + "%");
+    	System.out.println("   - Total cost = " + roomCost+roomCost*roomDiscount);
+    	System.out.println(" Room Service");
+    	System.out.println("   - Discount: " + orderDiscount*100 + "%");
+    	System.out.println("   - Total cost = " + orderCost+orderCost*orderDiscount);
+    	double SubTotal = (roomCost+roomCost*roomDiscount) + (orderCost+orderCost*orderDiscount);
+    	System.out.println(" SubTotal: " + SubTotal);
+    	System.out.println("      GST: " + SubTotal*0.07);
+    	System.out.println("  Service: " + SubTotal*0.10);
+    	System.out.println("    Total: " + SubTotal*1.17);
+    	System.out.println("============================");
+    	System.out.println();
+    }
+    
+    public void payment(Reservation reservation) {
+    	ArrayList<Order> roomOrders = OrderController.getInstance().retrieveOrdersOfRoom(reservation.getRoomID());
+    	//update orders to paid
+    	if (roomOrders.size()!=0) for (Order order : roomOrders) OrderController.getInstance().update(order, 0, "3");
     }
     
     private Date removeTime(Date date) {
