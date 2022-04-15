@@ -16,7 +16,7 @@ import Enums.RoomTypes;
 import Enums.RoomView;
 import entities.Room;
 
-public class RoomController implements IStorage, IController {
+public class RoomController implements IController {
     private static RoomController instance = null;
 
     private ArrayList<Room> roomList;
@@ -150,6 +150,9 @@ public class RoomController implements IStorage, IController {
     }
 
     public void read() {
+        for (Room room : roomList) {
+            System.out.println(room.getRoomID());
+        }
     }
 
     public void delete(Object entities) {
@@ -161,45 +164,45 @@ public class RoomController implements IStorage, IController {
         Room toBeUpdated = (Room) entities;
 
         switch (choice) {
-        case 1: //roomID
-            toBeUpdated.setRoomID(value);
-            break;
-        case 2: //guestID
-        	toBeUpdated.setGuestID(value);
-            break;
-        case 3: //roomPrice
-            try {
-                double price = Double.parseDouble(value);
-                toBeUpdated.setRoomPrice(price);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            break;
-        case 4: //roomType
-            toBeUpdated.setRoomType(generateRoomType(value));
-            break;
-        case 5: //bedType
-        	toBeUpdated.setBedType(generateBedType(value));
-        case 6: //Wifi
-        	if (value.equals("Y")) {
-        		toBeUpdated.setWiFi(true);
-            } else {
-            	toBeUpdated.setWiFi(false);
-            }
-        	break;
-        case 7: //view
-        	toBeUpdated.setView(generateView(value));
-        	break;
-        case 8: //smoke
-        	if (value.equals("Y")) {
-        		toBeUpdated.setSmoke(true);
-            } else {
-            	toBeUpdated.setSmoke(false);
-            }
-        	break;
-        case 9: //roomStatus
-        	toBeUpdated.setRoomStatus(generateStatus(value));
-        	break;
+            case 1: // roomID
+                toBeUpdated.setRoomID(value);
+                break;
+            case 2: // guestID
+                toBeUpdated.setGuestID(value);
+                break;
+            case 3: // roomPrice
+                try {
+                    double price = Double.parseDouble(value);
+                    toBeUpdated.setRoomPrice(price);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 4: // roomType
+                toBeUpdated.setRoomType(generateRoomType(value));
+                break;
+            case 5: // bedType
+                toBeUpdated.setBedType(generateBedType(value));
+            case 6: // Wifi
+                if (value.equals("Y")) {
+                    toBeUpdated.setWiFi(true);
+                } else {
+                    toBeUpdated.setWiFi(false);
+                }
+                break;
+            case 7: // view
+                toBeUpdated.setView(generateView(value));
+                break;
+            case 8: // smoke
+                if (value.equals("Y")) {
+                    toBeUpdated.setSmoke(true);
+                } else {
+                    toBeUpdated.setSmoke(false);
+                }
+                break;
+            case 9: // roomStatus
+                toBeUpdated.setRoomStatus(generateStatus(value));
+                break;
         }
     }
 
@@ -237,9 +240,9 @@ public class RoomController implements IStorage, IController {
 
         return report;
     }
-    
+
     public Map<RoomTypes, List<Room>> splitRoomByType() {
-    	Map<RoomTypes, List<Room>> roomByType = new HashMap<>();
+        Map<RoomTypes, List<Room>> roomByType = new HashMap<>();
 
         ArrayList<Room> singleType = new ArrayList<Room>();
         ArrayList<Room> doubleType = new ArrayList<Room>();
@@ -307,7 +310,7 @@ public class RoomController implements IStorage, IController {
             out.writeInt(roomList.size());
             for (Room room : roomList)
                 out.writeObject(room);
-            System.out.printf("%s \n\n--Entries Saved.--\n", roomList.toString().replace("[","").replace("]",""));
+            System.out.printf("%s \n\n--Entries Saved.--\n", roomList.toString().replace("[", "").replace("]", ""));
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -346,7 +349,7 @@ public class RoomController implements IStorage, IController {
 
         }
     }
-    
+
     public RoomView generateView(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
@@ -360,7 +363,7 @@ public class RoomController implements IStorage, IController {
                 return RoomView.NIL;
         }
     }
-    
+
     public BedTypes generateBedType(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
@@ -371,12 +374,12 @@ public class RoomController implements IStorage, IController {
             case 3:
                 return BedTypes.QUEEN;
             case 4:
-            	return BedTypes.KING;
+                return BedTypes.KING;
             default:
                 return BedTypes.SINGLE;
         }
     }
-    
+
     public RoomTypes generateRoomType(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
@@ -387,7 +390,7 @@ public class RoomController implements IStorage, IController {
             case 3:
                 return RoomTypes.DELUXE;
             case 4:
-            	return RoomTypes.SUITE;
+                return RoomTypes.SUITE;
             default:
                 return RoomTypes.SINGLE;
         }
