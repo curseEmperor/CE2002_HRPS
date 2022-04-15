@@ -115,8 +115,6 @@ public class CheckInOut {
     	long days = TimeUnit.DAYS.convert(reservation.getCheckOut().getTime()-reservation.getCheckIn().getTime(), TimeUnit.MILLISECONDS);
     	long weekends = countWeekends(reservation.getCheckIn(),reservation.getCheckOut());
     	long weekdays = days - weekends;
-    	System.out.println("Weekdays = " + weekdays);
-    	System.out.println("Weekends = " + weekends);
     	double roomCost = roomPrice*weekdays + roomPrice*weekends*1.1;
     	double orderCost = 0;
     	
@@ -129,19 +127,19 @@ public class CheckInOut {
     	System.out.println("    Outstanding Payments    ");
     	System.out.println("============================");
     	System.out.println(thisDate);
-    	System.out.println(" Room");
-    	System.out.println("   - Weekdays: " + weekdays);
-    	System.out.println("   - Weekends: " + weekends);
-    	System.out.println("   - Discount: " + roomDiscount*100 + "%");
-    	System.out.println("   - Total cost = " + roomCost+roomCost*roomDiscount);
-    	System.out.println(" Room Service");
-    	System.out.println("   - Discount: " + orderDiscount*100 + "%");
-    	System.out.println("   - Total cost = " + orderCost+orderCost*orderDiscount);
+    	System.out.println("Room");
+    	System.out.println("  - Weekdays: " + weekdays);
+    	System.out.println("  - Weekends: " + weekends);
+    	System.out.println("  - Discount: " + roomDiscount*100 + "%");
+    	System.out.printf( "  - Total cost = %.2f\n", (roomCost+roomCost*roomDiscount));
+    	System.out.println("Room Service");
+    	System.out.println("  - Discount: " + orderDiscount*100 + "%");
+    	System.out.printf( "  - Total cost = %.2f\n", (orderCost+orderCost*orderDiscount));
     	double SubTotal = (roomCost+roomCost*roomDiscount) + (orderCost+orderCost*orderDiscount);
-    	System.out.println(" SubTotal: " + SubTotal);
-    	System.out.println("      GST: " + SubTotal*0.07);
-    	System.out.println("  Service: " + SubTotal*0.10);
-    	System.out.println("    Total: " + SubTotal*1.17);
+    	System.out.printf("SubTotal : %.2f\n", SubTotal);
+    	System.out.printf("GST      : %.2f\\n", SubTotal*0.07);
+    	System.out.printf("Service  : %.2f\\n", SubTotal*0.10);
+    	System.out.printf("Total    : %.2f\\n", SubTotal*1.17);
     	System.out.println("============================");
     	System.out.println();
     }
