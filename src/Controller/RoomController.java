@@ -158,29 +158,43 @@ public class RoomController implements IStorage, IController {
     }
 
     public void update(Object entities, int choice, String value) {
-        Room tobeUpdated = (Room) entities;
+        Room toBeUpdated = (Room) entities;
 
         switch (choice) {
-            case 1:
-                try {
-                    double price = Double.parseDouble(value);
-                    tobeUpdated.setRoomPrice(price);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case 2:
-                break;
-            case 3:
-                if (value.equals("T")) {
-                    tobeUpdated.setWiFi(true);
-                } else {
-                    tobeUpdated.setWiFi(false);
-                }
-                break;
-            case 4:
-                tobeUpdated.setRoomStatus(generateStatus(value));
-                break;
+        case 1: //roomID
+            toBeUpdated.setRoomID(value);
+            break;
+        case 2: //guestID
+        	toBeUpdated.setGuestID(value);
+            break;
+        case 3: //roomPrice
+            try {
+                double price = Double.parseDouble(value);
+                toBeUpdated.setRoomPrice(price);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            break;
+        case 4: //roomType
+            toBeUpdated.setRoomType(generateRoomType(value));
+            break;
+        case 5: //bedType
+        	toBeUpdated.setBedType(generateBedType(value));
+        case 6: //Wifi
+        	if (value.equals("Y")) {
+        		toBeUpdated.setWiFi(true);
+            } else {
+            	toBeUpdated.setWiFi(false);
+            }
+        	break;
+        case 7: //view
+        	toBeUpdated.setView(generateView(value));
+        	break;
+        case 8: //smoke
+        	break;
+        case 9: //roomStatus
+        	toBeUpdated.setRoomStatus(generateStatus(value));
+        	break;
         }
     }
 
@@ -325,6 +339,52 @@ public class RoomController implements IStorage, IController {
             default:
                 return RoomStatus.MAINTAINENCE;
 
+        }
+    }
+    
+    private RoomView generateView(String value) {
+        int choice = Integer.parseInt(value);
+        switch (choice) {
+            case 1:
+                return RoomView.NIL;
+            case 2:
+                return RoomView.POOL;
+            case 3:
+                return RoomView.CITY;
+            default:
+                return RoomView.NIL;
+        }
+    }
+    
+    private BedTypes generateBedType(String value) {
+        int choice = Integer.parseInt(value);
+        switch (choice) {
+            case 1:
+                return BedTypes.SINGLE;
+            case 2:
+                return BedTypes.DOUBLE;
+            case 3:
+                return BedTypes.QUEEN;
+            case 4:
+            	return BedTypes.KING;
+            default:
+                return BedTypes.SINGLE;
+        }
+    }
+    
+    private RoomTypes generateRoomType(String value) {
+        int choice = Integer.parseInt(value);
+        switch (choice) {
+            case 1:
+                return RoomTypes.SINGLE;
+            case 2:
+                return RoomTypes.DOUBLE;
+            case 3:
+                return RoomTypes.DELUXE;
+            case 4:
+            	return RoomTypes.SUITE;
+            default:
+                return RoomTypes.SINGLE;
         }
     }
 }
