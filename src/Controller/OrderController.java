@@ -136,6 +136,11 @@ public class OrderController implements IController {
             System.out.println("Please enter the itemID of the item you wish to order:");
             String itemID = sc.nextLine();
             Item itemToAdd = Menu.getInstance().checkExistance(itemID);
+            while (itemToAdd==null) {
+            	System.out.println("Please valid itemID:");
+                itemID = sc.nextLine();
+                itemToAdd = Menu.getInstance().checkExistance(itemID);
+            }
 
             System.out.println("Please enter the quantity of item for " + itemID);
             int quantityOfItem = sc.nextInt();
