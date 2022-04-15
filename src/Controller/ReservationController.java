@@ -183,11 +183,6 @@ public class ReservationController implements IController {
             out.writeInt(reservationList.size());
             for (Reservation res : reservationList)
                 out.writeObject(res);
-            /*System.out.println("==========================");
-            System.out.println("   Reservation Details: ");
-            System.out.println("==========================");
-            System.out.println(reservationList.toString().replace("[", "").replace("]", ""));
-            System.out.println("========================");*/
             System.out.println("Entries Saved!");
             out.close();
         } catch (IOException e) {
@@ -278,5 +273,13 @@ public class ReservationController implements IController {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
+    }
+    
+    public Reservation getCheckInReservation (String roomID) {
+    	List<Reservation> checkedInList = splitReservationByStatus().get(ReservationStatus.CHECKIN);
+    	for (Reservation reservation : checkedInList) {
+    		if (roomID.compareTo(reservation.getRoomID())==0) return reservation;
+    	}
+    	return null;
     }
 }

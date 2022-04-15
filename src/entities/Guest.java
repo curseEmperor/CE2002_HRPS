@@ -88,7 +88,6 @@ public class Guest implements Serializable {
     public void setCard(Creditcard card) {
         this.card = card;
     }*/
-
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

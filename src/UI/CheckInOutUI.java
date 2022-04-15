@@ -50,7 +50,7 @@ public class CheckInOutUI extends StandardUI{
     
     private void checkOut() {
     	String ID, select;
-    	System.out.println("Enter reservation ID: ");
+    	System.out.println("Enter room ID: ");
         ID = getUserString();
         
         float roomDiscount = 0;

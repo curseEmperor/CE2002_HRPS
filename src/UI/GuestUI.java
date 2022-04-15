@@ -132,7 +132,6 @@ public class GuestUI extends StandardUI implements ControllerUI {
             System.out.println("5) Country");
             System.out.println("6) Gender");
             System.out.println("7) Nationality");
-            //System.out.println("8) guestName");
 
             choice = getUserChoice(7);
 
