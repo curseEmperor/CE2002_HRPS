@@ -279,4 +279,12 @@ public class ReservationController implements IController {
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
+    
+    public Reservation getCheckInReservation (String roomID) {
+    	List<Reservation> checkedInList = splitReservationByStatus().get(ReservationStatus.CHECKIN);
+    	for (Reservation reservation : checkedInList) {
+    		if (roomID.compareTo(reservation.getRoomID())==0) return reservation;
+    	}
+    	return null;
+    }
 }

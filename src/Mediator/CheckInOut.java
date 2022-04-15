@@ -27,9 +27,9 @@ public class CheckInOut {
         return instance;
     }
     
-    public void checkOut(String reservationID, float roomDiscount, float orderDiscount) {
+    public void checkOut(String roomID, float roomDiscount, float orderDiscount) {
     	//Check validity of check-out
-    	Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
+    	Reservation reservation = ReservationController.getInstance().getCheckInReservation(roomID);
     	if (validCheckOut(reservation) == false) return;
     	
     	//Change reservation status to completed
