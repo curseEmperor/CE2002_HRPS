@@ -110,17 +110,17 @@ public class Room implements Serializable {
 		StringBuilder result = new StringBuilder();
 		String newLine = System.getProperty("line.separator");
 
-		result.append(this.getClass().getName() + newLine);
+		//result.append(this.getClass().getName() + newLine);
 
-		result.append("roomID: " + this.roomID + newLine);
-		result.append("guestID: " + this.guestID + newLine);
-		result.append("roomPrice: " + this.roomPrice + newLine);
-		result.append("roomType: " + this.roomType + newLine);
-		result.append("bedType: " + this.bedType + newLine);
+		result.append("Room ID: " + this.roomID + newLine);
+		result.append("Guest ID: " + this.guestID + newLine);
+		result.append("Room Price: $" + this.roomPrice + newLine);
+		result.append("Room Type: " + this.roomType + newLine);
+		result.append("Bed Type: " + this.bedType + newLine);
 		result.append("WiFi: " + this.WiFi + newLine);
-		result.append("view: " + this.view + newLine);
-		result.append("smoke: " + this.smoke + newLine);
-		result.append("roomStatus: " + this.roomStatus + newLine);
+		result.append("View: " + this.view + newLine);
+		result.append("Smoke: " + this.smoke + newLine);
+		result.append("Room Status: " + this.roomStatus);
 
 		return result.toString();
 	}
