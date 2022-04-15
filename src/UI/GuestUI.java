@@ -85,7 +85,7 @@ public class GuestUI extends StandardUI implements ControllerUI {
         Guest rawGuest = new Guest(guestID, guestName, address, contact, country,
                 gender, nationality);
         GuestController.getInstance().create(rawGuest);
-                System.out.println("========================");
+        System.out.println("========================");
         System.out.println("     Guest Details ");
         System.out.println("========================");
         System.out.println(rawGuest.toString().replace("[", "").replace("]", ""));
