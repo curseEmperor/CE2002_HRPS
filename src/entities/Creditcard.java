@@ -6,10 +6,10 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 public class Creditcard {
-	String cardID;
-	Date expiryDate;
-	int CVC;
-	CreditcardTypes cardType;
+	private String cardID;
+	private Date expiryDate;
+	private int CVC;
+	private CreditcardTypes cardType;
 	
 	public Creditcard() {
 		
