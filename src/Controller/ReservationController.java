@@ -3,6 +3,7 @@ package Controller;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ public class ReservationController implements IController, IStorage {
 
     public Reservation checkExistence(String reservationID) {
         Date thisDate = new Date();
+        thisDate = removeTime(thisDate);
         // SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
         // System.out.println("Time now is " + formatter.format(thisDate));
 
@@ -266,5 +268,15 @@ public class ReservationController implements IController, IStorage {
         reservationByStatus.put(ReservationStatus.WAITLIST, waitlistStatus);
 
         return reservationByStatus;
+    }
+    
+    private Date removeTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
     }
 }

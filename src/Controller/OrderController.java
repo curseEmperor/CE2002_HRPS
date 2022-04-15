@@ -187,7 +187,7 @@ public class OrderController implements IStorage {
     public ArrayList<Order> retrieveOrdersOfRoom(String roomID) { // by roomID
         ArrayList<Order> retrieveOL = new ArrayList<Order>();
         for (Order order : orderList) {
-            if (order.getRoomID().equals(roomID) && order.getOrderStatus() != OrderStatus.PAID)
+            if (order.getRoomID().compareTo(roomID) == 0 && order.getOrderStatus() != OrderStatus.PAID)
                 retrieveOL.add(order);
         }
         if (retrieveOL.size() > 0)

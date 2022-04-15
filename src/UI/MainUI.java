@@ -52,7 +52,7 @@ public class MainUI {
                     OrderUI.getInstance().mainMenu();
                     break;
                 case 6:
-                    // CheckInOutUI.getInstance().mainMenu();
+                    CheckInOutUI.getInstance().mainMenu();
                     break;
                 default:
                     break;

@@ -56,7 +56,7 @@ public class GuestUI extends StandardUI implements ControllerUI {
     }
 
     public void create() {
-        System.out.println("Enter GuestID: ");
+        System.out.println("Enter GuestID (NRIC/Passport): ");
         String guestID = getUserString();
 
         if (GuestController.getInstance().checkExistence(guestID) != null) {

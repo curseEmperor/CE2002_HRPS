@@ -107,7 +107,7 @@ public class Order implements Serializable {
     // return orderPrice;
     // }
 
-    public void viewOrder() {
+    public float viewOrder() {
         // System.out.println("ID Room Date Remarks Status ");
         // System.out.println(toString());
         // System.out.println("=================================================================================");
@@ -158,6 +158,7 @@ public class Order implements Serializable {
                 break;
         }
         System.out.println();
+        return cost;
     }
 
     @Override
