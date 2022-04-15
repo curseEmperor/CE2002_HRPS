@@ -6,12 +6,12 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.Scanner;
 
-import Controller.CheckInOut;
 import Controller.GuestController;
 import Controller.ReservationController;
 import entities.Reservation;
 import Enums.ReservationStatus;
 import Enums.RoomTypes;
+import Mediator.CheckInOut;
 
 public class ReservationUI extends StandardUI implements ControllerUI {
     private static ReservationUI instance = null;

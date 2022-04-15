@@ -11,6 +11,7 @@ import java.util.Map;
 
 import Enums.ReservationStatus;
 import Enums.RoomTypes;
+import Mediator.CheckInOut;
 import entities.Reservation;
 
 public class ReservationController implements IController {

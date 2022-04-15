@@ -2,7 +2,7 @@ package UI;
 
 import java.util.Scanner;
 
-import Controller.CheckInOut;
+import Mediator.CheckInOut;
 
 public class CheckInOutUI extends StandardUI{
 	private static CheckInOutUI instance = null;
