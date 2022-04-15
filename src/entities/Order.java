@@ -16,18 +16,21 @@ public class Order implements Serializable {
     private ArrayList<Item> listOfFood;
     private String remarks; // less oil, less salt
 
-    /*public Order(String roomID, ArrayList<Item> order, String remarks) {
+    /*
+     * public Order(String roomID, ArrayList<Item> order, String remarks) {
+     * this.roomID = roomID;
+     * this.orderStatus = OrderStatus.CONFIRM;
+     * this.listOfFood = null;
+     * Calendar c = Calendar.getInstance();
+     * String date = formatter.format(c.getTime());
+     * this.date = date;
+     * this.remarks = remarks;
+     * 
+     * }
+     */// constructor
+
+    public Order(String roomID) {
         this.roomID = roomID;
-        this.orderStatus = OrderStatus.CONFIRM;
-        this.listOfFood = null;
-        Calendar c = Calendar.getInstance();
-        String date = formatter.format(c.getTime());
-        this.date = date;
-        this.remarks = remarks;
-
-    }*/// constructor
-
-    public Order() {
     }
 
     public int size() {
@@ -114,9 +117,9 @@ public class Order implements Serializable {
         // System.out.println(listOfFood.get(i).toString());
         // }
         // System.out.println("=================================================================================");
-    	sortOrder();
-    	
-    	float cost = 0;
+        sortOrder();
+
+        float cost = 0;
 
         System.out.println();
         System.out.println("==============================");
@@ -126,33 +129,33 @@ public class Order implements Serializable {
         Item temp = null;
         int count = 0;
         for (Item food : listOfFood) {
-        	if (temp == food) {
-        		count++;
-        	}
-        	else {
-        		if (count!=0) System.out.println("\t" + count);
-        		temp = food;
-        		System.out.print(food);
-        		count = 1;
-        	}
+            if (temp == food) {
+                count++;
+            } else {
+                if (count != 0)
+                    System.out.println("\t" + count);
+                temp = food;
+                System.out.print(food);
+                count = 1;
+            }
             cost += food.getPrice();
         }
         System.out.println("\t" + count);
         System.out.println("Total cost: $" + cost);
         System.out.printf("Status:\t");
-        switch(orderStatus) {
-        case CONFIRM:
-        	System.out.println("Confirmed");
-        	break;
-        case PREPARING:
-        	System.out.println("Preparing");
-        	break;
-        case DELIVERED:
-        	System.out.println("Delivered");
-        	break;
-        case PAID:
-        	System.out.println("Paid");
-        	break;
+        switch (orderStatus) {
+            case CONFIRM:
+                System.out.println("Confirmed");
+                break;
+            case PREPARING:
+                System.out.println("Preparing");
+                break;
+            case DELIVERED:
+                System.out.println("Delivered");
+                break;
+            case PAID:
+                System.out.println("Paid");
+                break;
         }
         System.out.println();
     }
@@ -174,21 +177,21 @@ public class Order implements Serializable {
 
         return result.toString();
     }
-    
+
     public void sortOrder() {
-		int a,b;
-		Item temp;
-		for (a = 0; a < listOfFood.size(); a++) {
-			for (b = a; b > 0; b--) {
-				temp = listOfFood.get(b);
-				if (temp.getID().compareTo(listOfFood.get(b-1).getID()) > 0)
-					break;
-				else {
-					listOfFood.set(b, listOfFood.get(b-1));
-					listOfFood.set(b-1, temp);
-				}
-			}
-		}
-	}
+        int a, b;
+        Item temp;
+        for (a = 0; a < listOfFood.size(); a++) {
+            for (b = a; b > 0; b--) {
+                temp = listOfFood.get(b);
+                if (temp.getID().compareTo(listOfFood.get(b - 1).getID()) > 0)
+                    break;
+                else {
+                    listOfFood.set(b, listOfFood.get(b - 1));
+                    listOfFood.set(b - 1, temp);
+                }
+            }
+        }
+    }
 
 }

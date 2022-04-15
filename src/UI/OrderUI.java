@@ -3,6 +3,7 @@ package UI;
 import java.util.Scanner;
 
 import Controller.OrderController;
+import Controller.RoomController;
 import entities.Order;
 
 public class OrderUI extends StandardUI {
@@ -59,7 +60,16 @@ public class OrderUI extends StandardUI {
     }
 
     public void create() {
-        OrderController.getInstance().create();
+
+        System.out.println("Please enter your Room ID:");
+        String roomID = sc.nextLine();
+        while (RoomController.getInstance().checkExistence(roomID) == null) {
+            System.out.println("Please enter valid Room ID:");
+            roomID = sc.nextLine();
+        }
+
+        Order order = new Order(roomID);
+        OrderController.getInstance().create(order);
     }
 
     public void readOneDets() {
@@ -85,7 +95,19 @@ public class OrderUI extends StandardUI {
             return;
         }
 
-        OrderController.getInstance().update(order);
+        System.out.println("Choose either to \n(1)add item\n(2)remove item \n(3)update status");
+        int choice = sc.nextInt();
+        sc.nextLine();
+
+        String value = null;
+        if (choice == 3) {
+            System.out.println("Change Order status to:");
+            System.out.println("1) Preparing");
+            System.out.println("2) Delivered");
+            System.out.println("3) Paid");
+            value = sc.nextLine();
+        }
+        OrderController.getInstance().update(order, choice, value);
     }
 
     public void delete() {
