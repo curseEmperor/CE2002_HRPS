@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 import entities.Guest;
 import entities.Creditcard;
@@ -91,9 +92,9 @@ public class GuestController implements IController {
         storeData();
     }
     
-    public void updateCreditcard(Object entities, Creditcard card) {
+    public void updateCreditcard(Object entities, String cardNumber, Date expiryDate, int CVC, int type, String cardName) {
     	Guest toBeUpdated = (Guest) entities;
-    	toBeUpdated.setCard(card);
+    	toBeUpdated.setCard(new Creditcard(cardNumber, expiryDate, CVC, type, cardName));
     }
 
     public void storeData() {

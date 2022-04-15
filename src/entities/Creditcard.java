@@ -3,9 +3,10 @@ package entities;
 import Enums.CreditcardTypes;
 
 import java.util.Date;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
-public class Creditcard {
+public class Creditcard implements Serializable {
 	private String cardNumber;
 	private Date expiryDate;
 	private int CVC;
