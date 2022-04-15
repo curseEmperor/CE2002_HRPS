@@ -1,6 +1,5 @@
 package Controller;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,7 +20,7 @@ public class Menu implements IController {
 	// Constructor
 	private Menu() {
 		itemList = new ArrayList<Item>();
-		// loadData();
+		loadData();
 		cleanID();
 	}
 
