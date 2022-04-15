@@ -6,13 +6,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import entities.Guest;
 
 public class GuestController implements IController {
     private static GuestController instance = null;
-    Scanner sc;
 
     private ArrayList<Guest> guestList;
 

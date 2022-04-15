@@ -2,7 +2,6 @@ package Controller;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 
@@ -14,10 +13,8 @@ import java.util.Map;
 
 public class CheckInOut {
 	private static CheckInOut instance = null;
-    Scanner sc;
 
     private CheckInOut() {
-        sc = new Scanner(System.in);
     }
 
     public static CheckInOut getInstance() {
