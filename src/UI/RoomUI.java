@@ -77,7 +77,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
 
     public void create() {
 
-        System.out.println("Enter ur roomID: ");
+        System.out.println("Enter Room ID: ");
         String roomID = getUserString();
 
         System.out.println("Enter Room Price: ");
@@ -137,7 +137,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
 
     public void readOneDets() {
 
-        System.out.println("Enter ur roomID: ");
+        System.out.println("Enter roomID: ");
         String roomID = getUserString();
 
         Room roomRead = RoomController.getInstance().checkExistence(roomID);
@@ -149,7 +149,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
     }
 
     public void update() {
-        System.out.println("Enter ur roomID: ");
+        System.out.println("Enter roomID: ");
         String roomID = getUserString();
 
         Room toBeUpdated = RoomController.getInstance().checkExistence(roomID);
@@ -157,7 +157,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
             System.out.println("Room does not exist");
         } else {
             // TODO: while loop
-            System.out.println("What do u want to update: ");
+            System.out.println("What do you want to update: ");
             System.out.println("1) Room ID"); //string
             System.out.println("2) Guest ID"); //string
             System.out.println("3) Room Price"); //float
@@ -190,7 +190,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
             		count++;
             		System.out.println(count + ") " + bedType.name());
             	}
-            	System.out.println("Choose room type: ");
+            	System.out.println("Choose bed type: ");
             	content = String.valueOf(getUserChoice(BedTypes.values().length));
             	break;
             case 6:
@@ -203,7 +203,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
             		count++;
             		System.out.println(count + ") " + view.name());
             	}
-            	System.out.println("Choose room type: ");
+            	System.out.println("Choose view: ");
             	content = String.valueOf(getUserChoice(RoomView.values().length));
             	break;
             case 8: //smoking
@@ -216,7 +216,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
             		count++;
             		System.out.println(count + ") " + roomStatus.name());
             	}
-            	System.out.println("Choose room type: ");
+            	System.out.println("Choose status: ");
             	content = String.valueOf(getUserChoice(RoomStatus.values().length));
             	break;
             default:
@@ -231,7 +231,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
     }
 
     public void delete() {
-        System.out.println("Enter ur roomID: ");
+        System.out.println("Enter roomID: ");
         String roomID = getUserString();
 
         Room toBeDeleted = RoomController.getInstance().checkExistence(roomID);
