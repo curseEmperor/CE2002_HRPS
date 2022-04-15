@@ -88,7 +88,7 @@ public class Creditcard implements Serializable {
 
         result.append("cardNumber: " + this.cardNumber + newLine);
         result.append("expiryDate: " + formatter.format(this.expiryDate) + newLine);
-        result.append("CVC: " + this.CVC + newLine);
+        result.append("CVC: " + String.format("%03d", this.CVC) + newLine);
         result.append("Creditcard Type: " + this.cardType.toString() + newLine);
         result.append("Registered Name: " + this.registeredName + newLine);
         
