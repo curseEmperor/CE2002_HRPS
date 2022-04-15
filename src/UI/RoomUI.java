@@ -213,7 +213,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
             		System.out.println(count + ") " + roomStatus.name());
             	}
             	System.out.println("Choose status: ");
-            	content = String.valueOf(getUserChoice(RoomStatus.values().length));
+            	content = String.valueOf(getUserChoice(RoomStatus.values().length)+1);
             	break;
             default:
             	System.out.println("Enter the relevant details: ");
