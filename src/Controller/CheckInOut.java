@@ -131,21 +131,21 @@ public class CheckInOut {
     	System.out.println("  - Weekdays: " + weekdays);
     	System.out.println("  - Weekends: " + weekends);
     	System.out.println("  - Discount: " + roomDiscount*100 + "%");
-    	System.out.printf( "  - Total cost = %.2f\n", (roomCost+roomCost*roomDiscount));
+    	System.out.printf( "  - Total cost: $%.2f\n", (roomCost-roomCost*roomDiscount));
     	System.out.println("Room Service");
     	System.out.println("  - Discount: " + orderDiscount*100 + "%");
-    	System.out.printf( "  - Total cost = %.2f\n", (orderCost+orderCost*orderDiscount));
-    	double SubTotal = (roomCost+roomCost*roomDiscount) + (orderCost+orderCost*orderDiscount);
-    	System.out.printf("SubTotal : %.2f\n", SubTotal);
-    	System.out.printf("GST      : %.2f\\n", SubTotal*0.07);
-    	System.out.printf("Service  : %.2f\\n", SubTotal*0.10);
-    	System.out.printf("Total    : %.2f\\n", SubTotal*1.17);
+    	System.out.printf( "  - Total cost: $%.2f\n", (orderCost-orderCost*orderDiscount));
+    	double SubTotal = (roomCost-roomCost*roomDiscount) + (orderCost-orderCost*orderDiscount);
+    	System.out.printf("SubTotal : $%.2f", SubTotal); System.out.println();
+    	System.out.printf("GST      : $%.2f", SubTotal*0.07); System.out.println();
+    	System.out.printf("Service  : $%.2f", SubTotal*0.10); System.out.println();
+    	System.out.printf("Total    : $%.2f", SubTotal*1.17); System.out.println();
     	System.out.println("============================");
     	System.out.println();
     }
     
     public void payment(String ID) {
-    	Rerservation reservation = ReservationController.getInstance().checkExistence(ID);
+    	Reservation reservation = ReservationController.getInstance().checkExistence(ID);
     	ArrayList<Order> roomOrders = OrderController.getInstance().retrieveOrdersOfRoom(reservation.getRoomID());
     	//update orders to paid
     	if (roomOrders.size()!=0) for (Order order : roomOrders) OrderController.getInstance().update(order, 3, "4");
