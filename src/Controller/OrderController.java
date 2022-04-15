@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class OrderController implements IStorage {
+public class OrderController implements IController {
 
     ArrayList<Order> orderList;
     private static OrderController instance = null;
@@ -175,10 +175,11 @@ public class OrderController implements IStorage {
         }
     }
 
-    // public void updateStatus(int orderID, String newOrderStatus) {
-    // Order order = checkExistence(orderID);
-    // order.setOrderStatus(newOrderStatus);
-    // }
+    public void read() {
+        for (Order order : orderList) {
+            System.out.println(order.getOrderID());
+        }
+    }
 
     public void read(Order order) { // read a single order
         order.viewOrder();
