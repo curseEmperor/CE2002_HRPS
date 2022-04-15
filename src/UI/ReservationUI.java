@@ -47,13 +47,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
             switch (choice) {
                 case 1:
                     System.out.println("Are you a new Guest? (Y/N)");
-                    String select = getUserString();
-                    while (!(select.compareToIgnoreCase("Y")==0 || select.compareToIgnoreCase("N")==0)) {
-                    	System.out.println("Please enter only Y/N");
-                        System.out.println("Y/N? ");
-                        select = getUserString();
-                        System.out.println(select);
-                    }
+                    String select = getUserYN();
                     switch (select) {
                     case "N":
                         create();
@@ -162,12 +156,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 	        if (checkAvailability <= 0) {
 	        	System.out.println("Room type not available!");
 	        	System.out.println("Put on waitlist? (Y/N)");
-	        	String select = getUserString();
-	        	while (!(select.compareToIgnoreCase("Y")==0 || select.compareToIgnoreCase("N")==0)) {
-                    System.out.println("Please enter only Y/N");
-                    System.out.println("Y/N? ");
-                    select = getUserString();
-                }
+	        	String select = getUserYN();
                 if (select.compareTo("Y")==0) {
                 	rawReservation.setReservationStatus(ReservationStatus.WAITLIST);
                 	break;
@@ -264,12 +253,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         	        if (checkAvailability <= 0) {
         	        	System.out.println("Room type not available!");
         	        	System.out.println("Put on waitlist? (Y/N)");
-        	        	String select = getUserString();
-        	        	while (!(select.compareToIgnoreCase("Y")==0 || select.compareToIgnoreCase("N")==0)) {
-                            System.out.println("Please enter only Y/N");
-                            System.out.println("Y/N? ");
-                            select = getUserString();
-                        }
+        	        	String select = getUserYN();
                         if (select.compareTo("Y")==0) {
                         	ReservationController.getInstance().update(toBeUpdated, 7, "5");
                         	break;

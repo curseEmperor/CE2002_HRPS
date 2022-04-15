@@ -37,5 +37,16 @@ public abstract class StandardUI {
         String input = sc.nextLine().toUpperCase();
         return input;
     }
+    
+    public String getUserYN() {
+    	String select = getUserString();
+    	while (!(select.compareToIgnoreCase("Y")==0 || select.compareToIgnoreCase("N")==0)) {
+        	System.out.println("Please enter only Y/N");
+            System.out.println("Y/N? ");
+            select = getUserString();
+            System.out.println(select);
+        }
+    	return select;
+    }
 }
 
