@@ -198,7 +198,7 @@ public class CheckInOut {
     
     private boolean validCheckOut (Reservation reservation) {
     	if (reservation == null) {
-    		System.out.println("No reservation found");
+    		System.out.println("No reservation found (Please enter room ID)");
     		return false;
     	}
     	if (reservation.getReservationStatus()!=ReservationStatus.CHECKIN) {
