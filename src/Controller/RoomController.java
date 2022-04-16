@@ -174,9 +174,13 @@ public class RoomController extends SerializeDB implements IController {
 
     public void update(Object entities, int choice, String value) {
         Room toBeUpdated = (Room) entities;
-
+        
         switch (choice) {
             case 1: // roomID
+            	if (toBeUpdated.getRoomStatus() == RoomStatus.OCCUPIED) {
+            		System.out.println("Room is currently occupied, ID cannot be changed.");
+            		break;
+            	}
                 toBeUpdated.setRoomID(value);
                 break;
             case 2: // guestID

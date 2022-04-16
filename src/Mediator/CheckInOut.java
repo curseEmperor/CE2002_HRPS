@@ -158,9 +158,19 @@ public class CheckInOut {
     
     public void payment(String ID) {
     	Reservation reservation = ReservationController.getInstance().checkExistence(ID);
+    	if (reservation == null) {
+    		System.out.println("Invalid Reservation ID");
+    		return;
+    	}
     	ArrayList<Order> roomOrders = OrderController.getInstance().retrieveOrdersOfRoom(reservation.getRoomID());
     	//update orders to paid
     	if (roomOrders!=null) for (Order order : roomOrders) OrderController.getInstance().update(order, 3, "4");
+    }
+    
+    public void setReservationCreditcard(String ID, String cardNumber, Date expiryDate, int CVV, int type, String cardName) {
+    	Reservation reservation = ReservationController.getInstance().checkExistence(ID);
+    	if (reservation == null) return;
+    	ReservationController.getInstance().updateCreditcard(reservation, cardNumber, expiryDate, CVV, type, cardName);
     }
     
     private Date removeTime(Date date) {

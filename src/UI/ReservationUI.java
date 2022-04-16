@@ -50,16 +50,11 @@ public class ReservationUI extends StandardUI implements ControllerUI {
                 case 1:
                     System.out.println("Are you a new Guest? (Y/N)");
                     String select = getUserYN();
-                    switch (select) {
-                    case "N":
-                        create();
-                        break;
-                    case "Y":
+                    if (select.compareTo("Y")==0) {
                         System.out.println("Please create Guest account first.");
                         GuestUI.getInstance().create();
-                        create();
-                        break;
                     }
+                    create();
                     break;
                 case 2:
                     readOneDets();
@@ -93,14 +88,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         // RoomID to be filled via checkin
         System.out.println("Enter Check-in day (dd/MM/yy): ");
         String checkInString = getUserString() + " 09:00 AM";
-        Date checkInDate = dateValid(checkInString);
-        Date today = new Date();
-        while (checkInDate.before(removeTime(today))) {
-        	System.out.println("Check-in day must not be before today");
-        	System.out.println("Enter Check-in day (dd/MM/yy): ");
-        	checkInString = getUserString() + " 09:00 AM";
-            checkInDate = dateValid(checkInString);
-        }
+        Date checkInDate = validCheckIn(dateValid(checkInString));
 
         if (ReservationController.getInstance().checkExistence(guestID + checkInDate) != null) {
             System.out.println("Reservation already exist!");
@@ -109,13 +97,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 
         System.out.println("Enter Check-out day (dd/MM/yy):");
         String checkOutString = getUserString() + " 12:00 PM";
-        Date checkOutDate = dateValid(checkOutString);
-        while (checkOutDate.before(checkInDate)||checkOutDate.equals(checkInDate)) {
-        	System.out.println("Check-out day must be after Check-in day");
-        	System.out.println("Enter Check-out day (dd/MM/yy): ");
-        	checkOutString = getUserString() + " 12:00 PM";
-            checkOutDate = dateValid(checkOutString);
-        }
+        Date checkOutDate = validCheckOut(dateValid(checkOutString), checkInDate);
 
         System.out.println("Enter number of children: ");
         int numOfChild = sc.nextInt();
@@ -244,7 +226,23 @@ public class ReservationUI extends StandardUI implements ControllerUI {
             choice = getUserChoice(8);
             int selection;
             String content;
-            if (choice == 7) {
+            
+            if (choice == 3)
+            {
+            	System.out.println("Enter Check-in day (dd/MM/yy): ");
+                String checkInString = getUserString() + " 09:00 AM";
+                Date checkInDate = validCheckIn(dateValid(checkInString));
+                content = new SimpleDateFormat("dd/MM/yy hh:mm a").format(checkInDate);
+            }
+            else if (choice == 4)
+            {
+            	Date checkInDate = toBeUpdated.getCheckIn();
+            	System.out.println("Enter Check-out day (dd/MM/yy):");
+                String checkOutString = getUserString() + " 12:00 PM";
+                Date checkOutDate = validCheckOut(dateValid(checkOutString), checkInDate);
+                content = new SimpleDateFormat("dd/MM/yy hh:mm a").format(checkOutDate);
+            }
+            else if (choice == 7) {
             	System.out.println(
             			"1) Confirmed\n"
             			+ "2) Checked In\n"
@@ -307,14 +305,6 @@ public class ReservationUI extends StandardUI implements ControllerUI {
             	content = getUserString();
             }
 
-            if (choice == 3)
-            {
-                content = content + " 09:00 AM";
-            }
-            if (choice == 4)
-            {
-                content = content + " 12:00 PM";
-            }
             ReservationController.getInstance().update(toBeUpdated, choice, content);
 
             //System.out.println(toBeUpdated);
@@ -352,8 +342,27 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         
         return javaDate;
     }
-
-
+    
+    private Date validCheckIn(Date checkInDate) {
+    	Date today = new Date();
+        while (checkInDate.before(removeTime(today))) {
+        	System.out.println("Check-in day must not be before today");
+        	System.out.println("Enter Check-in day (dd/MM/yy): ");
+        	String checkInString = getUserString() + " 09:00 AM";
+            checkInDate = dateValid(checkInString);
+        }
+        return checkInDate;
+    }
+    
+    private Date validCheckOut(Date checkOutDate, Date checkInDate) {
+    	while (checkOutDate.before(checkInDate)||checkOutDate.equals(checkInDate)) {
+        	System.out.println("Check-out day must be after Check-in day");
+        	System.out.println("Enter Check-out day (dd/MM/yy): ");
+        	String checkOutString = getUserString() + " 12:00 PM";
+            checkOutDate = dateValid(checkOutString);
+        }
+    	return checkOutDate;
+    }
     
     private Date removeTime(Date date) {
         Calendar calendar = Calendar.getInstance();

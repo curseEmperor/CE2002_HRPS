@@ -247,6 +247,11 @@ public class ReservationController extends SerializeDB implements IController {
         }
         return null;
     }
+    
+    public void updateCreditcard (Object entities, String cardNumber, Date expiryDate, int CVV, int type, String cardName) {
+    	Reservation toBeUpdated = (Reservation) entities;
+    	toBeUpdated.setCreditcard(cardNumber, expiryDate, CVV, type, cardName);
+    }
 
     public ArrayList<Reservation> getReservationList() {
         return this.reservationList;

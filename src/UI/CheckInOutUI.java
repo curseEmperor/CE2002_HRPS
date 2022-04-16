@@ -33,25 +33,24 @@ public class CheckInOutUI extends StandardUI{
     	do {
             qSize = showSelection();
             choice = getUserChoice(qSize);
+            String reservationID;
             switch (choice) {
                 case 1: //checkIn
                     System.out.println("Have Resrvations?(Y/N)");
                     String select = getUserYN();
-                    switch (select) {
-                        case "N":
-                            System.out.println("Please create Guest account first.");
+                    if (select.compareTo("N") == 0) {
+                    	System.out.println("Please create Reservation first.");
+                    	System.out.println("Are you a new Guest? (Y/N)");
+                        select = getUserYN();
+                        if (select.compareTo("Y") == 0) {
+                        	System.out.println("Please create Guest account first.");
                             GuestUI.getInstance().create();
-                            ReservationUI.getInstance().create();
-                            System.out.println("Enter reservation ID: ");
-                            String ID1 = getUserString();
-                            CheckInOut.getInstance().checkIn(ID1);
-                            break;
-                        case "Y":
-                            System.out.println("Enter reservation ID: ");
-                            String ID2 = getUserString();
-                            CheckInOut.getInstance().checkIn(ID2);
-                            break;
+                        }
+                        ReservationUI.getInstance().create();
                     }
+                    System.out.println("Enter reservation ID: ");
+                    reservationID = getUserString();
+                    CheckInOut.getInstance().checkIn(reservationID);
                     break;
                 case 2: //checkOut
                 	checkOut();
@@ -115,6 +114,7 @@ public class CheckInOutUI extends StandardUI{
             int type = getUserChoice(3);
             System.out.println("Enter Creditcard Registered Name: ");
             String cardName = getUserString();
+            CheckInOut.getInstance().setReservationCreditcard(ID, cardNumber, expDate, CVV, type, cardName);
         }
         CheckInOut.getInstance().payment(ID);
         System.out.println("Payment Completed");

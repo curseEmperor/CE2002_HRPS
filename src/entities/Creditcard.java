@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 public class Creditcard implements Serializable {
 	private String cardNumber;
 	private Date expiryDate;
-	private int CVC;
+	private int CVV;
 	private CreditcardTypes cardType;
 	private String registeredName;
 	
@@ -17,10 +17,10 @@ public class Creditcard implements Serializable {
 		
 	}
 	
-	public Creditcard(String cardNumber, Date expiryDate, int CVC, int type, String cardName) {
+	public Creditcard(String cardNumber, Date expiryDate, int CVV, int type, String cardName) {
 		this.cardNumber = cardNumber;
 		this.expiryDate = expiryDate;
-		this.CVC = CVC;
+		this.CVV = CVV;
 		switch (type) {
 		case 1:
 			cardType = CreditcardTypes.VISA;
@@ -54,12 +54,12 @@ public class Creditcard implements Serializable {
 		this.expiryDate = expiryDate;
 	}
 	
-	public int getCVC() {
-		return CVC;
+	public int getCVV() {
+		return CVV;
 	}
 	
-	public void setCVC(int CVC) {
-		this.CVC = CVC;
+	public void setCVV(int CVV) {
+		this.CVV = CVV;
 	}
 	
 	public CreditcardTypes getCreditcardType() {
@@ -88,7 +88,7 @@ public class Creditcard implements Serializable {
 
         result.append("cardNumber: " + this.cardNumber + newLine);
         result.append("expiryDate: " + formatter.format(this.expiryDate) + newLine);
-        result.append("CVC: " + String.format("%03d", this.CVC) + newLine);
+        result.append("CVV: " + String.format("%03d", this.CVV) + newLine);
         result.append("Creditcard Type: " + this.cardType.toString() + newLine);
         result.append("Registered Name: " + this.registeredName + newLine);
         
