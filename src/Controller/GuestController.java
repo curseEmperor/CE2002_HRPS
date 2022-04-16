@@ -7,7 +7,7 @@ import Database.SerializeDB;
 import entities.Guest;
 import entities.Creditcard;
 
-public class GuestController extends SerializeDB implements IController {
+public class GuestController extends SerializeDB implements IController, IStorage {
     private static GuestController instance = null;
 
     private ArrayList<Guest> guestList;

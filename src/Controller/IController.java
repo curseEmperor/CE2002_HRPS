@@ -10,8 +10,4 @@ public interface IController {
 
     public void update(Object entities, int choice, String value);
 
-    public void storeData();
-
-    public void loadData();
-
 }

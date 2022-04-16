@@ -11,7 +11,7 @@ import java.util.*;
 
 import Database.SerializeDB;
 
-public class OrderController extends SerializeDB implements IController {
+public class OrderController extends SerializeDB implements IController, IStorage {
 
     ArrayList<Order> orderList;
     private static OrderController instance = null;

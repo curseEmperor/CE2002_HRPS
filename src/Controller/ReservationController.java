@@ -14,7 +14,7 @@ import Enums.RoomTypes;
 import Mediator.CheckInOut;
 import entities.Reservation;
 
-public class ReservationController extends SerializeDB implements IController {
+public class ReservationController extends SerializeDB implements IController, IStorage {
     private static ReservationController instance = null;
 
     public ArrayList<Reservation> reservationList;
@@ -247,10 +247,11 @@ public class ReservationController extends SerializeDB implements IController {
         }
         return null;
     }
-    
-    public void updateCreditcard (Object entities, String cardNumber, Date expiryDate, int CVV, int type, String cardName) {
-    	Reservation toBeUpdated = (Reservation) entities;
-    	toBeUpdated.setCreditcard(cardNumber, expiryDate, CVV, type, cardName);
+
+    public void updateCreditcard(Object entities, String cardNumber, Date expiryDate, int CVV, int type,
+            String cardName) {
+        Reservation toBeUpdated = (Reservation) entities;
+        toBeUpdated.setCreditcard(cardNumber, expiryDate, CVV, type, cardName);
     }
 
     public ArrayList<Reservation> getReservationList() {

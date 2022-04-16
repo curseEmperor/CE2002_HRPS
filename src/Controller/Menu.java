@@ -1,10 +1,5 @@
 package Controller;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList; //Import ArrayList class
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +9,7 @@ import Database.SerializeDB;
 import entities.Item;
 import Enums.ItemTypes;
 
-public class Menu extends SerializeDB implements IController {
+public class Menu extends SerializeDB implements IController, IStorage {
 	// Variables
 	private ArrayList<Item> itemList;
 	private static Menu single_instance = null;
