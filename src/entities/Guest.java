@@ -16,6 +16,7 @@ public class Guest implements Serializable {
 
     public Guest(String guestID, String guestName, String address, String contact, String country, char gender,
             String nationality, String cardNumber, Date expDate, int CVC, int type, String cardName) {
+    	this.guestID = guestID;
         this.guestName = guestName;
         this.address = address;
         this.contact = contact;
