@@ -13,6 +13,7 @@ import Enums.ReservationStatus;
 import Enums.RoomTypes;
 import Mediator.CheckInOut;
 import entities.Reservation;
+import entities.Entities;
 
 public class ReservationController extends SerializeDB implements IController, IStorage {
     private static ReservationController instance = null;
@@ -264,7 +265,8 @@ public class ReservationController extends SerializeDB implements IController, I
     }
 
     public void loadData() {
-        super.loadData("Reservation.ser");
-
+    	ArrayList<Entities> data = super.loadData("Reservation.ser");
+    	reservationList.clear();
+    	for (Entities reservation : data) reservationList.add((Reservation) reservation);
     }
 }

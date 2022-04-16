@@ -7,7 +7,7 @@ import Enums.RoomStatus;
 import Enums.RoomTypes;
 import Enums.RoomView;
 
-public class Room implements Serializable {
+public class Room extends Entities implements Serializable {
 	private String roomID; // 4 digit room number. first 2 digits represent level, last 2 digits are room
 							// number
 	private String guestID;

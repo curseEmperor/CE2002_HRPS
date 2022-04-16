@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import Enums.ReservationStatus;
 import Enums.RoomTypes;
 
-public class Reservation implements Serializable {
+public class Reservation extends Entities implements Serializable {
     private String reservationID;
     private String guestID;
     private String roomID;

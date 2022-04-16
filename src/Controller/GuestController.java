@@ -6,6 +6,7 @@ import java.util.Date;
 import Database.SerializeDB;
 import entities.Guest;
 import entities.Creditcard;
+import entities.Entities;
 
 public class GuestController extends SerializeDB implements IController, IStorage {
     private static GuestController instance = null;
@@ -100,7 +101,9 @@ public class GuestController extends SerializeDB implements IController, IStorag
     }
 
     public void loadData() {
-        super.loadData("Guest.ser");
+    	ArrayList<Entities> data =  super.loadData("Guest.ser");
+    	guestList.clear();
+    	for (Entities guest : data) guestList.add((Guest) guest);
     }
 
 }

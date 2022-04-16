@@ -6,7 +6,7 @@ import java.util.Date;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
-public class Creditcard implements Serializable {
+public class Creditcard extends Entities implements Serializable {
 	private String cardNumber;
 	private Date expiryDate;
 	private int CVV;

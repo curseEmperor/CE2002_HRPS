@@ -3,7 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Guest implements Serializable {
+public class Guest extends Entities implements Serializable {
 
     private String guestID; // driver || passport licence
     private String guestName;

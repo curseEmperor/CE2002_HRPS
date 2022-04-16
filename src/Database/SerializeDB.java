@@ -8,11 +8,12 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 
 import java.util.ArrayList;
+import entities.Entities;
 
 public class SerializeDB {
 
-	public static List loadData(String filename) {
-		List pDetails = new ArrayList<>();
+	public static ArrayList<Entities> loadData(String filename) {
+		ArrayList<Entities> pDetails = new ArrayList<>();
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try {
@@ -23,7 +24,7 @@ public class SerializeDB {
 			System.out.println(noOfRecords + " Entries Loaded");
 
 			for (int i = 0; i < noOfRecords; i++) {
-				pDetails.add(ois.readObject());
+				pDetails.add((Entities) ois.readObject());
 			}
 			ois.close();
 

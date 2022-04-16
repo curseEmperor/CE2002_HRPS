@@ -2,6 +2,7 @@ package Controller;
 
 import entities.Order;
 import entities.Item;
+import entities.Entities;
 
 import java.text.SimpleDateFormat;
 
@@ -163,7 +164,9 @@ public class OrderController extends SerializeDB implements IController, IStorag
     }
 
     public void loadData() {
-        super.loadData("Order.ser");
+    	ArrayList<Entities> data = super.loadData("Order.ser");
+    	orderList.clear();
+    	for (Entities order : data) orderList.add((Order) order);
     }
 
 }

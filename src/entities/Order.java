@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 
 import Enums.OrderStatus;
 
-public class Order implements Serializable {
+public class Order extends Entities implements Serializable {
     private String orderID;
     private String roomID;
     private OrderStatus orderStatus; // confirmed, preparing, delivered

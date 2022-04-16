@@ -3,7 +3,7 @@ package entities;
 import java.io.Serializable;
 import Enums.ItemTypes;
 
-public class Item implements Serializable {
+public class Item extends Entities implements Serializable {
 	// Variables
 	private String itemID;
 	private String itemName;
