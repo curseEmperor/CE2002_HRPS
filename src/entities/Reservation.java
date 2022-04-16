@@ -103,19 +103,17 @@ public class Reservation implements Serializable {
     public String toString() {
         StringBuilder result = new StringBuilder();
         String newLine = System.getProperty("line.separator");
-        Date now = new Date();
-        SimpleDateFormat  checkinTime = new SimpleDateFormat("E yyyy.MM.dd '09:00AM'");
-        SimpleDateFormat checkoutTime = new SimpleDateFormat("E yyyy.MM.dd '12:00PM'");
-
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm:ss a");
         //result.append(this.getClass().getName() + " Object {" + newLine);
-
+        result.append(newLine);
         result.append("Reservation ID: " + this.reservationID + newLine);
         result.append("Guest ID: " + this.guestID + newLine);
         result.append("Room ID: " + this.roomID + newLine);
         result.append("No. of Adult(s): " + this.adultNo + newLine);
         result.append("No. of Child(ren): " + this.childNo + newLine);
-        result.append("Check in Date: " + checkinTime.format(this.checkIn) + newLine);
-        result.append("Check out Date: " + checkoutTime.format(this.checkOut) + newLine);
+        result.append("Room Type: " + this.getRoomType() + newLine);
+        result.append("Check in Date: " + sdf.format(this.checkIn) + newLine);
+        result.append("Check out Date: " + sdf.format(this.checkOut) + newLine);
         result.append("Status: " + this.reservationStatus);
 
         //result.append("}");

@@ -8,6 +8,7 @@ import Controller.OrderController;
 import Controller.ReservationController;
 import Controller.RoomController;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import Enums.RoomTypes;
@@ -49,8 +50,11 @@ public class CheckInOut {
     	printReceipt(reservation, roomDiscount, orderDiscount);
     }
     
-    public void checkIn(String reservationID) {
-    	Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
+    public void checkIn(String reservationID)
+	{
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm a");
+		Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
     	if (validCheckIn(reservation)==false) return;
     	
     	//Assign room
@@ -60,11 +64,17 @@ public class CheckInOut {
     	
     	//Change reservation status to checked-in
     	ReservationController.getInstance().update(reservation, 7, "2");
+		
+		//set check in date to NOW
+		ReservationController.getInstance().update(reservation, 3, sdf.format(now));
     	
     	//Change room status to occupied and set guestID
     	RoomController.getInstance().update(room, 2, reservation.getGuestID());
     	RoomController.getInstance().update(room, 9, "2");
-    	
+
+
+		
+
     	//Check-In confirmation
     	System.out.println("Check-In Successful");
     	System.out.println("Reservation ID: " + reservation.getID());
@@ -185,7 +195,8 @@ public class CheckInOut {
     	}
     	Date thisDate = new Date();
     	thisDate = removeTime(thisDate);
-    	if (!thisDate.equals(reservation.getCheckIn())) {
+		//System.out.println("today: " + thisDate + "checkin: " + removeTime(reservation.getCheckIn()));
+    	if (!thisDate.equals(removeTime(reservation.getCheckIn()))) {
     		System.out.println("Check In date does not match");
     		return false;
     	}

@@ -106,8 +106,8 @@ public class CheckInOutUI extends StandardUI{
             String cardNumber = getUserString();
             System.out.println("Enter Creditcard Expiry Date: ");
             Date expDate = getValidDate(getUserString());
-            System.out.println("Enter Creditcard CVC: ");
-            int CVC = getUserChoice(999);
+            System.out.println("Enter Creditcard CVV: ");
+            int CVV = getUserChoice(999);
             System.out.println("Enter Creditcard Type: ");
             System.out.println("1) VISA");
             System.out.println("2) MASTER");

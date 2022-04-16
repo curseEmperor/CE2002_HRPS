@@ -101,6 +101,7 @@ public class ReservationController implements IController {
 
     public void update(Object entities, int choice, String value) {
         Reservation toBeUpdated = (Reservation) entities;
+        SimpleDateFormat sdf  = new SimpleDateFormat("dd/MM/yy hh:mm a");
         Date date;
         switch (choice) {
             case 1: // guestID
@@ -111,9 +112,8 @@ public class ReservationController implements IController {
                 break;
             case 3: // checkIn Date
                 try {
-                    date = new SimpleDateFormat("dd/MM/yy").parse(value);
-                    System.out.println(value + "\t" + date);
-
+                    date = new SimpleDateFormat("dd/MM/yy hh:mm a").parse(value);
+                    System.out.println(sdf.format(date));
                     toBeUpdated.setCheckIn(date);
 
                 } catch (Exception e) {
@@ -122,8 +122,8 @@ public class ReservationController implements IController {
                 break;
             case 4: // checkOut Date
                 try {
-                    date = new SimpleDateFormat("dd/MM/yy").parse(value);
-                    System.out.println(value + "\t" + date);
+                    date = new SimpleDateFormat("dd/MM/yy hh:mm a").parse(value);
+                    System.out.println(sdf.format(date));
 
                     toBeUpdated.setCheckOut(date);
 

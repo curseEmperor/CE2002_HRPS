@@ -88,13 +88,13 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 
         // RoomID to be filled via checkin
         System.out.println("Enter Check-in day (dd/MM/yy): ");
-        String checkInString = getUserString();
+        String checkInString = getUserString() + " 09:00 AM";
         Date checkInDate = dateValid(checkInString);
         Date today = new Date();
         while (checkInDate.before(removeTime(today))) {
         	System.out.println("Check-in day must not be before today");
         	System.out.println("Enter Check-in day (dd/MM/yy): ");
-        	checkInString = getUserString();
+        	checkInString = getUserString() + " 09:00 AM";
             checkInDate = dateValid(checkInString);
         }
 
@@ -104,13 +104,13 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         }
 
         System.out.println("Enter Check-out day (dd/MM/yy):");
-        String checkOutString = getUserString();
+        String checkOutString = getUserString() + " 12:00 PM";
         Date checkOutDate = dateValid(checkOutString);
         while (checkOutDate.before(checkInDate)||checkOutDate.equals(checkInDate)) {
         	System.out.println("Check-out day must be after Check-in day");
         	System.out.println("Enter Check-out day (dd/MM/yy): ");
-        	checkOutString = getUserString();
-            checkOutDate = dateValid("checkOutString" );
+        	checkOutString = getUserString() + " 12:00 PM";
+            checkOutDate = dateValid(checkOutString);
         }
 
         System.out.println("Enter number of children: ");
@@ -178,7 +178,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 
         System.out.println("=================================");
         System.out.println("      Reservation Details ");
-        System.out.println("=================================");
+        System.out.printf("=================================");
         System.out.println(rawReservation.toString().replace("[", "").replace("]", ""));
         System.out.println("=================================");
         System.out.println("Reservation " + rawReservation.getID() + " has been created");
@@ -196,7 +196,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         {
             System.out.println("=================================");
             System.out.println("      Reservation Details ");
-            System.out.println("=================================");
+            System.out.printf("=================================");
             System.out.println(reserveRead.toString().replace("[", "").replace("]", ""));
             System.out.println("=================================");
         }
@@ -290,6 +290,14 @@ public class ReservationUI extends StandardUI implements ControllerUI {
             	content = getUserString();
             }
 
+            if (choice == 3)
+            {
+                content = content + " 09:00 AM";
+            }
+            if (choice == 4)
+            {
+                content = content + " 12:00 PM";
+            }
             ReservationController.getInstance().update(toBeUpdated, choice, content);
 
             //System.out.println(toBeUpdated);
@@ -310,7 +318,9 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     }
 
     private Date dateValid(String dateInString) {
-        SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yy");
+        SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yy hh:mm a");
+        int i = dateInString.length();
+        String time = dateInString.substring(i-9,i);
         sdfrmt.setLenient(false);
         Date javaDate = null;
         while (javaDate == null) {
@@ -319,12 +329,14 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 	        } catch (ParseException e) {
 	            System.out.println(dateInString + " is Invalid Date format\nEnter date: ");
 	            System.out.println("Enter date (dd/MM/yy): ");
-	            dateInString = getUserString();
+	            dateInString = getUserString() + time;
 	        }
         }
         
         return javaDate;
     }
+
+
     
     private Date removeTime(Date date) {
         Calendar calendar = Calendar.getInstance();

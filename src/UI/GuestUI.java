@@ -79,30 +79,32 @@ public class GuestUI extends StandardUI implements ControllerUI {
         char gender = getUserString().charAt(0);
         System.out.println("Enter Nationality: ");
         String nationality = getUserString();
+        System.out.println("===========ENTERING CARD DETAILS==========");
+        System.out.println("Enter Creditcard Registered Name: ");
+        String cardName = getUserString();
         System.out.println("Enter Creditcard Number: ");
         String cardNumber = getUserString();
         System.out.println("Enter Creditcard Expiry Date: ");
         Date expDate = getValidDate(getUserString());
-        System.out.println("Enter Creditcard CVC: ");
-        int CVC = getUserChoice(999);
+        System.out.println("Enter Creditcard CVV: ");
+        int CVV = getUserChoice(999);
         System.out.println("Enter Creditcard Type: ");
         System.out.println("1) VISA");
         System.out.println("2) MASTER");
         System.out.println("3) AMEX");
         int type = getUserChoice(3);
-        System.out.println("Enter Creditcard Registered Name: ");
-        String cardName = getUserString();
+
 
         // Guest rawGuest = new Guest(guestID, "guestName", "address", "contact",
         // "country", 'n', "nationality");
 
         Guest rawGuest = new Guest(guestID, guestName, address, contact, country,
-                gender, nationality, cardNumber, expDate, CVC, type, cardName);
+                gender, nationality, cardNumber, expDate, CVV, type, cardName);
         GuestController.getInstance().create(rawGuest);
         System.out.println("========================");
         System.out.println("     Guest Details ");
-        System.out.println("========================");
-        System.out.println(rawGuest.toString().replace("[", "").replace("]", ""));
+        System.out.printf("========================");
+        System.out.printf(rawGuest.toString().replace("[", "").replace("]", ""));
         System.out.println("========================");
         System.out.println("Guest created and added to guest list.");
         // return guestID;
@@ -117,8 +119,8 @@ public class GuestUI extends StandardUI implements ControllerUI {
         if (guestRead != null) {
             System.out.println("========================");
             System.out.println("   Guest Details ");
-            System.out.println("========================");
-            System.out.println(guestRead);
+            System.out.printf("========================");
+            System.out.print(guestRead);
             System.out.println("========================");
             // return guestID;
         } else {
@@ -154,8 +156,8 @@ public class GuestUI extends StandardUI implements ControllerUI {
                 String cardNumber = getUserString();
                 System.out.println("Enter Creditcard Expiry Date: ");
                 Date expDate = getValidDate(getUserString());
-                System.out.println("Enter Creditcard CVC: ");
-                int CVC = getUserChoice(999);
+                System.out.println("Enter Creditcard CVV: ");
+                int CVV = getUserChoice(999);
                 System.out.println("Enter Creditcard Type: ");
                 System.out.println("1) VISA");
                 System.out.println("2) MASTER");
@@ -163,7 +165,7 @@ public class GuestUI extends StandardUI implements ControllerUI {
                 int type = getUserChoice(3);
                 System.out.println("Enter Creditcard Registered Name: ");
                 String cardName = getUserString();
-                GuestController.getInstance().updateCreditcard(toBeUpdated, cardNumber, expDate, CVC, type, cardName);
+                GuestController.getInstance().updateCreditcard(toBeUpdated, cardNumber, expDate, CVV, type, cardName);
             }
             else {
             	System.out.println("Enter the relevant details:");

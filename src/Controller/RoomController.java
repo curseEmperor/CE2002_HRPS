@@ -255,7 +255,7 @@ public class RoomController implements IController {
 
         report.put(RoomTypes.SINGLE, singleType);
         report.put(RoomTypes.DOUBLE, doubleType);
-        report.put(RoomTypes.DELUXE, standardType);
+        report.put(RoomTypes.STANDARD, standardType);
         report.put(RoomTypes.DELUXE, deluxeType);
         report.put(RoomTypes.SUITE, suiteType);
 
@@ -291,6 +291,7 @@ public class RoomController implements IController {
 
         roomByType.put(RoomTypes.SINGLE, singleType);
         roomByType.put(RoomTypes.DOUBLE, doubleType);
+        roomByType.put(RoomTypes.STANDARD, standardType);
         roomByType.put(RoomTypes.DELUXE, deluxeType);
         roomByType.put(RoomTypes.SUITE, suiteType);
 
