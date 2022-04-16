@@ -3,7 +3,6 @@ package entities;
 import java.util.ArrayList;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-//import java.util.Calendar;
 
 import Enums.OrderStatus;
 
@@ -15,19 +14,6 @@ public class Order implements Serializable {
     private String date;
     private ArrayList<Item> listOfFood;
     private String remarks; // less oil, less salt
-
-    /*
-     * public Order(String roomID, ArrayList<Item> order, String remarks) {
-     * this.roomID = roomID;
-     * this.orderStatus = OrderStatus.CONFIRM;
-     * this.listOfFood = null;
-     * Calendar c = Calendar.getInstance();
-     * String date = formatter.format(c.getTime());
-     * this.date = date;
-     * this.remarks = remarks;
-     * 
-     * }
-     */// constructor
 
     public Order(String roomID) {
         this.roomID = roomID;
@@ -85,38 +71,8 @@ public class Order implements Serializable {
         return remarks;
     }
 
-    // public void addItem(Item item) {
-    // this.order.add(item);
-    // }
-
-    // public boolean removeItem(Item itemToRemove) {
-    // for (Item it : order) {
-    // if (it.getID() == itemToRemove.getID()) {
-    // this.order.remove(it);
-    // return true;
-    // }
-    // }
-    // return false;
-    // }
-
-    // public double calcOrderPrice() {
-    // double orderPrice = 0;
-    // for (int i = 0; i < order.size(); i++) {
-    // orderPrice += order.get(i).getPrice();
-    // }
-    // return orderPrice;
-    // }
-
     public float viewOrder() {
-        // System.out.println("ID Room Date Remarks Status ");
-        // System.out.println(toString());
-        // System.out.println("=================================================================================");
-        // System.out.println("ID Name Description Price(S$)");
-        // System.out.println("=================================================================================");
-        // for (int i = 0; i < listOfFood.size(); i++) {
-        // System.out.println(listOfFood.get(i).toString());
-        // }
-        // System.out.println("=================================================================================");
+
         sortOrder();
 
         float cost = 0;
@@ -165,9 +121,6 @@ public class Order implements Serializable {
     public String toString() {
         StringBuilder result = new StringBuilder();
         String newLine = System.getProperty("line.separator");
-
-        // return (String.format("%-5d%-7s%-30s%-30s%-10s", orderID, roomID, date,
-        // remarks, orderStatus));
 
         result.append(this.getClass().getName() + newLine);
 

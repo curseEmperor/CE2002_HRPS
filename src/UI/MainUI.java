@@ -1,12 +1,30 @@
 package UI;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import Controller.GuestController;
+import Controller.IController;
+import Controller.Menu;
+import Controller.OrderController;
+import Controller.ReservationController;
+import Controller.RoomController;
 
 public class MainUI {
     int choice;
+    ArrayList<IController> DB = new ArrayList<>();
+
+    public MainUI() {
+        DB.add(ReservationController.getInstance());
+        DB.add(RoomController.getInstance());
+        DB.add(OrderController.getInstance());
+        DB.add(Menu.getInstance());
+        DB.add(GuestController.getInstance());
+    }
 
     public void run() throws ParseException {
+        setUp();
         Scanner sc = new Scanner(System.in);
 
         do {
@@ -24,6 +42,7 @@ public class MainUI {
             do {
                 if (sc.hasNextInt()) {
                     choice = sc.nextInt();
+                    sc.nextLine();
                     if (choice <= 0 || choice > 7) {
                         System.out.println("Please input values between 1 to 7 only!");
                     } else {
@@ -62,6 +81,20 @@ public class MainUI {
 
         sc.close();
         System.out.println("Exiting hotel mainUI! Have a nice day!");
+        windDown();
         System.exit(0);
+    }
+
+    public void setUp() {
+        for (IController con : DB) {
+            con.loadData();
+        }
+    }
+
+    public void windDown() {
+        for (IController con : DB) {
+            System.out.println(con.getClass().getName());
+            con.storeData();
+        }
     }
 }

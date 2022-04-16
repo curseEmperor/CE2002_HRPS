@@ -9,10 +9,12 @@ import java.util.ArrayList; //Import ArrayList class
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import Database.SerializeDB;
 import entities.Item;
 import Enums.ItemTypes;
 
-public class Menu implements IController {
+public class Menu extends SerializeDB implements IController {
 	// Variables
 	private ArrayList<Item> itemList;
 	private static Menu single_instance = null;
@@ -20,7 +22,6 @@ public class Menu implements IController {
 	// Constructor
 	private Menu() {
 		itemList = new ArrayList<Item>();
-		loadData();
 		cleanID();
 	}
 
@@ -147,37 +148,6 @@ public class Menu implements IController {
 		storeData();
 	}
 
-	public void storeData() {
-		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Menu.ser")); // "src" + File.separator
-																								// +
-			out.writeInt(itemList.size()); // noOfItems
-			for (Item item : itemList)
-				out.writeObject(item);
-			System.out.printf("Menu/Itemcontroller: %s Entries Saved.\n", itemList.size());
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void loadData() {
-		ObjectInputStream ois;
-		try {
-			itemList.clear();
-			ois = new ObjectInputStream(new FileInputStream("Menu.ser")); // "src" + File.separator +
-
-			int noOfOrdRecords = ois.readInt();
-			System.out.println("Menu/ItemController: " + noOfOrdRecords + " Entries Loaded");
-			for (int i = 0; i < noOfOrdRecords; i++) {
-				itemList.add((Item) ois.readObject());
-			}
-			ois.close();
-		} catch (IOException | ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
-	}
-
 	public Map<ItemTypes, List<Item>> splitItemByType() {
 		Map<ItemTypes, List<Item>> itemByType = new HashMap<>();
 
@@ -261,5 +231,13 @@ public class Menu implements IController {
 			default:
 				return null;
 		}
+	}
+
+	public void storeData() {
+		super.storeData("Menu.ser", itemList);
+	}
+
+	public void loadData() {
+		super.loadData("Menu.ser");
 	}
 }

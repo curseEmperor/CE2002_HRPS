@@ -1,17 +1,13 @@
 package Controller;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
+import Database.SerializeDB;
 import entities.Guest;
 import entities.Creditcard;
 
-public class GuestController implements IController {
+public class GuestController extends SerializeDB implements IController {
     private static GuestController instance = null;
 
     private ArrayList<Guest> guestList;
@@ -91,44 +87,20 @@ public class GuestController implements IController {
         System.out.println(toBeUpdated.toString());
         storeData();
     }
-    
-    public void updateCreditcard(Object entities, String cardNumber, Date expiryDate, int CVC, int type, String cardName) {
-    	Guest toBeUpdated = (Guest) entities;
-    	toBeUpdated.setCard(new Creditcard(cardNumber, expiryDate, CVC, type, cardName));
+
+    public void updateCreditcard(Object entities, String cardNumber, Date expiryDate, int CVC, int type,
+            String cardName) {
+        Guest toBeUpdated = (Guest) entities;
+        toBeUpdated.setCard(new Creditcard(cardNumber, expiryDate, CVC, type, cardName));
     }
 
     public void storeData() {
-        try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Guest.ser"));
-            out.writeInt(guestList.size());
-            for (Guest guest : guestList)
-                out.writeObject(guest);
-            System.out.println("Entries Saved!");
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        super.storeData("Guest.ser", guestList);
+
     }
 
     public void loadData() {
-        // create an ObjectInputStream for the file we created before
-        ObjectInputStream ois;
-        try {
-            ois = new ObjectInputStream(new FileInputStream("Guest.ser"));
-
-            int noOfOrdRecords = ois.readInt();
-            System.out.println("GuestController: " + noOfOrdRecords + " Entries Loaded");
-            for (int i = 0; i < noOfOrdRecords; i++) {
-                guestList.add((Guest) ois.readObject());
-            }
-            // System.out.printf("GuestController: %s Entries loaded.\n", guestList);
-
-            for (Guest guest : guestList) {
-                System.out.println(guest);
-            }
-
-        } catch (IOException | ClassNotFoundException e1) {
-            e1.printStackTrace();
-        }
+        super.loadData("Guest.ser");
     }
+
 }

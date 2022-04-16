@@ -9,13 +9,9 @@ import Enums.OrderStatus;
 
 import java.util.*;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import Database.SerializeDB;
 
-public class OrderController implements IController {
+public class OrderController extends SerializeDB implements IController {
 
     ArrayList<Order> orderList;
     private static OrderController instance = null;
@@ -59,7 +55,8 @@ public class OrderController implements IController {
 
         orderList.add(order);
 
-        storeData();
+        // storeData();
+        storeData("Order.ser", orderList);
     }
 
     // order can be cancelled as long as it has yet to be delivered
@@ -82,45 +79,45 @@ public class OrderController implements IController {
     public void update(Object entities, int choice, String value) {
 
         Order order = (Order) entities;
-        
+
         switch (choice) {
-        case 1: //roomID
-        	order.setRoomID(value);
-        	break;
-        case 2: //remarks
-        	order.setRemarks(value);
-        	break;
-        case 3: //orderStatus
-        	OrderStatus status = generateStatus(value);
-            order.setOrderStatus(status);
-        	break;
+            case 1: // roomID
+                order.setRoomID(value);
+                break;
+            case 2: // remarks
+                order.setRemarks(value);
+                break;
+            case 3: // orderStatus
+                OrderStatus status = generateStatus(value);
+                order.setOrderStatus(status);
+                break;
         }
 
         storeData();
     }
 
     public void addItemtoOrder(Order order, Item itemToAdd) {
-    	if (order.getOrderStatus() != OrderStatus.CONFIRM) {
-    		System.out.println("Order is preparing or is delivered, no changes can be made.");
-    		return;
-    	}
+        if (order.getOrderStatus() != OrderStatus.CONFIRM) {
+            System.out.println("Order is preparing or is delivered, no changes can be made.");
+            return;
+        }
         order.getListOfFood().add(itemToAdd);
         storeData();
     }
 
     public void deleteItemfromOrder(Order order, Item itemToDelete) {
-    	if (order.getOrderStatus() != OrderStatus.CONFIRM) {
-    		System.out.println("Order is preparing or is delivered, no changes can be made.");
-    		return;
-    	}
-    	if (order.getListOfFood().remove(itemToDelete)) {
-    		System.out.println("Item removed from order " + order.getOrderID());
-    		if (order.getListOfFood().size() == 0) {
+        if (order.getOrderStatus() != OrderStatus.CONFIRM) {
+            System.out.println("Order is preparing or is delivered, no changes can be made.");
+            return;
+        }
+        if (order.getListOfFood().remove(itemToDelete)) {
+            System.out.println("Item removed from order " + order.getOrderID());
+            if (order.getListOfFood().size() == 0) {
                 System.out.println("No items left... Deleting order...");
                 orderList.remove(order);
             }
-    	}
-    	storeData();
+        }
+        storeData();
     }
 
     public void read() {
@@ -148,8 +145,8 @@ public class OrderController implements IController {
     private OrderStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
-	        case 1:
-	        	return OrderStatus.CONFIRM;
+            case 1:
+                return OrderStatus.CONFIRM;
             case 2:
                 return OrderStatus.PREPARING;
             case 3:
@@ -162,36 +159,11 @@ public class OrderController implements IController {
     }
 
     public void storeData() {
-        try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Order.ser"));
-            out.writeInt(orderList.size());
-            for (Order order : orderList)
-                out.writeObject(order);
-            // System.out.printf("%s \n\n--Entries Saved.--\n",
-            // orderList.toString().replace("[", "").replace("]", ""));
-            System.out.println("--Entries Saved--\n");
-            out.close();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+        super.storeData("Order.ser", orderList);
     }
 
     public void loadData() {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Order.ser"));
-
-            int noOfRecords = ois.readInt();
-            System.out.println("OrderController: " + noOfRecords + " Entries Loaded");
-            for (int i = 0; i < noOfRecords; i++) {
-                orderList.add((Order) ois.readObject());
-            }
-            for (Order order : orderList) {
-                System.out.println(order);
-            }
-            ois.close();
-        } catch (IOException | ClassNotFoundException e2) {
-            e2.printStackTrace();
-        }
+        super.loadData("Order.ser");
     }
 
 }

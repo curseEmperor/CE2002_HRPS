@@ -1,22 +1,18 @@
 package Controller;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Database.SerializeDB;
 import Enums.BedTypes;
 import Enums.RoomStatus;
 import Enums.RoomTypes;
 import Enums.RoomView;
 import entities.Room;
 
-public class RoomController implements IController {
+public class RoomController extends SerializeDB implements IController {
     private static RoomController instance = null;
 
     private ArrayList<Room> roomList;
@@ -33,7 +29,7 @@ public class RoomController implements IController {
         return instance;
     }
 
-    public void initHotel() {
+    private void initHotel() {
         Room r1 = new Room("02-01", 100.21, RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.NIL, false);
         Room r2 = new Room("02-02", 125.21, RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.NIL, true);
         Room r3 = new Room("02-03", 125.21, RoomTypes.SINGLE, BedTypes.SINGLE, true, RoomView.NIL, false);
@@ -330,35 +326,6 @@ public class RoomController implements IController {
 
     }
 
-    public void storeData() {
-        try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Room.ser"));
-            out.writeInt(roomList.size());
-            for (Room room : roomList)
-                out.writeObject(room);
-            //System.out.printf("%s \n\n--Entries Saved.--\n", roomList.toString().replace("[", "").replace("]", ""));
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadData() {
-        ObjectInputStream ois;
-        try {
-            ois = new ObjectInputStream(new FileInputStream("Room.ser"));
-
-            int noOfOrdRecords = ois.readInt();
-            System.out.println("RoomController: " + noOfOrdRecords + " Entries Loaded");
-            for (int i = 0; i < noOfOrdRecords; i++) {
-                roomList.add((Room) ois.readObject());
-            }
-
-        } catch (IOException | ClassNotFoundException e1) {
-            e1.printStackTrace();
-        }
-    }
-
     public RoomStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
@@ -420,5 +387,13 @@ public class RoomController implements IController {
             default:
                 return RoomTypes.SINGLE;
         }
+    }
+
+    public void storeData() {
+        super.storeData("Room.ser", roomList);
+    }
+
+    public void loadData() {
+        super.loadData("Room.ser");
     }
 }

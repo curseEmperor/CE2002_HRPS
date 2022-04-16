@@ -2,7 +2,6 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import Enums.CreditcardTypes;
 
 public class Guest implements Serializable {
 
@@ -16,8 +15,7 @@ public class Guest implements Serializable {
     private Creditcard card;
 
     public Guest(String guestID, String guestName, String address, String contact, String country, char gender,
-            String nationality, String cardNumber, Date expDate, int CVC, int type, String cardName) { // , CreditCard card
-        this.guestID = guestID;
+            String nationality, String cardNumber, Date expDate, int CVC, int type, String cardName) {
         this.guestName = guestName;
         this.address = address;
         this.contact = contact;
@@ -90,13 +88,13 @@ public class Guest implements Serializable {
     public void setCard(Creditcard card) {
         this.card = card;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         String newLine = System.getProperty("line.separator");
 
-        //result.append(this.getClass().getName() + newLine);
+        // result.append(this.getClass().getName() + newLine);
         result.append(newLine);
         result.append("Guest ID: " + this.guestID + newLine);
         result.append("Guest Name: " + this.guestName + newLine);

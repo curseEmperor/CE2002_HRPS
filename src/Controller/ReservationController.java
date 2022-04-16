@@ -1,6 +1,5 @@
 package Controller;
 
-import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,12 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Database.SerializeDB;
 import Enums.ReservationStatus;
 import Enums.RoomTypes;
 import Mediator.CheckInOut;
 import entities.Reservation;
 
-public class ReservationController implements IController {
+public class ReservationController extends SerializeDB implements IController {
     private static ReservationController instance = null;
 
     public ArrayList<Reservation> reservationList;
@@ -101,7 +101,7 @@ public class ReservationController implements IController {
 
     public void update(Object entities, int choice, String value) {
         Reservation toBeUpdated = (Reservation) entities;
-        SimpleDateFormat sdf  = new SimpleDateFormat("dd/MM/yy hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm a");
         Date date;
         switch (choice) {
             case 1: // guestID
@@ -172,43 +172,7 @@ public class ReservationController implements IController {
                 break;
         }
 
-        //System.out.println(toBeUpdated.toString());
-
         storeData();
-    }
-
-    public void storeData() {
-        try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Reservation.ser"));
-            out.writeInt(reservationList.size());
-            for (Reservation res : reservationList)
-                out.writeObject(res);
-            System.out.println("Entries Saved!");
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadData() {
-        // create an ObjectInputStream for the file we created before
-        ObjectInputStream ois;
-        try {
-            ois = new ObjectInputStream(new FileInputStream("Reservation.ser"));
-
-            int noOfOrdRecords = ois.readInt();
-            System.out.println("ReservationController: " + noOfOrdRecords + " Entries Loaded");
-            for (int i = 0; i < noOfOrdRecords; i++) {
-                reservationList.add((Reservation) ois.readObject());
-            }
-
-            for (Reservation res : reservationList) {
-                System.out.println(res.getID());
-            }
-
-        } catch (IOException | ClassNotFoundException e1) {
-            e1.printStackTrace();
-        }
     }
 
     private ReservationStatus generateStatus(String value) {
@@ -264,7 +228,7 @@ public class ReservationController implements IController {
 
         return reservationByStatus;
     }
-    
+
     private Date removeTime(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -274,17 +238,27 @@ public class ReservationController implements IController {
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
-    
-    public Reservation getCheckInReservation (String roomID) {
-    	List<Reservation> checkedInList = splitReservationByStatus().get(ReservationStatus.CHECKIN);
-    	for (Reservation reservation : checkedInList) {
-    		if (roomID.compareTo(reservation.getRoomID())==0) return reservation;
-    	}
-    	return null;
+
+    public Reservation getCheckInReservation(String roomID) {
+        List<Reservation> checkedInList = splitReservationByStatus().get(ReservationStatus.CHECKIN);
+        for (Reservation reservation : checkedInList) {
+            if (roomID.compareTo(reservation.getRoomID()) == 0)
+                return reservation;
+        }
+        return null;
     }
 
-    public ArrayList<Reservation> getReservationList()
-    {
+    public ArrayList<Reservation> getReservationList() {
         return this.reservationList;
+    }
+
+    public void storeData() {
+        super.storeData("Reservation.ser", reservationList);
+
+    }
+
+    public void loadData() {
+        super.loadData("Reservation.ser");
+
     }
 }
