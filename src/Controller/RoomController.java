@@ -351,11 +351,11 @@ public class RoomController extends SerializeDB implements IController {
         int choice = Integer.parseInt(value);
         switch (choice) {
             case 1:
-                return RoomView.NIL;
+                return RoomView.CITY;
             case 2:
                 return RoomView.POOL;
             case 3:
-                return RoomView.CITY;
+                return RoomView.NIL;
             default:
                 return RoomView.NIL;
         }
