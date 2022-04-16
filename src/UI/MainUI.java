@@ -36,13 +36,13 @@ public class MainUI extends StandardUI {
         System.exit(0);
     }
 
-    public void setUp() {
+    private void setUp() {
         for (IStorage con : DB) {
             con.loadData();
         }
     }
 
-    public void windDown() {
+    private void windDown() {
         for (IStorage con : DB) {
             System.out.println(con.getClass().getName());
             con.storeData();
