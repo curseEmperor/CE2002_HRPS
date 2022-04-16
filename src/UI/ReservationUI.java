@@ -34,10 +34,11 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         System.out.println("1) Add Reservations");
         System.out.println("2) View Reservations");
         System.out.println("3) Update Reservation Info");
-        System.out.println("4) Cancel Reservation");
-        System.out.println("5) Return to MainUI");
+        System.out.println("4) View ALL Reservation Info");
+        System.out.println("5) Cancel Reservation");
+        System.out.println("6) Return to MainUI");
 
-        return 5;
+        return 6;
     }
 
     public void mainMenu() {
@@ -68,9 +69,12 @@ public class ReservationUI extends StandardUI implements ControllerUI {
                     update();
                     break;
                 case 4:
-                    delete();
+                    readAll();
                     break;
                 case 5:
+                    delete();
+                    break;
+                case 6:
                     break;
             }
 
@@ -176,11 +180,11 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         
         ReservationController.getInstance().create(rawReservation);
 
-        System.out.println("=================================");
-        System.out.println("      Reservation Details ");
-        System.out.printf("=================================");
+        System.out.println("================================================================================================================================");
+        System.out.println(" Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
+        System.out.println("================================================================================================================================");
         System.out.println(rawReservation.toString().replace("[", "").replace("]", ""));
-        System.out.println("=================================");
+        System.out.println("================================================================================================================================");
         System.out.println("Reservation " + rawReservation.getID() + " has been created");
 
     }
@@ -194,15 +198,28 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         Reservation reserveRead = ReservationController.getInstance().checkExistence(reservationID);
         if (reserveRead != null)
         {
-            System.out.println("=================================");
-            System.out.println("      Reservation Details ");
-            System.out.printf("=================================");
+            System.out.format("\033[1mViewing reservation %s\033[0m\n", reserveRead.getID());
+            System.out.println("================================================================================================================================");
+            System.out.println(" Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
+            System.out.println("================================================================================================================================");
             System.out.println(reserveRead.toString().replace("[", "").replace("]", ""));
-            System.out.println("=================================");
+            System.out.println("================================================================================================================================");
         }
         else
             System.out.println("Reservation does not exist");
 
+    }
+
+    public void readAll()
+    {
+        System.out.println("\033[1mViewing all reservations\033[0m");
+        System.out.println("================================================================================================================================");
+        System.out.println(" Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
+        System.out.println("================================================================================================================================");
+        for (Reservation reservations : ReservationController.getInstance().getReservationList())
+            if (reservations.getReservationStatus() !=  ReservationStatus.EXPIRED)
+                System.out.println(reservations.toString().replace("[", "").replace("]", ""));
+        System.out.println("================================================================================================================================");
     }
 
     public void update() {

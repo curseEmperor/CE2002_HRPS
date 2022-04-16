@@ -17,7 +17,7 @@ import entities.Reservation;
 public class ReservationController implements IController {
     private static ReservationController instance = null;
 
-    private ArrayList<Reservation> reservationList;
+    public ArrayList<Reservation> reservationList;
 
     private ReservationController() {
         reservationList = new ArrayList<>();
@@ -281,5 +281,10 @@ public class ReservationController implements IController {
     		if (roomID.compareTo(reservation.getRoomID())==0) return reservation;
     	}
     	return null;
+    }
+
+    public ArrayList<Reservation> getReservationList()
+    {
+        return this.reservationList;
     }
 }

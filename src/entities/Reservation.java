@@ -100,13 +100,12 @@ public class Reservation implements Serializable {
     }
 
     @Override
-    public String toString() {
+    /*public String toString() {
         StringBuilder result = new StringBuilder();
         String newLine = System.getProperty("line.separator");
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm:ss a");
         //result.append(this.getClass().getName() + " Object {" + newLine);
-        result.append(newLine);
-        result.append("Reservation ID: " + this.reservationID + newLine);
+        /*result.append("Reservation ID: " + this.reservationID + newLine);
         result.append("Guest ID: " + this.guestID + newLine);
         result.append("Room ID: " + this.roomID + newLine);
         result.append("No. of Adult(s): " + this.adultNo + newLine);
@@ -115,10 +114,22 @@ public class Reservation implements Serializable {
         result.append("Check in Date: " + sdf.format(this.checkIn) + newLine);
         result.append("Check out Date: " + sdf.format(this.checkOut) + newLine);
         result.append("Status: " + this.reservationStatus);
-
+        if (this.getReservationStatus() != ReservationStatus.EXPIRED)
+        { 
+            result.append("  " + this.reservationID + "          " + this.guestID + "         " + this.roomID + "       " + this.roomType + "      " + this.reservationStatus + "     " + sdf.format(this.checkIn) + "    " + sdf.format(this.checkOut) + newLine);
+        }
+        
         //result.append("}");
 
         return result.toString();
+    }*/
+
+    public String toString()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm:ss a");
+        return String.format("%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s", this.reservationID, this.guestID, this.roomID, this.roomType, this.reservationStatus, sdf.format(this.checkIn), sdf.format(this.checkOut));
+
     }
+
 
 }
