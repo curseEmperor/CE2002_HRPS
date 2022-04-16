@@ -103,8 +103,9 @@ public class CheckInOutUI extends StandardUI{
         if (choice==2) {
         	System.out.println("Enter Creditcard Number: ");
             String cardNumber = getUserString();
-            System.out.println("Enter Creditcard Expiry Date: ");
+            System.out.println("Enter Creditcard Expiry Date (MM/yy): ");
             Date expDate = getValidDate(getUserString());
+            expDate = validCreditcardDate(expDate);
             System.out.println("Enter Creditcard CVV: ");
             int CVV = getUserChoice(999);
             System.out.println("Enter Creditcard Type: ");
@@ -135,5 +136,16 @@ public class CheckInOutUI extends StandardUI{
         }
         
         return javaDate;
+    }
+    
+    private Date validCreditcardDate(Date expDate) {
+    	Date today = new Date();
+        while (expDate.before(today)) {
+        	System.out.println("Card expiry must not be before today");
+        	System.out.println("Enter Creditcard Expiry Date (MM/yy): ");
+        	String expDateString = getUserString();
+        	expDate = getValidDate(expDateString);
+        }
+        return expDate;
     }
 }
