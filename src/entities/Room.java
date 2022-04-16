@@ -117,8 +117,10 @@ public class Room implements Serializable {
 		result.append("Room Price: $" + this.roomPrice + newLine);
 		result.append("Room Type: " + this.roomType + newLine);
 		result.append("Bed Type: " + this.bedType + newLine);
-		result.append("WiFi: " + this.WiFi + newLine);
+		String YN = (this.WiFi)? "Y" : "N";
+		result.append("WiFi: " + YN + newLine);
 		result.append("View: " + this.view + newLine);
+		YN = (this.smoke)? "Y" : "N";
 		result.append("Smoke: " + this.smoke + newLine);
 		result.append("Room Status: " + this.roomStatus);
 

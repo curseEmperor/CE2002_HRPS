@@ -15,14 +15,15 @@ public class Guest implements Serializable {
     private Creditcard card;
 
     public Guest(String guestID, String guestName, String address, String contact, String country, char gender,
-            String nationality, String cardNumber, Date expDate, int CVC, int type, String cardName) {
+            String nationality, String cardNumber, Date expDate, int CVV, int type, String cardName) {
+    	this.guestID = guestID;
         this.guestName = guestName;
         this.address = address;
         this.contact = contact;
         this.country = country;
         this.gender = gender;
         this.nationality = nationality;
-        this.card = new Creditcard(cardNumber, expDate, CVC, type, cardName);
+        this.card = new Creditcard(cardNumber, expDate, CVV, type, cardName);
     }
 
     public String getID() {

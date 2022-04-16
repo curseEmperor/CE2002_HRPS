@@ -36,7 +36,7 @@ public class CheckInOutUI extends StandardUI{
             String reservationID;
             switch (choice) {
                 case 1: //checkIn
-                    System.out.println("Have Resrvations?(Y/N)");
+                    System.out.println("Have Reservations?(Y/N)");
                     String select = getUserYN();
                     if (select.compareTo("N") == 0) {
                     	System.out.println("Please create Reservation first.");
