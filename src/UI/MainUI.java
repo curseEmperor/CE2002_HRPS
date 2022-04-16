@@ -5,15 +5,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import Controller.GuestController;
-import Controller.IController;
+import Controller.IStorage;
 import Controller.Menu;
 import Controller.OrderController;
 import Controller.ReservationController;
 import Controller.RoomController;
 
-public class MainUI {
-    int choice;
-    ArrayList<IController> DB = new ArrayList<>();
+public class MainUI extends StandardUI {
+    int choice, qSize;
+    Scanner sc;
+    ArrayList<IStorage> DB = new ArrayList<>();
 
     public MainUI() {
         DB.add(ReservationController.getInstance());
@@ -21,38 +22,53 @@ public class MainUI {
         DB.add(OrderController.getInstance());
         DB.add(Menu.getInstance());
         DB.add(GuestController.getInstance());
+
+        sc = new Scanner(System.in);
     }
 
     public void run() throws ParseException {
         setUp();
-        Scanner sc = new Scanner(System.in);
 
+        mainMenu();
+
+        System.out.println("Exiting hotel mainUI! Have a nice day!");
+        windDown();
+        System.exit(0);
+    }
+
+    public void setUp() {
+        for (IStorage con : DB) {
+            con.loadData();
+        }
+    }
+
+    public void windDown() {
+        for (IStorage con : DB) {
+            System.out.println(con.getClass().getName());
+            con.storeData();
+        }
+    }
+
+    public int showSelection() {
+
+        System.out.println("======================");
+        System.out.println("Welcome to Main Menu!");
+        System.out.println("======================");
+        System.out.println("1) For Guest options");
+        System.out.println("2) For Reservation options");
+        System.out.println("3) For Room options");
+        System.out.println("4) For Menu options");
+        System.out.println("5) For Room Service options");
+        System.out.println("6) Check In / Check Out");
+        System.out.println("7) Exit App");
+
+        return 7;
+    }
+
+    public void mainMenu() {
         do {
-            System.out.println("======================");
-            System.out.println("Welcome to Main Menu!");
-            System.out.println("======================");
-            System.out.println("1) For Guest options");
-            System.out.println("2) For Reservation options");
-            System.out.println("3) For Room options");
-            System.out.println("4) For Menu options");
-            System.out.println("5) For Room Service options");
-            System.out.println("6) Check In / Check Out");
-            System.out.println("7) Exit App");
-
-            do {
-                if (sc.hasNextInt()) {
-                    choice = sc.nextInt();
-                    sc.nextLine();
-                    if (choice <= 0 || choice > 7) {
-                        System.out.println("Please input values between 1 to 7 only!");
-                    } else {
-                        break;
-                    }
-                } else {
-                    System.out.println("Please input only integers!");
-                    sc.next();
-                }
-            } while (choice <= 0 || choice > 7);
+            qSize = showSelection();
+            choice = getUserChoice(qSize);
 
             switch (choice) {
                 case 1:
@@ -77,24 +93,6 @@ public class MainUI {
                     break;
             }
 
-        } while (choice < 7);
-
-        sc.close();
-        System.out.println("Exiting hotel mainUI! Have a nice day!");
-        windDown();
-        System.exit(0);
-    }
-
-    public void setUp() {
-        for (IController con : DB) {
-            con.loadData();
-        }
-    }
-
-    public void windDown() {
-        for (IController con : DB) {
-            System.out.println(con.getClass().getName());
-            con.storeData();
-        }
+        } while (choice < qSize);
     }
 }
