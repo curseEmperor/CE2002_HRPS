@@ -1,8 +1,11 @@
 package Controller;
 
+import java.util.Map.Entry;
+
+import Enums.PriceFilterType;
+import entities.Node;
+
 public interface IStorage {
 
-    public void storeData();
-
-    public void loadData();
+    public Node checkOutPro(String roomID);
 }

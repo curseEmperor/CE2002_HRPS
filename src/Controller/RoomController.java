@@ -9,14 +9,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import Enums.BedTypes;
+import Enums.PriceFilterType;
 import Enums.RoomStatus;
 import Enums.RoomTypes;
 import Enums.RoomView;
+import entities.Node;
 import entities.Room;
 
-public class RoomController implements IController {
+public class RoomController implements IController, IStorage {
     private static RoomController instance = null;
 
     private ArrayList<Room> roomList;
@@ -310,7 +313,8 @@ public class RoomController implements IController {
             out.writeInt(roomList.size());
             for (Room room : roomList)
                 out.writeObject(room);
-            //System.out.printf("%s \n\n--Entries Saved.--\n", roomList.toString().replace("[", "").replace("]", ""));
+            // System.out.printf("%s \n\n--Entries Saved.--\n",
+            // roomList.toString().replace("[", "").replace("]", ""));
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -394,5 +398,19 @@ public class RoomController implements IController {
             default:
                 return RoomTypes.SINGLE;
         }
+    }
+
+    @Override
+    public Node checkOutPro(String roomID) {
+
+        Room out = checkExistence(roomID);
+
+        out.setRoomStatus(RoomStatus.VACANT);
+        out.setGuestID(null);
+
+        Node node = new Node(PriceFilterType.MULTIPLIER, out.getRoomPrice());
+
+        return node;
+
     }
 }

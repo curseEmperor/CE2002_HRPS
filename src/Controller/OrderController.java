@@ -2,10 +2,12 @@ package Controller;
 
 import entities.Order;
 import entities.Item;
+import entities.Node;
 
 import java.text.SimpleDateFormat;
 
 import Enums.OrderStatus;
+import Enums.PriceFilterType;
 
 import java.util.*;
 
@@ -15,7 +17,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class OrderController implements IController {
+public class OrderController implements IController, IStorage {
 
     ArrayList<Order> orderList;
     private static OrderController instance = null;
@@ -82,45 +84,45 @@ public class OrderController implements IController {
     public void update(Object entities, int choice, String value) {
 
         Order order = (Order) entities;
-        
+
         switch (choice) {
-        case 1: //roomID
-        	order.setRoomID(value);
-        	break;
-        case 2: //remarks
-        	order.setRemarks(value);
-        	break;
-        case 3: //orderStatus
-        	OrderStatus status = generateStatus(value);
-            order.setOrderStatus(status);
-        	break;
+            case 1: // roomID
+                order.setRoomID(value);
+                break;
+            case 2: // remarks
+                order.setRemarks(value);
+                break;
+            case 3: // orderStatus
+                OrderStatus status = generateStatus(value);
+                order.setOrderStatus(status);
+                break;
         }
 
         storeData();
     }
 
     public void addItemtoOrder(Order order, Item itemToAdd) {
-    	if (order.getOrderStatus() != OrderStatus.CONFIRM) {
-    		System.out.println("Order is preparing or is delivered, no changes can be made.");
-    		return;
-    	}
+        if (order.getOrderStatus() != OrderStatus.CONFIRM) {
+            System.out.println("Order is preparing or is delivered, no changes can be made.");
+            return;
+        }
         order.getListOfFood().add(itemToAdd);
         storeData();
     }
 
     public void deleteItemfromOrder(Order order, Item itemToDelete) {
-    	if (order.getOrderStatus() != OrderStatus.CONFIRM) {
-    		System.out.println("Order is preparing or is delivered, no changes can be made.");
-    		return;
-    	}
-    	if (order.getListOfFood().remove(itemToDelete)) {
-    		System.out.println("Item removed from order " + order.getOrderID());
-    		if (order.getListOfFood().size() == 0) {
+        if (order.getOrderStatus() != OrderStatus.CONFIRM) {
+            System.out.println("Order is preparing or is delivered, no changes can be made.");
+            return;
+        }
+        if (order.getListOfFood().remove(itemToDelete)) {
+            System.out.println("Item removed from order " + order.getOrderID());
+            if (order.getListOfFood().size() == 0) {
                 System.out.println("No items left... Deleting order...");
                 orderList.remove(order);
             }
-    	}
-    	storeData();
+        }
+        storeData();
     }
 
     public void read() {
@@ -148,8 +150,8 @@ public class OrderController implements IController {
     private OrderStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
-	        case 1:
-	        	return OrderStatus.CONFIRM;
+            case 1:
+                return OrderStatus.CONFIRM;
             case 2:
                 return OrderStatus.PREPARING;
             case 3:
@@ -192,6 +194,28 @@ public class OrderController implements IController {
         } catch (IOException | ClassNotFoundException e2) {
             e2.printStackTrace();
         }
+    }
+
+    @Override
+    public Node checkOutPro(String roomID) {
+
+        Node node;
+        double total = 0;
+        ArrayList<Order> toBeCalc = retrieveOrdersOfRoom(roomID);
+
+        if (toBeCalc.size() == 0) {
+            node = new Node(PriceFilterType.ADDER, 0);
+        } else {
+            for (Order order : toBeCalc) {
+                for (Item item : order.getListOfFood()) {
+                    total += item.getPrice();
+                }
+            }
+
+            node = new Node(PriceFilterType.ADDER, total);
+        }
+
+        return node;
     }
 
 }

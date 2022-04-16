@@ -8,13 +8,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import Enums.PriceFilterType;
 import Enums.ReservationStatus;
 import Enums.RoomTypes;
 import Mediator.CheckInOut;
+import entities.Node;
 import entities.Reservation;
 
-public class ReservationController implements IController {
+public class ReservationController implements IController, IStorage {
     private static ReservationController instance = null;
 
     private ArrayList<Reservation> reservationList;
@@ -172,7 +175,7 @@ public class ReservationController implements IController {
                 break;
         }
 
-        //System.out.println(toBeUpdated.toString());
+        // System.out.println(toBeUpdated.toString());
 
         storeData();
     }
@@ -183,11 +186,6 @@ public class ReservationController implements IController {
             out.writeInt(reservationList.size());
             for (Reservation res : reservationList)
                 out.writeObject(res);
-            /*System.out.println("==========================");
-            System.out.println("   Reservation Details: ");
-            System.out.println("==========================");
-            System.out.println(reservationList.toString().replace("[", "").replace("]", ""));
-            System.out.println("========================");*/
             System.out.println("Entries Saved!");
             out.close();
         } catch (IOException e) {
@@ -269,7 +267,7 @@ public class ReservationController implements IController {
 
         return reservationByStatus;
     }
-    
+
     private Date removeTime(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -278,5 +276,25 @@ public class ReservationController implements IController {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
+    }
+
+    @Override
+    public Node checkOutPro(String roomID) {
+
+        Reservation out = null;
+
+        for (Reservation res : reservationList) {
+            if (res.getRoomID().equals(roomID) && res.getReservationStatus() == ReservationStatus.CHECKIN) {
+                out = res;
+            }
+        }
+
+        out.setReservationStatus(ReservationStatus.COMPLETED);
+        long days = TimeUnit.DAYS.convert(out.getCheckOut().getTime() - out.getCheckIn().getTime(),
+                TimeUnit.MILLISECONDS);
+
+        Node node = new Node(PriceFilterType.MULTIPLIER, days);
+        return node;
+
     }
 }
