@@ -1,13 +1,11 @@
-package entities;
-
-import java.io.Serializable;
+package Entity;
 
 import Enums.BedTypes;
 import Enums.RoomStatus;
 import Enums.RoomTypes;
 import Enums.RoomView;
 
-public class Room extends Entities implements Serializable {
+public class Room extends Entities {
 	private String roomID; // 4 digit room number. first 2 digits represent level, last 2 digits are room
 							// number
 	private String guestID;
@@ -110,17 +108,17 @@ public class Room extends Entities implements Serializable {
 		StringBuilder result = new StringBuilder();
 		String newLine = System.getProperty("line.separator");
 
-		//result.append(this.getClass().getName() + newLine);
+		// result.append(this.getClass().getName() + newLine);
 
 		result.append("Room ID: " + this.roomID + newLine);
 		result.append("Guest ID: " + this.guestID + newLine);
 		result.append("Room Price: $" + this.roomPrice + newLine);
 		result.append("Room Type: " + this.roomType + newLine);
 		result.append("Bed Type: " + this.bedType + newLine);
-		String YN = (this.WiFi)? "Y" : "N";
+		String YN = (this.WiFi) ? "Y" : "N";
 		result.append("WiFi: " + YN + newLine);
 		result.append("View: " + this.view + newLine);
-		YN = (this.smoke)? "Y" : "N";
+		YN = (this.smoke) ? "Y" : "N";
 		result.append("Smoke: " + this.smoke + newLine);
 		result.append("Room Status: " + this.roomStatus);
 

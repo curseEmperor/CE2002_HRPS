@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import Database.SerializeDB;
+import Entity.Entities;
+import Entity.Room;
 import Enums.BedTypes;
 import Enums.RoomStatus;
 import Enums.RoomTypes;
 import Enums.RoomView;
-import entities.Entities;
-import entities.Room;
 
 public class RoomController extends SerializeDB implements IController, IStorage {
     private static RoomController instance = null;
@@ -400,8 +400,9 @@ public class RoomController extends SerializeDB implements IController, IStorage
     }
 
     public void loadData() {
-    	ArrayList<Entities> data = super.loadData("Room.ser");
-    	roomList.clear();
-    	for (Entities room : data) roomList.add((Room) room);
+        ArrayList<Entities> data = super.loadData("Room.ser");
+        roomList.clear();
+        for (Entities room : data)
+            roomList.add((Room) room);
     }
 }

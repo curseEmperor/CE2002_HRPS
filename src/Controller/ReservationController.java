@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import Database.SerializeDB;
+import Entity.Entities;
+import Entity.Reservation;
 import Enums.ReservationStatus;
 import Enums.RoomTypes;
 import Mediator.CheckInOut;
-import entities.Reservation;
-import entities.Entities;
 
 public class ReservationController extends SerializeDB implements IController, IStorage {
     private static ReservationController instance = null;
@@ -265,8 +265,9 @@ public class ReservationController extends SerializeDB implements IController, I
     }
 
     public void loadData() {
-    	ArrayList<Entities> data = super.loadData("Reservation.ser");
-    	reservationList.clear();
-    	for (Entities reservation : data) reservationList.add((Reservation) reservation);
+        ArrayList<Entities> data = super.loadData("Reservation.ser");
+        reservationList.clear();
+        for (Entities reservation : data)
+            reservationList.add((Reservation) reservation);
     }
 }

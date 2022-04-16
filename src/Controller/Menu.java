@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import Database.SerializeDB;
-import entities.Entities;
-import entities.Item;
+import Entity.Entities;
+import Entity.Item;
 import Enums.ItemTypes;
 
 public class Menu extends SerializeDB implements IController, IStorage {
@@ -236,6 +236,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	public void loadData() {
 		ArrayList<Entities> data = super.loadData("Menu.ser");
 		itemList.clear();
-		for (Entities item : data) itemList.add((Item) item);
+		for (Entities item : data)
+			itemList.add((Item) item);
 	}
 }

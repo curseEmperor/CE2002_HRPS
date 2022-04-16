@@ -3,7 +3,7 @@ package UI;
 import java.util.Scanner;
 
 import Controller.Menu;
-import entities.Item;
+import Entity.Item;
 
 public class MenuUI extends StandardUI implements ControllerUI {
     private static MenuUI instance = null;
@@ -42,7 +42,7 @@ public class MenuUI extends StandardUI implements ControllerUI {
                     create();
                     break;
                 case 2:
-                	readOneDets();
+                    readOneDets();
                     break;
                 case 3:
                     update();
@@ -62,12 +62,12 @@ public class MenuUI extends StandardUI implements ControllerUI {
     public void create() {
 
         System.out.println("--Adding item--\n"
-        		+ "1) Appetizer\n"
-        		+ "2) Entree\n"
-        		+ "3) Side\n"
-        		+ "4) Dessert\n"
-        		+ "5) Beverage\n"
-        		+ "Item type: ");
+                + "1) Appetizer\n"
+                + "2) Entree\n"
+                + "3) Side\n"
+                + "4) Dessert\n"
+                + "5) Beverage\n"
+                + "Item type: ");
 
         choice = getUserChoice(5);
 
@@ -91,10 +91,12 @@ public class MenuUI extends StandardUI implements ControllerUI {
     }
 
     public void readOneDets() { // read one Item
-    	System.out.println("Item ID: ");
-    	Item item = Menu.getInstance().checkExistance(getUserString());
-    	if (item == null) System.out.println("Invalid ID");
-    	else Menu.getInstance().printItem(item);
+        System.out.println("Item ID: ");
+        Item item = Menu.getInstance().checkExistance(getUserString());
+        if (item == null)
+            System.out.println("Invalid ID");
+        else
+            Menu.getInstance().printItem(item);
     }
 
     public void update() { // update a single item
@@ -107,31 +109,31 @@ public class MenuUI extends StandardUI implements ControllerUI {
         if (toBeUpdated == null) {
             System.out.println("Item does not exist");
         } else {
-        	Menu.getInstance().printItem(toBeUpdated);
+            Menu.getInstance().printItem(toBeUpdated);
             System.out.println(
-            		"1) ID\n"
-            		+ "2) Name\n"
-            		+ "3) Description\n"
-            		+ "4) Price\n"
-            		+ "5) Type\n"
-            		+ "6) Cancel Update");
+                    "1) ID\n"
+                            + "2) Name\n"
+                            + "3) Description\n"
+                            + "4) Price\n"
+                            + "5) Type\n"
+                            + "6) Cancel Update");
             System.out.println("What do you want to update: ");
             choice = getUserChoice(5);
-            if (choice == 6) return;
+            if (choice == 6)
+                return;
             String content;
-            if (choice!=5) {
-            	System.out.println("Enter the relevant details: ");
-            	content = getUserString();
-            }
-            else {
-            	System.out.println(
-            			"1) Appetizer\n"
-            			+ "2) Entree\n"
-            			+ "3) Side\n"
-            			+ "4) Dessert\n"
-            			+ "5) Beverage\n"
-            			+ "Enter type: ");
-            	content = String.valueOf(getUserChoice(5));
+            if (choice != 5) {
+                System.out.println("Enter the relevant details: ");
+                content = getUserString();
+            } else {
+                System.out.println(
+                        "1) Appetizer\n"
+                                + "2) Entree\n"
+                                + "3) Side\n"
+                                + "4) Dessert\n"
+                                + "5) Beverage\n"
+                                + "Enter type: ");
+                content = String.valueOf(getUserChoice(5));
             }
 
             Menu.getInstance().update(toBeUpdated, choice, content);
@@ -156,7 +158,7 @@ public class MenuUI extends StandardUI implements ControllerUI {
     }
 
     public void catalog() { // view the whole Menu with all the items catagoried
-    	Menu.getInstance().printMenu();
+        Menu.getInstance().printMenu();
     }
 
 }

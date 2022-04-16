@@ -1,12 +1,11 @@
-package entities;
+package Entity;
 
 import java.util.ArrayList;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
 import Enums.OrderStatus;
 
-public class Order extends Entities implements Serializable {
+public class Order extends Entities {
     private String orderID;
     private String roomID;
     private OrderStatus orderStatus; // confirmed, preparing, delivered

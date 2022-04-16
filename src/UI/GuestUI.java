@@ -1,7 +1,8 @@
 package UI;
 
 import Controller.GuestController;
-import entities.Guest;
+import Entity.Guest;
+
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,7 +11,7 @@ public class GuestUI extends StandardUI implements ControllerUI {
     private static GuestUI instance = null;
 
     private GuestUI() {
-    	super();
+        super();
     }
 
     public static GuestUI getInstance() {
@@ -95,7 +96,6 @@ public class GuestUI extends StandardUI implements ControllerUI {
         System.out.println("3) AMEX");
         int type = getUserChoice(3);
 
-
         // Guest rawGuest = new Guest(guestID, "guestName", "address", "contact",
         // "country", 'n', "nationality");
 
@@ -140,7 +140,6 @@ public class GuestUI extends StandardUI implements ControllerUI {
             System.out.println("Guest does not exist.");
             return;
         } else {
-            // TODO: do while loop
             System.out.println("What do you want to update?");
             System.out.println("1) GuestID");
             System.out.println("2) Guest Name");
@@ -153,7 +152,7 @@ public class GuestUI extends StandardUI implements ControllerUI {
 
             choice = getUserChoice(8);
             if (choice == 8) {
-            	System.out.println("Enter Creditcard Number: ");
+                System.out.println("Enter Creditcard Number: ");
                 String cardNumber = getUserString();
                 System.out.println("Enter Creditcard Expiry Date (MM/yy): ");
                 Date expDate = getValidDate(getUserString());
@@ -168,14 +167,13 @@ public class GuestUI extends StandardUI implements ControllerUI {
                 System.out.println("Enter Creditcard Registered Name: ");
                 String cardName = getUserString();
                 GuestController.getInstance().updateCreditcard(toBeUpdated, cardNumber, expDate, CVV, type, cardName);
+            } else {
+                System.out.println("Enter the relevant details:");
+                String content = getUserString();
+
+                GuestController.getInstance().update(toBeUpdated, choice, content);
             }
-            else {
-            	System.out.println("Enter the relevant details:");
-	            String content = getUserString();
-	
-	            GuestController.getInstance().update(toBeUpdated, choice, content);
-            }
-            
+
             System.out.println(toBeUpdated);
         }
     }
@@ -189,38 +187,37 @@ public class GuestUI extends StandardUI implements ControllerUI {
             System.out.println("Guest does not exist.");
         } else {
             System.out.println("Deleting Guest " + guestID);
-            // TODO: Confirmation check
             GuestController.getInstance().delete(toBeDeleted);
             System.out.println("Guest is removed.");
         }
     }
-    
+
     private Date getValidDate(String dateInString) {
         SimpleDateFormat sdfrmt = new SimpleDateFormat("MM/yy");
         sdfrmt.setLenient(false);
         Date javaDate = null;
         while (javaDate == null) {
-        	try {
-	            javaDate = sdfrmt.parse(dateInString);
-	        } catch (ParseException e) {
-	            System.out.println(dateInString + " is Invalid Date format\nEnter date: ");
-	            System.out.println("Enter date (MM/yy): ");
-	            dateInString = getUserString();
-	        }
+            try {
+                javaDate = sdfrmt.parse(dateInString);
+            } catch (ParseException e) {
+                System.out.println(dateInString + " is Invalid Date format\nEnter date: ");
+                System.out.println("Enter date (MM/yy): ");
+                dateInString = getUserString();
+            }
         }
-        
+
         return javaDate;
     }
-    
+
     private Date validCreditcardDate(Date expDate) {
-    	Date today = new Date();
+        Date today = new Date();
         while (expDate.before(today)) {
-        	System.out.println("Card expiry must not be before today");
-        	System.out.println("Enter Creditcard Expiry Date (MM/yy): ");
-        	String expDateString = getUserString();
-        	expDate = getValidDate(expDateString);
+            System.out.println("Card expiry must not be before today");
+            System.out.println("Enter Creditcard Expiry Date (MM/yy): ");
+            String expDateString = getUserString();
+            expDate = getValidDate(expDateString);
         }
         return expDate;
     }
-    
+
 }

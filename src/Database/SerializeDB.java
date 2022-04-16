@@ -7,8 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 
+import Entity.Entities;
+
 import java.util.ArrayList;
-import entities.Entities;
 
 public class SerializeDB {
 

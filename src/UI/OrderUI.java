@@ -5,8 +5,8 @@ import java.util.Scanner;
 import Controller.Menu;
 import Controller.OrderController;
 import Controller.RoomController;
-import entities.Item;
-import entities.Order;
+import Entity.Item;
+import Entity.Order;
 import Enums.RoomStatus;
 
 public class OrderUI extends StandardUI {
@@ -63,9 +63,10 @@ public class OrderUI extends StandardUI {
     }
 
     public void create() {
-    	String roomID = checkRoom();
-    	if (roomID == null) return;
-        
+        String roomID = checkRoom();
+        if (roomID == null)
+            return;
+
         Order order = new Order(roomID);
         OrderController.getInstance().create(order);
         addItemtoOrder(order);
@@ -99,60 +100,61 @@ public class OrderUI extends StandardUI {
         }
 
         System.out.println(
-        		"1) Room ID\n"
-        		+ "2) Remarks\n"
-        		+ "3) Order Status\n"
-        		+ "4) Add Item(s)\n"
-        		+ "5) Remove Item\n"
-        		+ "What would you like to update?");
+                "1) Room ID\n"
+                        + "2) Remarks\n"
+                        + "3) Order Status\n"
+                        + "4) Add Item(s)\n"
+                        + "5) Remove Item\n"
+                        + "What would you like to update?");
         int choice = getUserChoice(5);
 
         String value = null;
         if (choice <= 3) {
-        	switch (choice) {
-		        case 1: //roomID
-		        	value = checkRoom();
-		        	if (value == null) return;
-		        	break;
-		        case 2: //remarks
-		        	System.out.println("Please enter remarks: ");
-		        	value = getUserString();
-		        	break;
-		        case 3: //order status
-		        	System.out.println("Change Order status to:");
-		            System.out.println("1) Confirmed");
-		            System.out.println("2) Preparing");
-		            System.out.println("3) Delivered");
-		            System.out.println("4) Paid");
-		            value = String.valueOf(getUserChoice(4));
-		        	break;
-	        }
-        	OrderController.getInstance().update(order, choice, value);
+            switch (choice) {
+                case 1: // roomID
+                    value = checkRoom();
+                    if (value == null)
+                        return;
+                    break;
+                case 2: // remarks
+                    System.out.println("Please enter remarks: ");
+                    value = getUserString();
+                    break;
+                case 3: // order status
+                    System.out.println("Change Order status to:");
+                    System.out.println("1) Confirmed");
+                    System.out.println("2) Preparing");
+                    System.out.println("3) Delivered");
+                    System.out.println("4) Paid");
+                    value = String.valueOf(getUserChoice(4));
+                    break;
+            }
+            OrderController.getInstance().update(order, choice, value);
         }
         if (choice == 4) {
-        	addItemtoOrder(order);
+            addItemtoOrder(order);
         }
-        if (choice ==5) {
-        	deleteItemfromOrder(order);
+        if (choice == 5) {
+            deleteItemfromOrder(order);
         }
-        
+
     }
-    
+
     public String checkRoom() {
-    	//Check for valid room
+        // Check for valid room
         System.out.println("Please enter your Room ID:");
         String roomID = sc.nextLine();
         while (RoomController.getInstance().checkExistence(roomID) == null) {
             System.out.println("Please enter valid Room ID:");
             roomID = sc.nextLine();
         }
-        
-        //Check if room is occupied
+
+        // Check if room is occupied
         if (RoomController.getInstance().checkExistence(roomID).getRoomStatus() != RoomStatus.OCCUPIED) {
-	        System.out.println("Room has no guest");
-	        return null;
+            System.out.println("Room has no guest");
+            return null;
         }
-    	return roomID;
+        return roomID;
     }
 
     public void delete() {
@@ -167,15 +169,15 @@ public class OrderUI extends StandardUI {
 
         OrderController.getInstance().delete(order);
     }
-    
+
     private void addItemtoOrder(Order order) {
         while (true) {
             Menu.getInstance().printMenu();
             System.out.println("Please enter the itemID of the item you wish to order:");
             String itemID = getUserString();
             Item itemToAdd = Menu.getInstance().checkExistance(itemID);
-            while (itemToAdd==null) {
-            	System.out.println("Please valid itemID:");
+            while (itemToAdd == null) {
+                System.out.println("Please valid itemID:");
                 itemID = getUserString();
                 itemToAdd = Menu.getInstance().checkExistance(itemID);
             }
@@ -193,13 +195,13 @@ public class OrderUI extends StandardUI {
             }
         }
     }
-    
+
     private void deleteItemfromOrder(Order order) {
         System.out.println("Enter ItemID for item to be removed from order: ");
         String itemID = getUserString();
         Item itemToDelete = Menu.getInstance().checkExistance(itemID);
-        while (itemToDelete==null) {
-        	System.out.println("Please valid itemID:");
+        while (itemToDelete == null) {
+            System.out.println("Please valid itemID:");
             itemID = getUserString();
             itemToDelete = Menu.getInstance().checkExistance(itemID);
         }

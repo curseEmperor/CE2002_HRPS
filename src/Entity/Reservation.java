@@ -1,13 +1,12 @@
-package entities;
+package Entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import Enums.ReservationStatus;
 import Enums.RoomTypes;
 
-public class Reservation extends Entities implements Serializable {
+public class Reservation extends Entities {
     private String reservationID;
     private String guestID;
     private String roomID;
@@ -54,7 +53,7 @@ public class Reservation extends Entities implements Serializable {
     }
 
     public Date getCheckIn() {
-        return checkIn ;
+        return checkIn;
     }
 
     public void setCheckIn(Date checkIn) {
@@ -92,58 +91,62 @@ public class Reservation extends Entities implements Serializable {
     public void setReservationStatus(ReservationStatus reservationStatus) {
         this.reservationStatus = reservationStatus;
     }
-    
+
     public RoomTypes getRoomType() {
-    	return roomType;
+        return roomType;
     }
-    
+
     public void setRoomType(RoomTypes roomType) {
-    	this.roomType = roomType;
+        this.roomType = roomType;
     }
-    
+
     public Creditcard getCreditcard() {
-    	return card;
+        return card;
     }
-    
+
     public void setCreditcard(Creditcard card) {
-    	this.card = card;
+        this.card = card;
     }
-    
+
     public void setCreditcard(String cardNumber, Date expDate, int CVV, int type, String cardName) {
-    	this.card = new Creditcard(cardNumber, expDate, CVV, type, cardName);
+        this.card = new Creditcard(cardNumber, expDate, CVV, type, cardName);
     }
 
     @Override
-    /*public String toString() {
-        StringBuilder result = new StringBuilder();
-        String newLine = System.getProperty("line.separator");
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm:ss a");
-        //result.append(this.getClass().getName() + " Object {" + newLine);
-        /*result.append("Reservation ID: " + this.reservationID + newLine);
-        result.append("Guest ID: " + this.guestID + newLine);
-        result.append("Room ID: " + this.roomID + newLine);
-        result.append("No. of Adult(s): " + this.adultNo + newLine);
-        result.append("No. of Child(ren): " + this.childNo + newLine);
-        result.append("Room Type: " + this.getRoomType() + newLine);
-        result.append("Check in Date: " + sdf.format(this.checkIn) + newLine);
-        result.append("Check out Date: " + sdf.format(this.checkOut) + newLine);
-        result.append("Status: " + this.reservationStatus);
-        if (this.getReservationStatus() != ReservationStatus.EXPIRED)
-        { 
-            result.append("  " + this.reservationID + "          " + this.guestID + "         " + this.roomID + "       " + this.roomType + "      " + this.reservationStatus + "     " + sdf.format(this.checkIn) + "    " + sdf.format(this.checkOut) + newLine);
-        }
-        
-        //result.append("}");
+    /*
+     * public String toString() {
+     * StringBuilder result = new StringBuilder();
+     * String newLine = System.getProperty("line.separator");
+     * SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm:ss a");
+     * //result.append(this.getClass().getName() + " Object {" + newLine);
+     * /*result.append("Reservation ID: " + this.reservationID + newLine);
+     * result.append("Guest ID: " + this.guestID + newLine);
+     * result.append("Room ID: " + this.roomID + newLine);
+     * result.append("No. of Adult(s): " + this.adultNo + newLine);
+     * result.append("No. of Child(ren): " + this.childNo + newLine);
+     * result.append("Room Type: " + this.getRoomType() + newLine);
+     * result.append("Check in Date: " + sdf.format(this.checkIn) + newLine);
+     * result.append("Check out Date: " + sdf.format(this.checkOut) + newLine);
+     * result.append("Status: " + this.reservationStatus);
+     * if (this.getReservationStatus() != ReservationStatus.EXPIRED)
+     * {
+     * result.append("  " + this.reservationID + "          " + this.guestID +
+     * "         " + this.roomID + "       " + this.roomType + "      " +
+     * this.reservationStatus + "     " + sdf.format(this.checkIn) + "    " +
+     * sdf.format(this.checkOut) + newLine);
+     * }
+     * 
+     * //result.append("}");
+     * 
+     * return result.toString();
+     * }
+     */
 
-        return result.toString();
-    }*/
-
-    public String toString()
-    {
+    public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm:ss a");
-        return String.format("%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s", this.reservationID, this.guestID, this.roomID, this.roomType, this.reservationStatus, sdf.format(this.checkIn), sdf.format(this.checkOut));
+        return String.format("%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s", this.reservationID, this.guestID, this.roomID,
+                this.roomType, this.reservationStatus, sdf.format(this.checkIn), sdf.format(this.checkOut));
 
     }
-
 
 }

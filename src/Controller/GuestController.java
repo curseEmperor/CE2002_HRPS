@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import Database.SerializeDB;
-import entities.Guest;
-import entities.Creditcard;
-import entities.Entities;
+import Entity.Creditcard;
+import Entity.Entities;
+import Entity.Guest;
 
 public class GuestController extends SerializeDB implements IController, IStorage {
     private static GuestController instance = null;
@@ -101,9 +101,10 @@ public class GuestController extends SerializeDB implements IController, IStorag
     }
 
     public void loadData() {
-    	ArrayList<Entities> data =  super.loadData("Guest.ser");
-    	guestList.clear();
-    	for (Entities guest : data) guestList.add((Guest) guest);
+        ArrayList<Entities> data = super.loadData("Guest.ser");
+        guestList.clear();
+        for (Entities guest : data)
+            guestList.add((Guest) guest);
     }
 
 }

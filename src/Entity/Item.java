@@ -1,9 +1,8 @@
-package entities;
+package Entity;
 
-import java.io.Serializable;
 import Enums.ItemTypes;
 
-public class Item extends Entities implements Serializable {
+public class Item extends Entities {
 	// Variables
 	private String itemID;
 	private String itemName;

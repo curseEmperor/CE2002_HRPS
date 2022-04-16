@@ -1,9 +1,5 @@
 package Controller;
 
-import entities.Order;
-import entities.Item;
-import entities.Entities;
-
 import java.text.SimpleDateFormat;
 
 import Enums.OrderStatus;
@@ -11,6 +7,9 @@ import Enums.OrderStatus;
 import java.util.*;
 
 import Database.SerializeDB;
+import Entity.Entities;
+import Entity.Item;
+import Entity.Order;
 
 public class OrderController extends SerializeDB implements IController, IStorage {
 
@@ -164,9 +163,10 @@ public class OrderController extends SerializeDB implements IController, IStorag
     }
 
     public void loadData() {
-    	ArrayList<Entities> data = super.loadData("Order.ser");
-    	orderList.clear();
-    	for (Entities order : data) orderList.add((Order) order);
+        ArrayList<Entities> data = super.loadData("Order.ser");
+        orderList.clear();
+        for (Entities order : data)
+            orderList.add((Order) order);
     }
 
 }

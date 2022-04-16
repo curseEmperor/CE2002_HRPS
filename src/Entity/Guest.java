@@ -1,9 +1,8 @@
-package entities;
+package Entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class Guest extends Entities implements Serializable {
+public class Guest extends Entities {
 
     private String guestID; // driver || passport licence
     private String guestName;
@@ -16,7 +15,7 @@ public class Guest extends Entities implements Serializable {
 
     public Guest(String guestID, String guestName, String address, String contact, String country, char gender,
             String nationality, String cardNumber, Date expDate, int CVV, int type, String cardName) {
-    	this.guestID = guestID;
+        this.guestID = guestID;
         this.guestName = guestName;
         this.address = address;
         this.contact = contact;
