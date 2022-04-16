@@ -9,16 +9,31 @@ import Entity.Item;
 import Entity.Order;
 import Enums.RoomStatus;
 
+/***
+ * Represents a OrderUI
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
+
 public class OrderUI extends StandardUI {
     private static OrderUI instance = null;
     Scanner sc;
     int choice, qSize;
 
+    /**
+     * Constructor
+     */
     private OrderUI() {
         super();
         sc = new Scanner(System.in);
     }
 
+    /**
+     * Returns the OrderUI instance and creates an instance if it does not
+     * 
+     * @return OrderUI
+     */
     public static OrderUI getInstance() {
         if (instance == null) {
             instance = new OrderUI();
@@ -26,6 +41,11 @@ public class OrderUI extends StandardUI {
         return instance;
     }
 
+    /**
+     * Print selection menu and return number of selections available
+     * 
+     * @return int
+     */
     public int showSelection() {
         System.out.println(" Order/Room Service options avaiable: ");
         System.out.println("1) Create Order");
@@ -37,6 +57,9 @@ public class OrderUI extends StandardUI {
         return 5;
     }
 
+    /**
+     * Select next prompt based on user iuput
+     */
     public void mainMenu() {
         do {
             qSize = showSelection();
@@ -62,6 +85,10 @@ public class OrderUI extends StandardUI {
 
     }
 
+    /**
+     * Only create order if room has people staying
+     * Create Order object with inputs
+     */
     public void create() {
         String roomID = checkRoom();
         if (roomID == null)
@@ -76,6 +103,9 @@ public class OrderUI extends StandardUI {
         System.out.println("Order " + order.getOrderID() + " has been confirmed. ");
     }
 
+    /**
+     * Check for order existence and print details of specific order
+     */
     public void readOneDets() {
         System.out.println("Enter the OrderID: ");
         String orderID = sc.nextLine();
@@ -89,6 +119,9 @@ public class OrderUI extends StandardUI {
         OrderController.getInstance().read(order);
     }
 
+    /**
+     * Check for order existed and prompts for arguments for update
+     */
     public void update() {
         System.out.println("Enter the OrderID to be updated: ");
         String orderID = sc.nextLine();
@@ -140,6 +173,12 @@ public class OrderUI extends StandardUI {
 
     }
 
+    /**
+     * Check for Room Exisitence, Order should only be created if there is living in
+     * the room
+     * 
+     * @return String roomID
+     */
     public String checkRoom() {
         // Check for valid room
         System.out.println("Please enter your Room ID:");
@@ -157,6 +196,9 @@ public class OrderUI extends StandardUI {
         return roomID;
     }
 
+    /**
+     * Check for Order Existence and pass Order Object to controller for delete
+     */
     public void delete() {
         System.out.println("Enter the OrderID to be deleted: ");
         String orderID = getUserString();
@@ -170,6 +212,11 @@ public class OrderUI extends StandardUI {
         OrderController.getInstance().delete(order);
     }
 
+    /**
+     * Add Items to current order, prompts for itemID, quantity and remarks
+     * 
+     * @param order Order
+     */
     private void addItemtoOrder(Order order) {
         while (true) {
             Menu.getInstance().printMenu();
@@ -196,6 +243,11 @@ public class OrderUI extends StandardUI {
         }
     }
 
+    /**
+     * Check for Item existence in Menu and pass arguments to controller for detete
+     * 
+     * @param order
+     */
     private void deleteItemfromOrder(Order order) {
         System.out.println("Enter ItemID for item to be removed from order: ");
         String itemID = getUserString();

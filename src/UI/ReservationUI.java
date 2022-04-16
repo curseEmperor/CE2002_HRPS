@@ -22,6 +22,9 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         sc = new Scanner(System.in);
     }
 
+    /**
+     * @return ReservationUI
+     */
     public static ReservationUI getInstance() {
         if (instance == null) {
             instance = new ReservationUI();
@@ -29,6 +32,9 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         return instance;
     }
 
+    /**
+     * @return int
+     */
     public int showSelection() {
         System.out.println("Reservation options avaiable: ");
         System.out.println("1) Add Reservations");
@@ -323,6 +329,10 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         }
     }
 
+    /**
+     * @param dateInString
+     * @return Date
+     */
     private Date dateValid(String dateInString) {
         SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yy hh:mm a");
         int i = dateInString.length();
@@ -342,6 +352,10 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         return javaDate;
     }
 
+    /**
+     * @param checkInDate
+     * @return Date
+     */
     private Date validCheckIn(Date checkInDate) {
         Date today = new Date();
         while (checkInDate.before(removeTime(today))) {
@@ -353,6 +367,11 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         return checkInDate;
     }
 
+    /**
+     * @param checkOutDate
+     * @param checkInDate
+     * @return Date
+     */
     private Date validCheckOut(Date checkOutDate, Date checkInDate) {
         while (checkOutDate.before(checkInDate) || checkOutDate.equals(checkInDate)) {
             System.out.println("Check-out day must be after Check-in day");
@@ -363,6 +382,10 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         return checkOutDate;
     }
 
+    /**
+     * @param date
+     * @return Date
+     */
     private Date removeTime(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

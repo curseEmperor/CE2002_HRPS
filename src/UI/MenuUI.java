@@ -14,12 +14,18 @@ public class MenuUI extends StandardUI implements ControllerUI {
         sc = new Scanner(System.in);
     }
 
+    /**
+     * @return MenuUI
+     */
     public static MenuUI getInstance() {
         if (instance == null)
             instance = new MenuUI();
         return instance;
     }
 
+    /**
+     * @return int
+     */
     public int showSelection() {
         System.out.println("Menu options avaiable: ");
         System.out.println("1) Create / Add Items");
@@ -90,6 +96,9 @@ public class MenuUI extends StandardUI implements ControllerUI {
         System.out.println("\nItem added!\n");
     }
 
+    /**
+     * @param null
+     */
     public void readOneDets() { // read one Item
         System.out.println("Item ID: ");
         Item item = Menu.getInstance().checkExistance(getUserString());
@@ -99,6 +108,9 @@ public class MenuUI extends StandardUI implements ControllerUI {
             Menu.getInstance().printItem(item);
     }
 
+    /**
+     * @param null
+     */
     public void update() { // update a single item
 
         System.out.println("--Editing item--\nItem ID: ");

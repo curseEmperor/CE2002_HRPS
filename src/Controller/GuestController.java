@@ -8,15 +8,36 @@ import Entity.Creditcard;
 import Entity.Entities;
 import Entity.Guest;
 
-public class GuestController extends SerializeDB implements IController, IStorage {
-    private static GuestController instance = null;
+/***
+ * Represents a Guest Controller
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
 
+public class GuestController extends SerializeDB implements IController, IStorage {
+    /**
+     * The Instance of this Controller
+     */
+    private static GuestController instance = null;
+    /**
+     * The collection of guest
+     */
     private ArrayList<Guest> guestList;
 
+    /**
+     * Constructor
+     */
     private GuestController() {
         guestList = new ArrayList<>();
     }
 
+    /**
+     * Returns the GuestController instance and creates an instance if it does not
+     * exist
+     * 
+     * @return GuestController
+     */
     public static GuestController getInstance() {
         if (instance == null) {
             instance = new GuestController();
@@ -24,6 +45,12 @@ public class GuestController extends SerializeDB implements IController, IStorag
         return instance;
     }
 
+    /**
+     * Return Guest object if guestID matches
+     * 
+     * @param guestID
+     * @return Guest
+     */
     public Guest checkExistence(String guestID) {
         System.out.println("Checking whether guestID exists...");
         for (Guest guest : guestList) {
@@ -35,6 +62,11 @@ public class GuestController extends SerializeDB implements IController, IStorag
         return null;
     }
 
+    /**
+     * Downcast to Guest and add to list of Guest
+     * 
+     * @param entities
+     */
     public void create(Object entities) {
 
         Guest guest = (Guest) entities;
@@ -42,12 +74,20 @@ public class GuestController extends SerializeDB implements IController, IStorag
         storeData();
     }
 
+    /**
+     * Print all GuestIDs
+     */
     public void read() {
         for (Guest guest : guestList) {
             System.out.println(guest.getID());
         }
     }
 
+    /**
+     * Delete all Guest Object from list of Guest
+     * 
+     * @param entities
+     */
     public void delete(Object entities) {
 
         Guest toBeDeleted = (Guest) entities;
@@ -56,6 +96,13 @@ public class GuestController extends SerializeDB implements IController, IStorag
         storeData();
     }
 
+    /**
+     * Update field of Guest with input values
+     * 
+     * @param entities entities is Guest
+     * @param choice   choice from UI
+     * @param value    input from user to be pass to setters
+     */
     public void update(Object entities, int choice, String value) {
 
         Guest toBeUpdated = (Guest) entities;
@@ -89,6 +136,16 @@ public class GuestController extends SerializeDB implements IController, IStorag
         storeData();
     }
 
+    /**
+     * Update Creditcard with setter
+     * 
+     * @param entities   entities is Creditcard
+     * @param cardNumber
+     * @param expiryDate
+     * @param CVC
+     * @param type
+     * @param cardName
+     */
     public void updateCreditcard(Object entities, String cardNumber, Date expiryDate, int CVC, int type,
             String cardName) {
         Guest toBeUpdated = (Guest) entities;
