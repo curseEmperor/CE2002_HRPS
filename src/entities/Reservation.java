@@ -17,6 +17,7 @@ public class Reservation implements Serializable {
     private int adultNo;
     private ReservationStatus reservationStatus;
     private RoomTypes roomType;
+    private Creditcard card;
 
     public Reservation(String guestID, Date checkIn, Date checkOut, int childNo, int adultNo) {
         this.guestID = guestID;
@@ -25,6 +26,7 @@ public class Reservation implements Serializable {
         this.checkOut = checkOut;
         this.childNo = childNo;
         this.adultNo = adultNo;
+        this.card = null;
     }
 
     public String getID() {
@@ -97,6 +99,18 @@ public class Reservation implements Serializable {
     
     public void setRoomType(RoomTypes roomType) {
     	this.roomType = roomType;
+    }
+    
+    public Creditcard getCreditcard() {
+    	return card;
+    }
+    
+    public void setCreditcard(Creditcard card) {
+    	this.card = card;
+    }
+    
+    public void setCreditcard(String cardNumber, Date expDate, int CVV, int type, String cardName) {
+    	this.card = new Creditcard(cardNumber, expDate, CVV, type, cardName);
     }
 
     @Override

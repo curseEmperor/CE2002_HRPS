@@ -114,6 +114,7 @@ public class CheckInOutUI extends StandardUI{
             int type = getUserChoice(3);
             System.out.println("Enter Creditcard Registered Name: ");
             String cardName = getUserString();
+            CheckInOut.getInstance().setReservationCreditcard(ID, cardNumber, expDate, CVV, type, cardName);
         }
         CheckInOut.getInstance().payment(ID);
         System.out.println("Payment Completed");
