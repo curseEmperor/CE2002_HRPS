@@ -50,16 +50,11 @@ public class ReservationUI extends StandardUI implements ControllerUI {
                 case 1:
                     System.out.println("Are you a new Guest? (Y/N)");
                     String select = getUserYN();
-                    switch (select) {
-                    case "N":
-                        create();
-                        break;
-                    case "Y":
+                    if (select.compareTo("Y")==0) {
                         System.out.println("Please create Guest account first.");
                         GuestUI.getInstance().create();
-                        create();
-                        break;
                     }
+                    create();
                     break;
                 case 2:
                     readOneDets();
