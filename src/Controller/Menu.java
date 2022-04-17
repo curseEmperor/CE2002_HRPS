@@ -10,12 +10,26 @@ import Entity.Entities;
 import Entity.Item;
 import Enums.ItemTypes;
 
+/***
+ * Represents a Menu/Item Controller
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
+
 public class Menu extends SerializeDB implements IController, IStorage {
-	// Variables
+	/**
+     * The collection of items
+     */
 	private ArrayList<Item> itemList;
+	/**
+     * The Instance of this Controller
+     */
 	private static Menu single_instance = null;
 
-	// Constructor
+	/**
+     * Constructor
+     */
 	private Menu() {
 		itemList = new ArrayList<Item>();
 		cleanID();

@@ -58,7 +58,7 @@ public class OrderUI extends StandardUI {
     }
 
     /**
-     * Select next prompt based on user iuput
+     * Select next prompt based on user input
      */
     public void mainMenu() {
         do {
