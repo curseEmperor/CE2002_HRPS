@@ -11,8 +11,20 @@ import Entity.Entities;
 
 import java.util.ArrayList;
 
+/***
+ * Provide for inheritance of duplicated load/store function
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
 public class SerializeDB {
 
+	/**
+	 * Fixed load function from Serialize file to data array
+	 * 
+	 * @param filename Each file for each class
+	 * @return ArrayList<Entities> Return collection of entites
+	 */
 	public static ArrayList<Entities> loadData(String filename) {
 		ArrayList<Entities> pDetails = new ArrayList<>();
 		FileInputStream fis = null;
@@ -40,6 +52,12 @@ public class SerializeDB {
 		return pDetails;
 	}
 
+	/**
+	 * Fixed store function from Serialize file to data array
+	 * 
+	 * @param filename Each file for each class
+	 * @param list     Pass in collection of entities
+	 */
 	public static void storeData(String filename, List list) {
 		FileOutputStream fos = null;
 		ObjectOutputStream out = null;

@@ -13,6 +13,12 @@ import Enums.ReservationStatus;
 import Enums.RoomTypes;
 import Mediator.CheckInOut;
 
+/***
+ * Represents a ReservationUI
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
 public class ReservationUI extends StandardUI implements ControllerUI {
     private static ReservationUI instance = null;
     Scanner sc;
@@ -23,6 +29,8 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     }
 
     /**
+     * Returns the ReservationUI instance and creates an instance if it does not
+     * 
      * @return ReservationUI
      */
     public static ReservationUI getInstance() {
@@ -33,6 +41,8 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     }
 
     /**
+     * Print selection menu and return number of selections available
+     * 
      * @return int
      */
     public int showSelection() {
@@ -47,6 +57,10 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         return 6;
     }
 
+    /**
+     * Select next prompt based on user iuput
+     * 
+     */
     public void mainMenu() {
         do {
             qSize = showSelection();
@@ -82,6 +96,10 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         } while (choice < qSize);
     }
 
+    /**
+     * Only create Reserrvation if guest exist
+     * Create Reservation object with inputs
+     */
     public void create() {
 
         System.out.println("Enter Guest ID: ");
@@ -180,6 +198,9 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 
     }
 
+    /**
+     * Check for Reservation existence and print details of specific reservation
+     */
     public void readOneDets() {
 
         System.out.println("Enter ur Reservation ID: ");
@@ -202,6 +223,9 @@ public class ReservationUI extends StandardUI implements ControllerUI {
 
     }
 
+    /**
+     * Show all Reservation in a list
+     */
     public void readAll() {
         System.out.println("\033[1mViewing all reservations\033[0m");
         System.out.println(
@@ -217,6 +241,9 @@ public class ReservationUI extends StandardUI implements ControllerUI {
                 "================================================================================================================================");
     }
 
+    /**
+     * Check for reservation existence and prompts for arguments for update
+     */
     public void update() {
         System.out.println("Enter your Reservation ID: ");
         String reservationID = getUserString();
@@ -316,6 +343,10 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         }
     }
 
+    /**
+     * Check for Reservation existence and
+     * pass reservation bbject to controller for delete
+     */
     public void delete() {
         System.out.println("Enter your Reservation ID: ");
         String reservationID = getUserString();
@@ -330,7 +361,9 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     }
 
     /**
-     * @param dateInString
+     * Check for validity of date and prompts for correct input
+     * 
+     * @param dateInString Date from user string input
      * @return Date
      */
     private Date dateValid(String dateInString) {
@@ -353,6 +386,8 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     }
 
     /**
+     * Check for valid check in on the day where guest visits
+     * 
      * @param checkInDate
      * @return Date
      */
@@ -368,6 +403,8 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     }
 
     /**
+     * Check for valid check out date entered, must be after check in date
+     * 
      * @param checkOutDate
      * @param checkInDate
      * @return Date
@@ -383,6 +420,8 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     }
 
     /**
+     * To remove time from Date
+     * 
      * @param date
      * @return Date
      */
