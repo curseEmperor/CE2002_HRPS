@@ -36,8 +36,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	}
 	
 	/**
-     * Returns the Menu instance and creates an instance if it does not
-     * exist
+     * Returns the Menu instance and creates an instance if it does not exist
      * 
      * @return Menu
      */
