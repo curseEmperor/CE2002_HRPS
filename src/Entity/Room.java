@@ -208,7 +208,7 @@ public class Room extends Entities {
 	{
 		String wifi = (this.WiFi) ? "Y" : "N";
 		String smoke = (this.smoke) ? "Y" : "N";
-		return String.format("%10s\t%14s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t10%s", this.roomID, this.guestID, this.roomPrice, this.roomType, this.bedType, wifi, this.view, smoke, this.roomStatus);
+		return String.format("%8s\t%8s\t%10s\t%10s\t%10s\t%10s\t%10s\t%8s\t%10s", this.roomID, this.guestID, this.roomPrice, this.roomType, this.bedType, wifi, this.view, smoke, this.roomStatus);
 	}
 
 }

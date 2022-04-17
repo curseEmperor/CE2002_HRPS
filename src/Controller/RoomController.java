@@ -35,8 +35,8 @@ public class RoomController extends SerializeDB implements IController, IStorage
      */
     private RoomController() {
         roomList = new ArrayList<>();
-        //initHotel();
-        //storeData();
+        initHotel();
+        storeData();
     }
     
     /**

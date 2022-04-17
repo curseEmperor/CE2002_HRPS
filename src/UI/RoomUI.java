@@ -294,52 +294,104 @@ public class RoomUI extends StandardUI implements ControllerUI {
      */
     public void viewInfo()
     {
-        System.out.println("1) Print all VACANT rooms");
-        System.out.println("2) Print all OCCUPIED rooms");
-        System.out.println("3) Print all under MAINTAINENCE rooms");
-        System.out.println("4) Print all rooms");
-        System.out.println("5) Back to Room UI");
-
-        choice = getUserChoice(5);
-        switch(choice)
+        do
         {
-            case 1:
-                viewVacant();
-                break;
-            case 2:
-                //viewOccupied();
-                break;
-            case 3:
-                //viewMaintainence();
-                break;
-            case 4:
-                //viewAll();
-                break;
-            case 5:
-                return;
-            default:
-                break;
-        } while (choice < 5);
+            System.out.println("1) Print all VACANT rooms");
+            System.out.println("2) Print all OCCUPIED rooms");
+            System.out.println("3) Print all under MAINTAINENCE rooms");
+            System.out.println("4) Print all rooms");
+            System.out.println("5) Back to Room UI");
 
+            choice = getUserChoice(5);
+            switch(choice)
+            {
+                case 1:
+                    viewVacant();
+                    break;
+                case 2:
+                    viewOccupied();
+                    break;
+                case 3:
+                    viewMaintainence();
+                    break;
+                case 4:
+                    viewAll();
+                    break;
+                case 5:
+                    return;
+                default:
+                    break;
+            }
+        } while (choice <6);
+      
     }
 
     /**
+     * View all occupied room details
+     */
+    public void viewOccupied()
+    {
+        System.out.println("\033[1mViewing all occupied rooms\033[0m");
+        System.out.println("==============================================================================================================================================================");
+        System.out.println(" Room ID          GuestID        Room Price($)     Room Type       Bed Type             Wifi?         View          Smoke         Room Status");
+        System.out.println("==============================================================================================================================================================");
+        for (Room room : RoomController.getInstance().getRoomList())
+        {
+            if (room.getRoomStatus() == RoomStatus.OCCUPIED)
+                System.out.println(room.tohoriString());
+        }
+        System.out.println("==============================================================================================================================================================");
+    }
+
+    /**
+     * View all maintainence room details
+     */
+    public void viewMaintainence()
+    {
+        System.out.println("\033[1mViewing all under-maintainence rooms\033[0m");
+        System.out.println("==============================================================================================================================================================");
+        System.out.println(" Room ID          GuestID        Room Price($)     Room Type       Bed Type             Wifi?         View          Smoke         Room Status");
+        System.out.println("==============================================================================================================================================================");
+        for (Room room : RoomController.getInstance().getRoomList())
+        {
+            if (room.getRoomStatus() == RoomStatus.MAINTAINENCE)
+                System.out.println(room.tohoriString());
+        }
+        System.out.println("==============================================================================================================================================================");
+    }
+
+        /**
      * View all vacant room details
      */
     public void viewVacant()
     {
-        HashMap<RoomStatus, List<Room>> roomByStatus;
-        roomByStatus = (HashMap<RoomStatus, List<Room>>) RoomController.getInstance().splitRoomByStatus();
-
-        System.out.println("\033[1mViewing all vacant rooms\033[0m\n");
-        System.out.println("=====================================================================================================================================================================");
-        System.out.println(" Room ID           GuestID            Room Price($)       Room Type            Bed Type          Wifi?          View          Smoke            Room Status");
-        System.out.println(RoomController.getInstance().getRoomList());
+        System.out.println("\033[1mViewing all vacant rooms\033[0m");
+        System.out.println("==============================================================================================================================================================");
+        System.out.println(" Room ID          GuestID        Room Price($)     Room Type       Bed Type             Wifi?         View          Smoke         Room Status");
+        System.out.println("==============================================================================================================================================================");
         for (Room room : RoomController.getInstance().getRoomList())
         {
             if (room.getRoomStatus() == RoomStatus.VACANT)
                 System.out.println(room.tohoriString());
         }
+        System.out.println("==============================================================================================================================================================");
+    }
+
+
+    /**
+     * View all room details
+     */
+    public void viewAll()
+    {
+        System.out.println("\033[1mViewing all rooms\033[0m");
+        System.out.println("==============================================================================================================================================================");
+        System.out.println(" Room ID          GuestID        Room Price($)     Room Type       Bed Type             Wifi?         View          Smoke         Room Status");
+        System.out.println("==============================================================================================================================================================");
+        for (Room room : RoomController.getInstance().getRoomList())
+        {
+            System.out.println(room.tohoriString());
+        }
+        System.out.println("==============================================================================================================================================================");
     }
 
 
@@ -349,25 +401,14 @@ public class RoomUI extends StandardUI implements ControllerUI {
     private void occupancyReport() {
         HashMap<RoomTypes, List<Room>> report;
         report = (HashMap<RoomTypes, List<Room>>) RoomController.getInstance().generateOccupancyReport();
-        int count = 0;
 
         for (RoomTypes key : report.keySet()) {
             System.out.format("\033[1m===========%s==========\033[0m\n", key);
-            for (Room room : report.get(key))
-            {
-                if (room.getRoomStatus() == RoomStatus.VACANT)
-                {
-                    count += 1;
-                }
-            }
-            System.out.format("Number: %d out of %d\n", count, report.get(key).size());
-            System.out.println("Rooms: ");
+            System.out.println("Number : " + report.get(key).size());
+            System.out.println("Rooms : ");
             for (Room room : report.get(key)) {
-                if (room.getRoomStatus() == RoomStatus.VACANT)
-                    System.out.println(room.getRoomID());
-                System.out.println("\t" + room.getRoomID());
+                System.out.println("\t"+ room.getRoomID());
             }
-            System.out.printf("\n");
         }
     }
 
