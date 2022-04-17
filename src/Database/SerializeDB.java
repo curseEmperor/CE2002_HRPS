@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 2022-04-17
  */
-public abstract class SerializeDB {
+public class SerializeDB {
 
 	/**
 	 * Fixed load function from Serialize file to data array
@@ -78,8 +78,4 @@ public abstract class SerializeDB {
 			ex.printStackTrace();
 		}
 	}
-	
-	public abstract void storeData();
-	
-	public abstract void loadData();
 }
