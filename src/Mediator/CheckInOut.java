@@ -472,6 +472,10 @@ public class CheckInOut {
 			System.out.println("Room is not vacant");
 			return false;
 		}
+		if (reservation.getReservationStatus()!=ReservationStatus.CHECKIN) {
+			System.out.println("Reservation not Checked-In");
+			return false;
+		}
 		
 		return true;
 	}
