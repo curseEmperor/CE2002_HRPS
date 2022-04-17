@@ -84,7 +84,7 @@ public class GuestController extends SerializeDB implements IController, IStorag
     }
 
     /**
-     * Delete all Guest Object from list of Guest
+     * Delete single Guest Object from list of Guest
      * 
      * @param entities
      */

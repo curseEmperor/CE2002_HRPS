@@ -34,7 +34,13 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		itemList = new ArrayList<Item>();
 		cleanID();
 	}
-
+	
+	/**
+     * Returns the Menu instance and creates an instance if it does not
+     * exist
+     * 
+     * @return Menu
+     */
 	public static Menu getInstance() {
 		if (single_instance == null)
 			single_instance = new Menu();
@@ -42,6 +48,9 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	}
 
 	// Behaviours
+	/**
+     * Print all items sorted by itemType (Category)
+     */
 	public void printMenu() {
 		System.out.println("Total number of Items: " + itemList.size() + "\n");
 		for (ItemTypes itemType : ItemTypes.values()) {
@@ -49,6 +58,11 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		}
 	}
 
+	/**
+     * Print items in a Category
+     * 
+     * @param ItemTypes
+     */
 	public void printCat(ItemTypes itemType) {
 		List<Item> types = splitItemByType().get(itemType);
 		switch (itemType) {
@@ -77,20 +91,34 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		System.out.println();
 	}
 
+	/**
+     * Print item details
+     * 
+     * @param Item
+     */
 	public void printItem(Item item) {
 		System.out.format("%s %s\n", item.getID(), item.getName());
 		System.out.format("\033[3m%s\033[0m\n", item.getDesc());
 		System.out.printf("Price: $%.2f\n\n", item.getPrice());
 	}
 
-	public Item checkExistance(String ID) {
+	/**
+     * Return Item object if itemID matches
+     * 
+     * @param itemID
+     * @return Item
+     */
+	public Item checkExistance(String itemID) {
 		for (Item item : itemList) {
-			if (item.getID().compareTo(ID) == 0)
+			if (item.getID().compareTo(itemID) == 0)
 				return item;
 		}
 		return null;
 	}
 
+	/**
+     * Sort list of Item in ascending ID
+     */
 	public void sortData() {
 		int a, b;
 		Item temp;
@@ -107,6 +135,11 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		}
 	}
 
+	/**
+     * Downcast to Item and add to list of Items
+     * 
+     * @param entities
+     */
 	public void create(Object entities) {
 		Item toBeAdded = (Item) entities;
 		itemList.add(toBeAdded);
@@ -114,12 +147,20 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		storeData();
 	}
 
+	/**
+     * Print all itemIDs
+     */
 	public void read() {
 		for (Item item : itemList) {
 			System.out.println(item.getName());
 		}
 	}
 
+	/**
+     * Delete single Item Object from list of Items
+     * 
+     * @param entities
+     */
 	public void delete(Object entities) {
 		Item toBeDeleted = (Item) entities;
 		itemList.remove(toBeDeleted);
@@ -127,6 +168,13 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		storeData();
 	}
 
+	/**
+     * Update field of Item with input values
+     * 
+     * @param entities entities is Item
+     * @param choice   choice from UI
+     * @param value    input from user to be pass to setters
+     */
 	public void update(Object entities, int choice, String value) {
 		Item item = (Item) entities;
 		switch (choice) {
@@ -158,6 +206,11 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		storeData();
 	}
 
+	/**
+     * Split items into separate lists according to type/category
+     * 
+     * @return Map list of items split by type/category
+     */
 	public Map<ItemTypes, List<Item>> splitItemByType() {
 		Map<ItemTypes, List<Item>> itemByType = new HashMap<>();
 
@@ -189,6 +242,10 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		return itemByType;
 	}
 
+	/**
+     * Set ID of items according to number of items in the type/category
+     * itemID = TXX (T represents itemType, XX represents item count)
+     */
 	private void cleanID() {
 		Map<ItemTypes, List<Item>> itemByType = splitItemByType();
 		int count = 1;
@@ -209,8 +266,13 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		sortData();
 	}
 
-	public ItemTypes toType(String ID) {
-		switch (ID.charAt(0)) {
+	/**
+     * Return item type given string input
+     * 
+     * @param type
+     */
+	public ItemTypes toType(String type) {
+		switch (type.charAt(0)) {
 			case '1':
 				return ItemTypes.APPETIZER;
 			case '2':
@@ -226,8 +288,13 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		}
 	}
 
-	public ItemTypes toType(int ID) {
-		switch (ID) {
+	/**
+     * Return item type given int input
+     * 
+     * @param type
+     */
+	public ItemTypes toType(int type) {
+		switch (type) {
 			case 1:
 				return ItemTypes.APPETIZER;
 			case 2:
