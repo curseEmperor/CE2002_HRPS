@@ -31,6 +31,9 @@ public class CheckInOut {
 	}
 
 	public void checkOut(String roomID, float roomDiscount, float orderDiscount) {
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm a");
+		
 		// Check validity of check-out
 		Reservation reservation = ReservationController.getInstance().getCheckInReservation(roomID);
 		if (validCheckOut(reservation) == false)
@@ -38,6 +41,9 @@ public class CheckInOut {
 
 		// Change reservation status to completed
 		ReservationController.getInstance().update(reservation, 7, "4");
+		
+		// set check out date to NOW
+		ReservationController.getInstance().update(reservation, 4, sdf.format(now));
 
 		// Change room status to vacant and clear guestID
 		Room room = RoomController.getInstance().checkExistence(reservation.getRoomID());

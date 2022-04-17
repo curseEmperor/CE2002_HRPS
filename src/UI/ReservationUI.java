@@ -84,7 +84,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
                     break;
                 case 2:
                     readOneDets();
-                    ReservationController.getInstance().read();
+                    //ReservationController.getInstance().read();
                     break;
                 case 3:
                     update();
@@ -103,7 +103,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     }
 
     /**
-     * Only create Reserrvation if guest exist
+     * Only create Reservation if guest exist
      * Create Reservation object with inputs
      */
     public void create() {
