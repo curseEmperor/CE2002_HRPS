@@ -218,6 +218,7 @@ public class OrderController extends SerializeDB implements IController, IStorag
      * Return order status given string input
      * 
      * @param value
+     * @return OrderStatus
      */
     private OrderStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);

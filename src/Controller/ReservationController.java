@@ -69,8 +69,8 @@ public class ReservationController extends SerializeDB implements IController, I
 
         for (Reservation reservation : reservationList) {
             // Check expiration of reservation
-            if (reservation.getReservationStatus() != ReservationStatus.COMPLETED
-                    && reservation.getReservationStatus() != ReservationStatus.EXPIRED
+            if ((reservation.getReservationStatus() == ReservationStatus.WAITLIST
+                    || reservation.getReservationStatus() == ReservationStatus.CONFIRM)
                     && thisDate.compareTo(removeTime(reservation.getCheckIn())) > 0) {
                 System.out.println("Current date is past check in time");
                 reservation.setReservationStatus(ReservationStatus.EXPIRED);
