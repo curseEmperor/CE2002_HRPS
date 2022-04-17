@@ -19,18 +19,34 @@ import Entity.Order;
  */
 
 public class OrderController extends SerializeDB implements IController, IStorage {
-
-    ArrayList<Order> orderList;
+	/**
+     * The collection of orders
+     */
+    private ArrayList<Order> orderList;
+    /**
+     * The Instance of this Controller
+     */
     private static OrderController instance = null;
+    /**
+     * Date formatter
+     */
     SimpleDateFormat formatter;
 
-    // constructor
+    /**
+     * Constructor
+     * 
+     * Sets date format to dd/MM/yyyy hh:mm:ss
+     */
     private OrderController() {
         orderList = new ArrayList<Order>();
         formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
     }
 
-    // creating new instance of OrderController
+    /**
+     * Returns the OrderController instance and creates an instance if it does not exist
+     * 
+     * @return OrderController
+     */
     public static OrderController getInstance() {
         if (instance == null) {
             instance = new OrderController();
@@ -38,7 +54,12 @@ public class OrderController extends SerializeDB implements IController, IStorag
         return instance;
     }
 
-    // check existence
+    /**
+     * Return Order object if orderID matches
+     * 
+     * @param orderID
+     * @return Order
+     */
     public Order checkExistence(String orderID) { // by orderID eg. 02021
         for (Order order : orderList) {
             if (order.getOrderID().compareTo(orderID) == 0)
@@ -47,6 +68,12 @@ public class OrderController extends SerializeDB implements IController, IStorag
         return null;
     }
 
+    /**
+     * Downcast to Order and add to list of Orders
+     * Sets orderID of order as roomID + date
+     * 
+     * @param entities
+     */
     public void create(Object entities) {
         Order order = (Order) entities;
 
@@ -66,8 +93,12 @@ public class OrderController extends SerializeDB implements IController, IStorag
         storeData("Order.ser", orderList);
     }
 
-    // order can be cancelled as long as it has yet to be delivered
-    // delete() - to delete the whole order from stockpile of orders
+    /**
+     * Delete single Order Object from list of Orders
+     * Order object cannot be deleted if it in delivered status
+     * 
+     * @param entities
+     */
     public void delete(Object entities) {
 
         Order toBeDeleted = (Order) entities;
@@ -81,8 +112,13 @@ public class OrderController extends SerializeDB implements IController, IStorag
         System.out.println("Order can't be deleted as it is delivered.");
     }
 
-    // if guest wants to "update an order",
-    // he can only add new item
+    /**
+     * Update field of Order with input values
+     * 
+     * @param entities entities is Order
+     * @param choice   choice from UI
+     * @param value    input from user to be pass to setters
+     */
     public void update(Object entities, int choice, String value) {
 
         Order order = (Order) entities;
@@ -103,6 +139,13 @@ public class OrderController extends SerializeDB implements IController, IStorag
         storeData();
     }
 
+    /**
+     * Add Item to existing Order
+     * Item can only be added if order is in the confirmed status
+     * 
+     * @param Order
+     * @param Item
+     */
     public void addItemtoOrder(Order order, Item itemToAdd) {
         if (order.getOrderStatus() != OrderStatus.CONFIRM) {
             System.out.println("Order is preparing or is delivered, no changes can be made.");
@@ -112,6 +155,14 @@ public class OrderController extends SerializeDB implements IController, IStorag
         storeData();
     }
 
+    /**
+     * Delete Item to existing Order
+     * Item can only be deleted if order is in the confirmed status
+     * Order is deleted if order has no remaining items
+     * 
+     * @param Order
+     * @param Item
+     */
     public void deleteItemfromOrder(Order order, Item itemToDelete) {
         if (order.getOrderStatus() != OrderStatus.CONFIRM) {
             System.out.println("Order is preparing or is delivered, no changes can be made.");
@@ -127,16 +178,30 @@ public class OrderController extends SerializeDB implements IController, IStorag
         storeData();
     }
 
+    /**
+     * Print all OrderIDs
+     */
     public void read() {
         for (Order order : orderList) {
             System.out.println(order.getOrderID());
         }
     }
 
-    public void read(Order order) { // read a single order
+    /**
+     * Print single Order details
+     * 
+     * @param Order
+     */
+    public void read(Order order) {
         order.viewOrder();
     }
 
+    /**
+     * Returns all existing orders from a room
+     * 
+     * @param roomID
+     * @return ArrayList of Order
+     */
     public ArrayList<Order> retrieveOrdersOfRoom(String roomID) { // by roomID
         ArrayList<Order> retrieveOL = new ArrayList<Order>();
         for (Order order : orderList) {
@@ -149,6 +214,11 @@ public class OrderController extends SerializeDB implements IController, IStorag
             return null;
     }
 
+    /**
+     * Return order status given string input
+     * 
+     * @param value
+     */
     private OrderStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
@@ -165,10 +235,16 @@ public class OrderController extends SerializeDB implements IController, IStorag
         }
     }
 
+    /**
+     * Store list of Orders into serializable file
+     */
     public void storeData() {
         super.storeData("Order.ser", orderList);
     }
 
+    /**
+     * Loads list of Orders from serializable file
+     */
     public void loadData() {
         ArrayList<Entities> data = super.loadData("Order.ser");
         orderList.clear();

@@ -33,8 +33,7 @@ public class GuestController extends SerializeDB implements IController, IStorag
     }
 
     /**
-     * Returns the GuestController instance and creates an instance if it does not
-     * exist
+     * Returns the GuestController instance and creates an instance if it does not exist
      * 
      * @return GuestController
      */
@@ -63,7 +62,7 @@ public class GuestController extends SerializeDB implements IController, IStorag
     }
 
     /**
-     * Downcast to Guest and add to list of Guest
+     * Downcast to Guest and add to list of Guests
      * 
      * @param entities
      */
@@ -84,7 +83,7 @@ public class GuestController extends SerializeDB implements IController, IStorag
     }
 
     /**
-     * Delete single Guest Object from list of Guest
+     * Delete single Guest Object from list of Guests
      * 
      * @param entities
      */

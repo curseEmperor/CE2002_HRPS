@@ -32,12 +32,10 @@ public class Menu extends SerializeDB implements IController, IStorage {
      */
 	private Menu() {
 		itemList = new ArrayList<Item>();
-		cleanID();
 	}
 	
 	/**
-     * Returns the Menu instance and creates an instance if it does not
-     * exist
+     * Returns the Menu instance and creates an instance if it does not exist
      * 
      * @return Menu
      */
@@ -315,6 +313,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
      */
 	public void storeData() {
 		super.storeData("Menu.ser", itemList);
+		cleanID();
 	}
 
 	/**
