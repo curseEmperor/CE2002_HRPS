@@ -11,11 +11,26 @@ import Controller.OrderController;
 import Controller.ReservationController;
 import Controller.RoomController;
 
+/***
+ * Represents a MainUI
+ * Entrance for all UI
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
+
 public class MainUI extends StandardUI {
     int choice, qSize;
     Scanner sc;
+    /**
+     * List of all entity storage objects
+     */
     ArrayList<IStorage> DB = new ArrayList<>();
 
+    /**
+     * Constructor
+     * initialise all Controller which store entities
+     */
     public MainUI() {
         DB.add(ReservationController.getInstance());
         DB.add(RoomController.getInstance());
@@ -26,6 +41,11 @@ public class MainUI extends StandardUI {
         sc = new Scanner(System.in);
     }
 
+    /**
+     * Run the Hotel Programme
+     * 
+     * @throws ParseException
+     */
     public void run() throws ParseException {
         setUp();
 
@@ -36,12 +56,18 @@ public class MainUI extends StandardUI {
         System.exit(0);
     }
 
+    /**
+     * Setup sequence of loading data from file
+     */
     private void setUp() {
         for (IStorage con : DB) {
             con.loadData();
         }
     }
 
+    /**
+     * Wind down sequence of saving all data to file
+     */
     private void windDown() {
         for (IStorage con : DB) {
             System.out.println(con.getClass().getName());
@@ -49,6 +75,11 @@ public class MainUI extends StandardUI {
         }
     }
 
+    /**
+     * Print selection menu and return number of selections available
+     * 
+     * @return int
+     */
     public int showSelection() {
 
         System.out.println("======================");
@@ -65,6 +96,10 @@ public class MainUI extends StandardUI {
         return 7;
     }
 
+    /**
+     * Select next prompt based on user input
+     * 
+     */
     public void mainMenu() {
         do {
             qSize = showSelection();

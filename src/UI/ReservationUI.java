@@ -20,10 +20,16 @@ import Mediator.CheckInOut;
  * @since 2022-04-17
  */
 public class ReservationUI extends StandardUI implements ControllerUI {
+    /**
+     * The Instance of this Controller
+     */
     private static ReservationUI instance = null;
     Scanner sc;
     int choice, qSize;
 
+    /**
+     * Constructor
+     */
     private ReservationUI() {
         sc = new Scanner(System.in);
     }

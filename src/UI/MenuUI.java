@@ -12,6 +12,9 @@ import Entity.Item;
  * @since 2022-04-17
  */
 public class MenuUI extends StandardUI implements ControllerUI {
+    /**
+     * The Instance of this Controller
+     */
     private static MenuUI instance = null;
     Scanner sc;
     int choice, qSize;

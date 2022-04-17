@@ -18,6 +18,10 @@ import Enums.RoomView;
  * @since 2022-04-17
  */
 public class RoomUI extends StandardUI implements ControllerUI {
+
+    /**
+     * The Instance of this Controller
+     */
     private static RoomUI instance = null;
     Scanner sc;
     int choice, qSize;

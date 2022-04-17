@@ -8,12 +8,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class GuestUI extends StandardUI implements ControllerUI {
+    /**
+     * The Instance of this Controller
+     */
     private static GuestUI instance = null;
 
+    /**
+     * Constructor
+     */
     private GuestUI() {
         super();
     }
 
+    /**
+     * Returns the GuestUI instance and creates an instance if it does not
+     * 
+     * @return GuestUI
+     */
     public static GuestUI getInstance() {
         if (instance == null) {
             instance = new GuestUI();
@@ -21,6 +32,11 @@ public class GuestUI extends StandardUI implements ControllerUI {
         return instance;
     }
 
+    /**
+     * Print selection menu and return number of selections available
+     * 
+     * @return int
+     */
     public int showSelection() {
         System.out.println(" Guest options avaiable: ");
         System.out.println("1) Add Guest");
@@ -32,6 +48,9 @@ public class GuestUI extends StandardUI implements ControllerUI {
         return 5;
     }
 
+    /**
+     * Select next prompt based on user input
+     */
     public void mainMenu() {
         do {
             qSize = showSelection();
@@ -57,6 +76,10 @@ public class GuestUI extends StandardUI implements ControllerUI {
 
     }
 
+    /**
+     * Only create guest if it does not create
+     * Create Guest object with inputs
+     */
     public void create() {
         System.out.println("Enter GuestID (NRIC/Passport): ");
         String guestID = getUserString();
@@ -111,6 +134,9 @@ public class GuestUI extends StandardUI implements ControllerUI {
         // return guestID;
     }
 
+    /**
+     * Check for Guest existence and print details of specific order
+     */
     public void readOneDets() {
 
         System.out.println("Enter your GuestID: ");
@@ -131,6 +157,9 @@ public class GuestUI extends StandardUI implements ControllerUI {
 
     }
 
+    /**
+     * Check for guest existence and prompts for arguments for update
+     */
     public void update() {
         System.out.println("Enter ur GuestID: ");
         String guestID = getUserString();
@@ -178,6 +207,9 @@ public class GuestUI extends StandardUI implements ControllerUI {
         }
     }
 
+    /**
+     * Check for guest existence and pass guest object to controller for delete
+     */
     public void delete() {
         System.out.println("Enter your GuestID: ");
         String guestID = getUserString();
@@ -192,6 +224,12 @@ public class GuestUI extends StandardUI implements ControllerUI {
         }
     }
 
+    /**
+     * Error checking for date input
+     * 
+     * @param dateInString
+     * @return Date
+     */
     private Date getValidDate(String dateInString) {
         SimpleDateFormat sdfrmt = new SimpleDateFormat("MM/yy");
         sdfrmt.setLenient(false);
@@ -209,6 +247,12 @@ public class GuestUI extends StandardUI implements ControllerUI {
         return javaDate;
     }
 
+    /**
+     * Error checking for creditcard date input
+     * 
+     * @param expDate
+     * @return Date
+     */
     private Date validCreditcardDate(Date expDate) {
         Date today = new Date();
         while (expDate.before(today)) {

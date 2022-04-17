@@ -17,6 +17,9 @@ import Enums.RoomStatus;
  */
 
 public class OrderUI extends StandardUI {
+    /**
+     * The Instance of this Controller
+     */
     private static OrderUI instance = null;
 
     /**
@@ -24,7 +27,6 @@ public class OrderUI extends StandardUI {
      */
     private OrderUI() {
         super();
-        sc = new Scanner(System.in);
     }
 
     /**
