@@ -1,680 +1,293 @@
-package UI;
+package Controller;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Scanner;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import Controller.GuestController;
-import Controller.ReservationController;
+import Database.SerializeDB;
+import Entity.Entities;
 import Entity.Reservation;
 import Enums.ReservationStatus;
 import Enums.RoomTypes;
 import Mediator.CheckInOut;
 
 /***
- * Represents a ReservationUI
+ * Represents a Reservation Controller
  * 
  * @version 1.0
  * @since 2022-04-17
  */
-public class ReservationUI extends StandardUI implements ControllerUI {
-    /**
+
+public class ReservationController extends SerializeDB implements IController, IStorage {
+	/**
      * The Instance of this Controller
      */
-    private static ReservationUI instance = null;
-    Scanner sc;
-    int choice, qSize;
+	private static ReservationController instance = null;
+    /**
+     * The collection of reservations
+     */
+    public ArrayList<Reservation> reservationList;
 
     /**
      * Constructor
      */
-    private ReservationUI() {
-        sc = new Scanner(System.in);
+    private ReservationController() {
+        reservationList = new ArrayList<>();
     }
 
     /**
-     * Returns the ReservationUI instance and creates an instance if it does not
+     * Returns the ReservationController instance and creates an instance if it does not exist
      * 
-     * @return ReservationUI
+     * @return ReservationController
      */
-    public static ReservationUI getInstance() {
+    public static ReservationController getInstance() {
         if (instance == null) {
-            instance = new ReservationUI();
+            instance = new ReservationController();
         }
         return instance;
     }
 
     /**
-     * Print selection menu and return number of selections available
+     * Return Reservation object if reservationID matches
+     * Update reservation status as expired if status is confirmed or waitlist, and checkin date is after current date
+     * Update reservation status to confirms if status is in waitlist and room is available
      * 
-     * @return int
+     * @param reservationID
+     * @return Reservation
      */
-    public int showSelection() {
-        System.out.println("Reservation options avaiable: ");
-        System.out.println("1) Add Reservations");
-        System.out.println("2) View Reservations");
-        System.out.println("3) Update Reservation Info");
-        System.out.println("4) View Reservation Info");
-        System.out.println("5) Cancel Reservation");
-        System.out.println("6) Return to MainUI");
+    public Reservation checkExistence(String reservationID) {
+        Date thisDate = new Date();
+        thisDate = removeTime(thisDate);
+        // SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
+        // System.out.println("Time now is " + formatter.format(thisDate));
 
-        return 6;
-    }
+        Reservation toBeReturned = null;
 
-    /**
-     * Select next prompt based on user iuput
-     * 
-     */
-    public void mainMenu() {
-        do {
-            qSize = showSelection();
-            choice = getUserChoice(qSize);
-
-            switch (choice) {
-                case 1:
-                    System.out.println("Are you a new Guest? (Y/N)");
-                    String select = getUserYN();
-                    if (select.compareTo("Y") == 0) {
-                        System.out.println("Please create Guest account first.");
-                        GuestUI.getInstance().create();
-                    }
-                    create();
-                    break;
-                case 2:
-                    readOneDets();
-                    //ReservationController.getInstance().read();
-                    break;
-                case 3:
-                    update();
-                    break;
-                case 4:
-                    viewRInfo();
-                    break;
-                case 5:
-                    delete();
-                    break;
-                case 6:
-                    break;
+        for (Reservation reservation : reservationList) {
+            // Check expiration of reservation
+            if (reservation.getReservationStatus() != ReservationStatus.COMPLETED
+                    && reservation.getReservationStatus() != ReservationStatus.EXPIRED
+                    && thisDate.compareTo(removeTime(reservation.getCheckIn())) > 0) {
+                System.out.println("Current date is past check in time");
+                reservation.setReservationStatus(ReservationStatus.EXPIRED);
             }
 
-        } while (choice < qSize);
-    }
-
-    /**
-     * Only create Reservation if guest exist
-     * Create Reservation object with inputs
-     */
-    public void create() {
-
-        System.out.println("Enter Guest ID: ");
-        String guestID = getUserString();
-        if (GuestController.getInstance().checkExistence(guestID) == null) {
-            System.out.println("Invalid Guest ID");
-            return;
-        }
-
-        // RoomID to be filled via checkin
-        System.out.println("Enter Check-in day (dd/MM/yy): ");
-        String checkInString = getUserString() + " 09:00 AM";
-        Date checkInDate = validCheckIn(dateValid(checkInString));
-
-        if (ReservationController.getInstance().checkExistence(guestID + checkInDate) != null) {
-            System.out.println("Reservation already exist!");
-            return;
-        }
-
-        System.out.println("Enter Check-out day (dd/MM/yy):");
-        String checkOutString = getUserString() + " 12:00 PM";
-        Date checkOutDate = validCheckOut(dateValid(checkOutString), checkInDate);
-
-        System.out.println("Enter number of children: ");
-        int numOfChild = sc.nextInt();
-
-        System.out.println("Enter number of adults: ");
-        int numOfAdults = sc.nextInt();
-
-        Reservation rawReservation = new Reservation(guestID, checkInDate,
-                checkOutDate, numOfChild,
-                numOfAdults);
-
-        int checkAvailability;
-        RoomTypes roomType = RoomTypes.SINGLE; // Pre-set as single to avoid errors
-        while (true) {
-            System.out.println(
-                    "1) Single\n"
-                            + "2) Double\n"
-                            + "3) Standard\n"
-                            + "4) Deluxe\n"
-                            + "5) Suite\n"
-                            + "6) Cancel create\n"
-                            + "Select Room Type: ");
-            choice = getUserChoice(9);
-            switch (choice) {
-                case 1:
-                    roomType = RoomTypes.SINGLE;
-                    break;
-                case 2:
-                    roomType = RoomTypes.DOUBLE;
-                    break;
-                case 3:
-                    roomType = RoomTypes.STANDARD;
-                    break;
-                case 4:
-                    roomType = RoomTypes.DELUXE;
-                    break;
-                case 5:
-                    roomType = RoomTypes.SUITE;
-                    break;
-                case 6:
-                    return;
-                default:
-                    break;
+            // Check waitlist for confirmation
+            if (reservation.getReservationStatus() == ReservationStatus.WAITLIST) {
+                if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0)
+                    reservation.setReservationStatus(ReservationStatus.CONFIRM);
             }
-            checkAvailability = CheckInOut.getInstance().numAvailability(rawReservation.getCheckIn(), roomType);
-            if (checkAvailability <= 0) {
-                System.out.println("Room type not available!");
-                System.out.println("Put on waitlist? (Y/N)");
-                String select = getUserYN();
-                if (select.compareTo("Y") == 0) {
-                    rawReservation.setReservationStatus(ReservationStatus.WAITLIST);
-                    break;
-                }
-            } else {
-                rawReservation.setReservationStatus(ReservationStatus.CONFIRM);
-                break;
+
+            if (reservation.getID().equals(reservationID)) {
+                toBeReturned = reservation;
             }
         }
 
-        rawReservation.setRoomType(roomType);
-
-        ReservationController.getInstance().create(rawReservation);
-
-        System.out.println(
-                "================================================================================================================================");
-        System.out.println(
-                " Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
-        System.out.println(
-                "================================================================================================================================");
-        System.out.println(rawReservation.toString().replace("[", "").replace("]", ""));
-        System.out.println(
-                "================================================================================================================================");
-        System.out.println("Reservation " + rawReservation.getID() + " has been created");
-
+        return toBeReturned;
     }
 
-    /**
-     * Check for Reservation existence and print details of specific reservation
-     */
-    public void readOneDets() {
-
-        System.out.println("Enter ur Reservation ID: ");
-        String reservationID = getUserString();
-
-        Reservation reserveRead = ReservationController.getInstance().checkExistence(reservationID);
-        if (reserveRead != null) {
-            System.out.format("\033[1mViewing reservation %s\033[0m\n", reserveRead.getID());
-            System.out.println(
-                    "================================================================================================================================");
-            System.out.println(
-                    " Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
-            System.out.println(
-                    "================================================================================================================================");
-            System.out.println(reserveRead.toString().replace("[", "").replace("]", ""));
-            System.out.println(
-                    "================================================================================================================================");
-        } else
-            System.out.println("Reservation does not exist");
-
-    }
-
-    /**
-     * Show all reservation info by reservation status
-     */
-
-    public void viewRInfo()
-    {
-        do
-        {
-            System.out.println("1) Print All Confirmed Reservations");
-            System.out.println("2) Print All Check In Reservations");
-            System.out.println("3) Print All Check out Reservations");
-            System.out.println("4) Print All Waitlist Reservations");
-            System.out.println("5) Print All Expired Reservations");
-            System.out.println("6) Print All Reservations (without expired and waitlist)");
-            System.out.println("7) Print All Reservations (without expired)");
-            System.out.println("8) Print by Date");
-            System.out.println("9) Back to Reservation UI");
-
-            choice = getUserChoice(9);
-            switch(choice)
-            {
-                case 1:
-                    viewConfirmed();
-                    break;
-                case 2:
-                    viewCheckin();
-                    break;
-                case 3:
-                    viewCompleted();
-                    break;
-                case 4:
-                    viewWaitlist();
-                    break;
-                case 5:
-                    viewExpired();
-                    break;
-                case 6:
-                    viewAllnoExpirednWaitlist();
-                    break;
-                case 7:
-                    viewAllnoExpired();
-                    break;
-                case 8:
-                    viewbyDate();
-                    break;
-                case 9:
-                    return;
-                default:
-                    break;
-            }
-        } while (choice < 10);
-
-    }
-
-    /**
-     * Show all Reservation in a list except expired
-     */
-    public void viewAllnoExpired() {
-        
-        
-        System.out.println("\033[1mReservation Statistics Summary\033[0m");
-        System.out.format("Confirmed: %d \tChecked in: %d\tChecked out: %d\t Waitlist: %d\t Expired: %d", numofStatus(1), numofStatus(2), numofStatus(3), numofStatus(4), numofStatus(5));
-        System.out.println("\033[1mViewing all reservations\033[0m");
-        System.out.println(
-                "================================================================================================================================");
-        System.out.println(
-                " Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
-        System.out.println(
-                "================================================================================================================================");
-        for (Reservation reservations : ReservationController.getInstance().getReservationList())
-            if (reservations.getReservationStatus() != ReservationStatus.EXPIRED) //task: print but dont show expired
-                System.out.println(reservations.toString().replace("[", "").replace("]", ""));
-        System.out.println(
-                "================================================================================================================================");
-    }
-        /**
-     * Show all Reservation in a list except expired
-     */
-    public void viewAllnoExpirednWaitlist() {
-        
-        System.out.println("\033[1mViewing all reservations\033[0m");
-        System.out.println("\033[1mReservation Statistics Summary\033[0m");
-        System.out.format("Confirmed: %d \tChecked in: %d\tChecked out: %d\t Waitlist: %d\t Expired: %d", numofStatus(1), numofStatus(2), numofStatus(3), numofStatus(4), numofStatus(5));
-        System.out.println(
-                "================================================================================================================================");
-        System.out.println(
-                " Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
-        System.out.println(
-                "================================================================================================================================");
-        for (Reservation reservations : ReservationController.getInstance().getReservationList())
-            if (reservations.getReservationStatus() != ReservationStatus.EXPIRED && reservations.getReservationStatus() != ReservationStatus.WAITLIST) //task: print but dont show waitlist and expired
-                System.out.println(reservations.toString().replace("[", "").replace("]", ""));
-        System.out.println(
-                "================================================================================================================================");
-    }
     
     /**
-     * Print all confirmed reservations
+     * Downcast to Reservation and add to list of Reservations
+     * Set reservationID as checkInDate + guestID
+     * 
+     * @param entities
      */
-    public void viewConfirmed()
-    {
-        System.out.println(
-            "================================================================================================================================");
-        System.out.println(
-                " Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
-        System.out.println(
-                "================================================================================================================================");
-        for (Reservation reservations : ReservationController.getInstance().getReservationList())
-            if (reservations.getReservationStatus() != ReservationStatus.EXPIRED) //task: print but dont show waitlist
-                System.out.println(reservations.toString().replace("[", "").replace("]", ""));
-        System.out.println(
-                "================================================================================================================================");
+    public void create(Object entities) {
+
+        Reservation newReservation = (Reservation) entities;
+
+        String checkInString = new SimpleDateFormat("ddMMyy").format(newReservation.getCheckIn());
+
+        String reservationID = checkInString + newReservation.getGuestID();
+        newReservation.setID(reservationID);
+        // newReservation.setReservationStatus(ReservationStatus.CONFIRM);
+
+        reservationList.add(newReservation);
+        // System.out.println("Reservation ID generated: " + reservationID);
+
+        storeData();
     }
 
     /**
-     * Print all checkin reservations
+     * Print all reservation ID
      */
-    public void viewCheckin()
-    {
-        System.out.println(
-            "================================================================================================================================");
-        System.out.println(
-                " Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
-        System.out.println(
-                "================================================================================================================================");
-        for (Reservation reservations : ReservationController.getInstance().getReservationList())
-            if (reservations.getReservationStatus() == ReservationStatus.CHECKIN) 
-                System.out.println(reservations.toString().replace("[", "").replace("]", ""));
-        System.out.println(
-                "================================================================================================================================");
-    }
-
-    /**
-     * Print all completed reservations
-     */
-    public void viewCompleted()
-    {
-        System.out.println(
-            "================================================================================================================================");
-        System.out.println(
-                " Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
-        System.out.println(
-                "================================================================================================================================");
-        for (Reservation reservations : ReservationController.getInstance().getReservationList())
-            if (reservations.getReservationStatus() == ReservationStatus.COMPLETED) 
-                System.out.println(reservations.toString().replace("[", "").replace("]", ""));
-        System.out.println(
-                "================================================================================================================================");
-    }
-
-    /**
-     * Print all expired reservations
-     */
-    public void viewExpired()
-    {
-        System.out.println(
-            "================================================================================================================================");
-        System.out.println(
-                " Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
-        System.out.println(
-                "================================================================================================================================");
-        for (Reservation reservations : ReservationController.getInstance().getReservationList())
-            if (reservations.getReservationStatus() == ReservationStatus.EXPIRED)
-                System.out.println(reservations.toString().replace("[", "").replace("]", ""));
-        System.out.println(
-                "================================================================================================================================");
-    }
-
-    /**
-     * Print all waitlist reservations
-     */
-    public void viewWaitlist()
-    {
-        System.out.println(
-            "================================================================================================================================");
-        System.out.println(
-                " Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
-        System.out.println(
-                "================================================================================================================================");
-        for (Reservation reservations : ReservationController.getInstance().getReservationList())
-            if (reservations.getReservationStatus() == ReservationStatus.WAITLIST) 
-                System.out.println(reservations.toString().replace("[", "").replace("]", ""));
-        System.out.println(
-                "================================================================================================================================");
-    }
-    
-    /**
-     * Print all ongoing reservations by date
-     */
-    public void viewbyDate()
-    {
-        System.out.println("Enter date: ");
-        String input = getUserString() + " 12:00 AM";
-        Date date = dateValid(input);
-        System.out.println(
-            "================================================================================================================================");
-        System.out.println(
-                " Reservation ID      Guest ID      Room ID        Room Type         Status          Check-in Date          Check-out Date      ");
-        System.out.println(
-                "================================================================================================================================");
-        for (Reservation reservations : ReservationController.getInstance().getReservationList())
-        {
-            if (removeTime(date).equals(removeTime(reservations.getCheckIn()))) 
-                System.out.println(reservations.toString().replace("[", "").replace("]", ""));
+    public void read() {
+        for (Reservation reservation : reservationList) {
+            System.out.println(reservation.getID());
         }
-        System.out.println(
-                "================================================================================================================================");
     }
 
     /**
-     * Calculate number of reservation status
+     * Delete reservation from list of Reservations
+     * Check for reservations with waitlist status and update to confirm status
+     * 
+     * @param entities
      */
-    public int numofStatus(int i)
-    {
-        int count = 0;
-        switch(i)
-        {
-            case 1: //confirm
-                for (Reservation reservations : ReservationController.getInstance().getReservationList())
-                {
-                    if (reservations.getReservationStatus() == ReservationStatus.CONFIRM) 
-                        count += 1;
+    public void delete(Object entities) {
+
+        Reservation toBeDeleted = (Reservation) entities;
+        reservationList.remove(toBeDeleted);
+        // System.out.println("reservation removed from list in reservation
+        // controller");
+        for (Reservation reservation : reservationList) {
+            // Check waitlist for confirmation
+            if (reservation.getReservationStatus() == ReservationStatus.WAITLIST) {
+                if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0) {
+                	reservation.setReservationStatus(ReservationStatus.CONFIRM);
+                	break;
+                }
+            }
+        }
+        storeData();
+    }
+
+    /**
+     * Update field of Reservation with input values
+     * 
+     * @param entities entities is Reservation
+     * @param choice   choice from UI
+     * @param value    input from user to be pass to setters
+     */
+    public void update(Object entities, int choice, String value) {
+        Reservation toBeUpdated = (Reservation) entities;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm a");
+        Date date;
+        switch (choice) {
+            case 1: // guestID
+                toBeUpdated.setGuestID(value);
+                break;
+            case 2: // roomID
+                toBeUpdated.setRoomID(value);
+                break;
+            case 3: // checkIn Date
+                try {
+                    date = new SimpleDateFormat("dd/MM/yy hh:mm a").parse(value);
+                    System.out.println(sdf.format(date));
+                    toBeUpdated.setCheckIn(date);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 break;
-            case 2://check in
-                for (Reservation reservations : ReservationController.getInstance().getReservationList())
-                {
-                    if (reservations.getReservationStatus() == ReservationStatus.CHECKIN) 
-                        count += 1;
+            case 4: // checkOut Date
+                try {
+                    date = new SimpleDateFormat("dd/MM/yy hh:mm a").parse(value);
+                    System.out.println(sdf.format(date));
+
+                    toBeUpdated.setCheckOut(date);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 break;
-            case 3: //completed
-                for (Reservation reservations : ReservationController.getInstance().getReservationList())
-                {
-                    if (reservations.getReservationStatus() == ReservationStatus.COMPLETED) 
-                        count += 1;
+            case 5: // childNo
+                try {
+                    int numOfChild = Integer.parseInt(value);
+                    toBeUpdated.setChildNo(numOfChild);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 break;
-            case 4: //waitlist
-                for (Reservation reservations : ReservationController.getInstance().getReservationList())
-                {
-                    if (reservations.getReservationStatus() == ReservationStatus.WAITLIST) 
-                        count += 1;
+            case 6: // adultNo
+                try {
+                    int numOfAdults = Integer.parseInt(value);
+                    toBeUpdated.setAdultNo(numOfAdults);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 break;
-            case 5: //expired
-                for (Reservation reservations : ReservationController.getInstance().getReservationList())
-                {
-                    if (reservations.getReservationStatus() == ReservationStatus.EXPIRED) 
-                        count += 1;
+            case 7: // reservationStatus
+                toBeUpdated.setReservationStatus(generateStatus(value));
+                break;
+            case 8: // roomType
+                RoomTypes roomType = RoomTypes.SINGLE;
+                switch (value.charAt(0)) {
+                    case '1':
+                        roomType = RoomTypes.SINGLE;
+                        break;
+                    case '2':
+                        roomType = RoomTypes.DOUBLE;
+                        break;
+                    case '3':
+                        roomType = RoomTypes.DELUXE;
+                        break;
+                    case '4':
+                        roomType = RoomTypes.SUITE;
+                        break;
                 }
+                toBeUpdated.setRoomType(roomType);
                 break;
             default:
                 break;
         }
-        return count;
+
+        storeData();
     }
 
     /**
-     * Check for reservation existence and prompts for arguments for update
-     */
-    public void update() {
-        System.out.println("Enter your Reservation ID: ");
-        String reservationID = getUserString();
-
-        Reservation toBeUpdated = ReservationController.getInstance().checkExistence(reservationID);
-        if (toBeUpdated == null) {
-            System.out.println("Reservation does not exist");
-        } else {
-            System.out.println("What do u want to update?");
-            System.out.println("1) Guest ID");
-            System.out.println("2) Room ID");
-            System.out.println("3) Check In Date (dd/MM/yy)");
-            System.out.println("4) Check Out Date (dd/MM/yy)");
-            System.out.println("5) Number of Child(s)");
-            System.out.println("6) Number of Adult(s)");
-            System.out.println("7) Reservation Status");
-            System.out.println("8) Room Type");
-
-            choice = getUserChoice(8);
-            int selection;
-            String content;
-
-            if (choice == 3) {
-                System.out.println("Enter Check-in day (dd/MM/yy): ");
-                String checkInString = getUserString() + " 09:00 AM";
-                Date checkInDate = validCheckIn(dateValid(checkInString));
-                content = new SimpleDateFormat("dd/MM/yy hh:mm a").format(checkInDate);
-            } else if (choice == 4) {
-                Date checkInDate = toBeUpdated.getCheckIn();
-                System.out.println("Enter Check-out day (dd/MM/yy):");
-                String checkOutString = getUserString() + " 12:00 PM";
-                Date checkOutDate = validCheckOut(dateValid(checkOutString), checkInDate);
-                content = new SimpleDateFormat("dd/MM/yy hh:mm a").format(checkOutDate);
-            } else if (choice == 7) {
-                System.out.println(
-                        "1) Confirmed\n"
-                                + "2) Checked In\n"
-                                + "3) Expired\n"
-                                + "4) Completed\n"
-                                + "5) Waitlist\n"
-                                + "Select Status: ");
-                selection = getUserChoice(5);
-                content = String.valueOf(selection);
-            } else if (choice == 8) {
-                int checkAvailability;
-                RoomTypes roomType = RoomTypes.SINGLE; // Pre-set as single to avoid errors
-                while (true) {
-                    System.out.println(
-                            "1) Single\n"
-                                    + "2) Double\n"
-                                    + "3) Deluxe\n"
-                                    + "4) Suite\n"
-                                    + "5) Cancel reservation\n"
-                                    + "Select Room Type: ");
-                    selection = getUserChoice(5);
-                    switch (choice) {
-                        case 1:
-                            roomType = RoomTypes.SINGLE;
-                            break;
-                        case 2:
-                            roomType = RoomTypes.DOUBLE;
-                            break;
-                        case 3:
-                            roomType = RoomTypes.DELUXE;
-                            break;
-                        case 4:
-                            roomType = RoomTypes.SUITE;
-                            break;
-                        case 5:
-                            return;
-                        default:
-                            break;
-                    }
-                    checkAvailability = CheckInOut.getInstance().numAvailability(toBeUpdated.getCheckIn(), roomType);
-                    if (checkAvailability <= 0) {
-                        System.out.println("Room type not available!");
-                        System.out.println("Put on waitlist? (Y/N)");
-                        String select = getUserYN();
-                        if (select.compareTo("Y") == 0) {
-                            ReservationController.getInstance().update(toBeUpdated, 7, "5");
-                            break;
-                        }
-                    } else {
-                        ReservationController.getInstance().update(toBeUpdated, 7, "1");
-                        break;
-                    }
-                }
-                content = String.valueOf(selection);
-            } else {
-                System.out.println("Enter the relevant details: ");
-                content = getUserString();
-            }
-
-            ReservationController.getInstance().update(toBeUpdated, choice, content);
-
-            // System.out.println(toBeUpdated);
-        }
-    }
-
-    /**
-     * Check for Reservation existence and
-     * pass reservation bbject to controller for delete
-     */
-    public void delete() {
-        System.out.println("Enter your Reservation ID: ");
-        String reservationID = getUserString();
-        Reservation toBeDeleted = ReservationController.getInstance().checkExistence(reservationID);
-        if (toBeDeleted == null) {
-            System.out.println("Reservation does not exist");
-        }
-        else if (ReservationController.getInstance().checkExistence(reservationID).getReservationStatus() == ReservationStatus.CHECKIN)
-        {
-            System.out.println("Reservation cannot be cancelled, guests has checked in.");
-        }
-        else {
-            ReservationController.getInstance().delete(toBeDeleted);
-            System.out.println("Reservation Cancelled.");
-        }
-    }
-
-    /**
-     * Check for validity of date and prompts for correct input
+     * Return reservation status given string input
      * 
-     * @param dateInString Date from user string input
-     * @return Date
+     * @param value
      */
-    private Date dateValid(String dateInString) {
-        SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yy hh:mm a");
-        int i = dateInString.length();
-        String time = dateInString.substring(i - 9, i);
-        sdfrmt.setLenient(false);
-        Date javaDate = null;
-        while (javaDate == null) {
-            try {
-                javaDate = sdfrmt.parse(dateInString);
-            } catch (ParseException e) {
-                System.out.println(dateInString + " is Invalid Date format\nEnter date: ");
-                System.out.println("Enter date (dd/MM/yy): ");
-                dateInString = getUserString() + time;
+    private ReservationStatus generateStatus(String value) {
+        int choice = Integer.parseInt(value);
+        switch (choice) {
+            case 1:
+                return ReservationStatus.CONFIRM;
+            case 2:
+                return ReservationStatus.CHECKIN;
+            case 3:
+                return ReservationStatus.EXPIRED;
+            case 4:
+                return ReservationStatus.COMPLETED;
+            case 5:
+                return ReservationStatus.WAITLIST;
+            default:
+                return null;
+        }
+    }
+
+    public Map<ReservationStatus, List<Reservation>> splitReservationByStatus() {
+        Map<ReservationStatus, List<Reservation>> reservationByStatus = new HashMap<>();
+
+        ArrayList<Reservation> confirmStatus = new ArrayList<Reservation>();
+        ArrayList<Reservation> checkinStatus = new ArrayList<Reservation>();
+        ArrayList<Reservation> expiredStatus = new ArrayList<Reservation>();
+        ArrayList<Reservation> completedStatus = new ArrayList<Reservation>();
+        ArrayList<Reservation> waitlistStatus = new ArrayList<Reservation>();
+
+        for (Reservation reservation : reservationList) {
+            if (reservation.getReservationStatus() == ReservationStatus.CONFIRM) { // single
+                confirmStatus.add(reservation);
+            }
+            if (reservation.getReservationStatus() == ReservationStatus.CHECKIN) { // single
+                checkinStatus.add(reservation);
+            }
+            if (reservation.getReservationStatus() == ReservationStatus.EXPIRED) { // single
+                expiredStatus.add(reservation);
+            }
+            if (reservation.getReservationStatus() == ReservationStatus.COMPLETED) { // single
+                completedStatus.add(reservation);
+            }
+            if (reservation.getReservationStatus() == ReservationStatus.WAITLIST) { // single
+                waitlistStatus.add(reservation);
             }
         }
 
-        return javaDate;
+        reservationByStatus.put(ReservationStatus.CONFIRM, confirmStatus);
+        reservationByStatus.put(ReservationStatus.CHECKIN, checkinStatus);
+        reservationByStatus.put(ReservationStatus.EXPIRED, expiredStatus);
+        reservationByStatus.put(ReservationStatus.COMPLETED, completedStatus);
+        reservationByStatus.put(ReservationStatus.WAITLIST, waitlistStatus);
+
+        return reservationByStatus;
     }
 
-    /**
-     * Check for valid check in on the day where guest visits
-     * 
-     * @param checkInDate
-     * @return Date
-     */
-    private Date validCheckIn(Date checkInDate) {
-        Date today = new Date();
-        while (checkInDate.before(removeTime(today))) {
-            System.out.println("Check-in day must not be before today");
-            System.out.println("Enter Check-in day (dd/MM/yy): ");
-            String checkInString = getUserString() + " 09:00 AM";
-            checkInDate = dateValid(checkInString);
-        }
-        return checkInDate;
-    }
-
-    /**
-     * Check for valid check out date entered, must be after check in date
-     * 
-     * @param checkOutDate
-     * @param checkInDate
-     * @return Date
-     */
-    private Date validCheckOut(Date checkOutDate, Date checkInDate) {
-        while (checkOutDate.before(checkInDate) || checkOutDate.equals(checkInDate)) {
-            System.out.println("Check-out day must be after Check-in day");
-            System.out.println("Enter Check-out day (dd/MM/yy): ");
-            String checkOutString = getUserString() + " 12:00 PM";
-            checkOutDate = dateValid(checkOutString);
-        }
-        return checkOutDate;
-    }
-
-    /**
-     * To remove time from Date
-     * 
-     * @param date
-     * @return Date
-     */
     private Date removeTime(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -685,4 +298,34 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         return calendar.getTime();
     }
 
+    public Reservation getCheckInReservation(String roomID) {
+        List<Reservation> checkedInList = splitReservationByStatus().get(ReservationStatus.CHECKIN);
+        for (Reservation reservation : checkedInList) {
+            if (roomID.compareTo(reservation.getRoomID()) == 0)
+                return reservation;
+        }
+        return null;
+    }
+
+    public void updateCreditcard(Object entities, String cardNumber, Date expiryDate, int CVV, int type,
+            String cardName) {
+        Reservation toBeUpdated = (Reservation) entities;
+        toBeUpdated.setCreditcard(cardNumber, expiryDate, CVV, type, cardName);
+    }
+
+    public ArrayList<Reservation> getReservationList() {
+        return this.reservationList;
+    }
+
+    public void storeData() {
+        super.storeData("Reservation.ser", reservationList);
+
+    }
+
+    public void loadData() {
+        ArrayList<Entities> data = super.loadData("Reservation.ser");
+        reservationList.clear();
+        for (Entities reservation : data)
+            reservationList.add((Reservation) reservation);
+    }
 }
