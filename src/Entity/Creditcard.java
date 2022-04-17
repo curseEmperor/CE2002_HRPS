@@ -19,7 +19,7 @@ public class Creditcard extends Entities {
 	private String registeredName;
 
 	/**
-	 * Empty Constructor
+	 * Constructor
 	 */
 	public Creditcard() {
 

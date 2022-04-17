@@ -5,6 +5,14 @@ import java.text.SimpleDateFormat;
 
 import Enums.OrderStatus;
 
+/***
+ * Represents a Order
+ * Order comprises of a list of items
+ * A room can have many orders
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
 public class Order extends Entities {
     private String orderID;
     private String roomID;
@@ -12,64 +20,116 @@ public class Order extends Entities {
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
     private String date;
     private ArrayList<Item> listOfFood;
-    private String remarks; // less oil, less salt
+    private String remarks;
 
+    /**
+     * Constructor
+     * 
+     * @param roomID
+     */
     public Order(String roomID) {
         this.roomID = roomID;
     }
 
+    /**
+     * @return int Return size of Order
+     */
     public int size() {
         return this.listOfFood.size();
     }
 
+    /**
+     * @param orderID Set orderID
+     */
     public void setOrderID(String orderID) {
         this.orderID = orderID;
     }
 
+    /**
+     * @return String Return orderID
+     */
     public String getOrderID() {
         return orderID;
     }
 
+    /**
+     * @param roomID Set RoomID
+     */
     public void setRoomID(String roomID) {
         this.roomID = roomID;
     }
 
+    /**
+     * @return String Return RoomID
+     */
     public String getRoomID() {
         return roomID;
     }
 
+    /**
+     * Order status is to be change manually
+     * due to the different stages it can go through
+     * 
+     * @param status Set order status
+     */
     public void setOrderStatus(OrderStatus status) {
         this.orderStatus = status;
     }
 
+    /**
+     * @return OrderStatus Return Order status
+     */
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
+    /**
+     * @param date Set date of order
+     */
     public void setDate(String date) {
         this.date = date;
     }
 
+    /**
+     * @return String Return date of order
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * @return ArrayList<Item> Return list of item in order
+     */
     public ArrayList<Item> getListOfFood() {
         return listOfFood;
     }
 
+    /**
+     * @param listOfFood Set list of item in order
+     */
     public void setListOfFood(ArrayList<Item> listOfFood) {
         this.listOfFood = listOfFood;
     }
 
+    /**
+     * @param remarks Set Remarks
+     */
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
 
+    /**
+     * @return String Return remarks
+     */
     public String getRemarks() {
         return remarks;
     }
 
+    /**
+     * Generate formatted Order
+     * 
+     * @return float Return total cost of current order
+     */
     public float viewOrder() {
 
         sortOrder();
@@ -116,6 +176,9 @@ public class Order extends Entities {
         return cost;
     }
 
+    /**
+     * @return String Return formatted Order
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -131,6 +194,9 @@ public class Order extends Entities {
         return result.toString();
     }
 
+    /**
+     * Sort item in ascending
+     */
     public void sortOrder() {
         int a, b;
         Item temp;

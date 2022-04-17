@@ -10,7 +10,11 @@ import java.util.Date;
  */
 public class Guest extends Entities {
 
-    private String guestID; // driver || passport licence
+    /**
+     * Guest can be driver license or passport
+     */
+    private String guestID;
+
     private String guestName;
     private String address;
     private String contact;

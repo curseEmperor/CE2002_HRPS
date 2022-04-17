@@ -3,7 +3,7 @@ package Entity;
 import java.io.Serializable;
 
 /***
- * Represents a Creditcard
+ * Represents Entities parent class
  * 
  * @version 1.0
  * @since 2022-04-17
