@@ -118,7 +118,7 @@ public class OrderUI extends StandardUI {
     }
 
     /**
-     * Check for order exisitence and prompts for arguments for update
+     * Check for order existence and prompts for arguments for update
      */
     public void update() {
         System.out.println("Enter the OrderID to be updated: ");

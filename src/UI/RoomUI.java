@@ -11,15 +11,29 @@ import Enums.RoomStatus;
 import Enums.RoomTypes;
 import Enums.RoomView;
 
+/***
+ * Represents a RoomUI
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
 public class RoomUI extends StandardUI implements ControllerUI {
     private static RoomUI instance = null;
     Scanner sc;
     int choice, qSize;
 
+    /**
+     * Constructor
+     */
     private RoomUI() {
         sc = new Scanner(System.in);
     }
 
+    /**
+     * Returns the RoomUIs instance and creates an instance if it does not
+     * 
+     * @return RoomUI
+     */
     public static RoomUI getInstance() {
         if (instance == null) {
             instance = new RoomUI();
@@ -27,6 +41,11 @@ public class RoomUI extends StandardUI implements ControllerUI {
         return instance;
     }
 
+    /**
+     * Print selection menu and return number of selections available
+     * 
+     * @return int
+     */
     public int showSelection() {
         System.out.println(" Room options avaiable: ");
         System.out.println("1) Add Room");
@@ -40,6 +59,9 @@ public class RoomUI extends StandardUI implements ControllerUI {
         return 7;
     }
 
+    /**
+     * Select next prompt based on user iuput
+     */
     public void mainMenu() {
         do {
             qSize = showSelection();
@@ -71,6 +93,10 @@ public class RoomUI extends StandardUI implements ControllerUI {
 
     }
 
+    /**
+     * Only create order if room has people staying
+     * Create Order object with inputs
+     */
     public void create() {
 
         System.out.println("Enter Room ID: ");
@@ -132,6 +158,9 @@ public class RoomUI extends StandardUI implements ControllerUI {
         RoomController.getInstance().create(rawRoom);
     }
 
+    /**
+     * Check for Room existence and print details of specific Room
+     */
     public void readOneDets() {
 
         System.out.println("Enter roomID: ");
@@ -148,6 +177,9 @@ public class RoomUI extends StandardUI implements ControllerUI {
 
     }
 
+    /**
+     * Check for Room existence and prompts for arguments for update
+     */
     public void update() {
         System.out.println("Enter roomID: ");
         String roomID = getUserString();
@@ -156,7 +188,6 @@ public class RoomUI extends StandardUI implements ControllerUI {
         if (toBeUpdated == null) {
             System.out.println("Room does not exist");
         } else {
-            // TODO: while loop
             System.out.println("What do you want to update: ");
             System.out.println("1) Room ID"); // string
             System.out.println("2) Guest ID"); // string
@@ -231,6 +262,9 @@ public class RoomUI extends StandardUI implements ControllerUI {
         }
     }
 
+    /**
+     * Check for Room existence and pass Room Object to controller for delete
+     */
     public void delete() {
         System.out.println("Enter roomID: ");
         String roomID = getUserString();
@@ -243,10 +277,9 @@ public class RoomUI extends StandardUI implements ControllerUI {
         }
     }
 
-    public void viewOccupancyReport() {
-        occupancyReport();
-    }
-
+    /**
+     * Print out occupancy report by room type for vacant room only
+     */
     private void occupancyReport() {
         HashMap<RoomTypes, List<Room>> report;
         report = (HashMap<RoomTypes, List<Room>>) RoomController.getInstance().generateOccupancyReport();
@@ -261,6 +294,9 @@ public class RoomUI extends StandardUI implements ControllerUI {
         }
     }
 
+    /**
+     * View room number by status type
+     */
     private void showRoomByStatus() {
         HashMap<RoomStatus, List<Room>> roomByStatus;
         roomByStatus = (HashMap<RoomStatus, List<Room>>) RoomController.getInstance().splitRoomByStatus();
