@@ -201,4 +201,14 @@ public class Room extends Entities {
 		return result.toString();
 	}
 
+	/**
+	 * @return String another formatted string of room details
+	 */
+	public String tohoriString()
+	{
+		String wifi = (this.WiFi) ? "Y" : "N";
+		String smoke = (this.smoke) ? "Y" : "N";
+		return String.format("%10s\t%14s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t10%s", this.roomID, this.guestID, this.roomPrice, this.roomType, this.bedType, wifi, this.view, smoke, this.roomStatus);
+	}
+
 }

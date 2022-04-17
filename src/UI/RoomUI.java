@@ -56,11 +56,12 @@ public class RoomUI extends StandardUI implements ControllerUI {
         System.out.println("2) View Room");
         System.out.println("3) Update Room Detail");
         System.out.println("4) Remove Room");
-        System.out.println("5) Occupancy Report");
-        System.out.println("6) Show room by status");
-        System.out.println("7) Return to MainUI");
+        System.out.println("5) Show all room details");
+        System.out.println("6) Occupancy Report");
+        System.out.println("7) Show room by status");
+        System.out.println("8) Return to MainUI");
 
-        return 7;
+        return 8;
     }
 
     /**
@@ -85,12 +86,15 @@ public class RoomUI extends StandardUI implements ControllerUI {
                     delete();
                     break;
                 case 5:
-                    occupancyReport();
+                    viewInfo();
                     break;
                 case 6:
-                    showRoomByStatus();
+                    occupancyReport();
                     break;
                 case 7:
+                    showRoomByStatus();
+                    break;
+                case 8:
                     break;
             }
         } while (choice < qSize);
@@ -284,6 +288,60 @@ public class RoomUI extends StandardUI implements ControllerUI {
             RoomController.getInstance().delete(toBeDeleted);
         }
     }
+
+    /**
+     * View info of rooms by status and overall
+     */
+    public void viewInfo()
+    {
+        System.out.println("1) Print all VACANT rooms");
+        System.out.println("2) Print all OCCUPIED rooms");
+        System.out.println("3) Print all under MAINTAINENCE rooms");
+        System.out.println("4) Print all rooms");
+        System.out.println("5) Back to Room UI");
+
+        choice = getUserChoice(5);
+        switch(choice)
+        {
+            case 1:
+                viewVacant();
+                break;
+            case 2:
+                //viewOccupied();
+                break;
+            case 3:
+                //viewMaintainence();
+                break;
+            case 4:
+                //viewAll();
+                break;
+            case 5:
+                return;
+            default:
+                break;
+        } while (choice < 5);
+
+    }
+
+    /**
+     * View all vacant room details
+     */
+    public void viewVacant()
+    {
+        HashMap<RoomStatus, List<Room>> roomByStatus;
+        roomByStatus = (HashMap<RoomStatus, List<Room>>) RoomController.getInstance().splitRoomByStatus();
+
+        System.out.println("\033[1mViewing all vacant rooms\033[0m\n");
+        System.out.println("=====================================================================================================================================================================");
+        System.out.println(" Room ID           GuestID            Room Price($)       Room Type            Bed Type          Wifi?          View          Smoke            Room Status");
+        System.out.println(RoomController.getInstance().getRoomList());
+        for (Room room : RoomController.getInstance().getRoomList())
+        {
+            if (room.getRoomStatus() == RoomStatus.VACANT)
+                System.out.println(room.tohoriString());
+        }
+    }
+
 
     /**
      * Print out occupancy report by room type for vacant room only

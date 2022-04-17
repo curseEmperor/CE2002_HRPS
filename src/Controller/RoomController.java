@@ -272,6 +272,13 @@ public class RoomController extends SerializeDB implements IController, IStorage
                 break;
         }
     }
+    /**
+     * Return roomList
+     */
+    public ArrayList<Room> getRoomList()
+    {
+        return this.roomList;
+    }
 
     /**
      * Split VACANT rooms into separate lists according to room type
