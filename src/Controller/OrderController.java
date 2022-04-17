@@ -11,6 +11,13 @@ import Entity.Entities;
 import Entity.Item;
 import Entity.Order;
 
+/***
+ * Represents a Order Controller
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
+
 public class OrderController extends SerializeDB implements IController, IStorage {
 
     ArrayList<Order> orderList;

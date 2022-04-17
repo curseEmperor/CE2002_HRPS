@@ -244,14 +244,14 @@ public class CheckInOut {
 			System.out.println("Reservation cannot be checked-out");
 			return false;
 		}
-		/*
-		 * Date thisDate = new Date();
-		 * thisDate = removeTime(thisDate);
-		 * if (!thisDate.equals(reservation.getCheckOut())) {
-		 * System.out.println("Check Out date does not match");
-		 * return false;
-		 * }
-		 */
+
+		Date thisDate = new Date();
+		thisDate = removeTime(thisDate);
+		if (!thisDate.equals(reservation.getCheckOut())) {
+			System.out.println("Check Out date does not match");
+			return false;
+		}
+		
 		return true;
 	}
 
