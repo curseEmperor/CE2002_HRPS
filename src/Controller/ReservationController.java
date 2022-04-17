@@ -15,15 +15,35 @@ import Enums.ReservationStatus;
 import Enums.RoomTypes;
 import Mediator.CheckInOut;
 
-public class ReservationController extends SerializeDB implements IController, IStorage {
-    private static ReservationController instance = null;
+/***
+ * Represents a Reservation Controller
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
 
+public class ReservationController extends SerializeDB implements IController, IStorage {
+	/**
+     * The Instance of this Controller
+     */
+	private static ReservationController instance = null;
+    /**
+     * The collection of reservations
+     */
     public ArrayList<Reservation> reservationList;
 
+    /**
+     * Constructor
+     */
     private ReservationController() {
         reservationList = new ArrayList<>();
     }
 
+    /**
+     * Returns the ReservationController instance and creates an instance if it does not exist
+     * 
+     * @return ReservationController
+     */
     public static ReservationController getInstance() {
         if (instance == null) {
             instance = new ReservationController();
@@ -31,6 +51,14 @@ public class ReservationController extends SerializeDB implements IController, I
         return instance;
     }
 
+    /**
+     * Return Reservation object if reservationID matches
+     * Update reservation status as expired if status is confirmed or waitlist and checkin date is after current date
+     * Update reservation status to confirms if status is in waitlist and room is available
+     * 
+     * @param reservationID
+     * @return Reservation
+     */
     public Reservation checkExistence(String reservationID) {
         Date thisDate = new Date();
         thisDate = removeTime(thisDate);
@@ -62,6 +90,7 @@ public class ReservationController extends SerializeDB implements IController, I
         return toBeReturned;
     }
 
+    
     public void create(Object entities) {
 
         Reservation newReservation = (Reservation) entities;
