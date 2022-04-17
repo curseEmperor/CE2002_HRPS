@@ -152,11 +152,17 @@ public class GuestController extends SerializeDB implements IController, IStorag
         toBeUpdated.setCard(new Creditcard(cardNumber, expiryDate, CVC, type, cardName));
     }
 
+    /**
+     * Store list of Guests into serializable file
+     */
     public void storeData() {
         super.storeData("Guest.ser", guestList);
 
     }
 
+    /**
+     * Loads list of Guests from serializable file
+     */
     public void loadData() {
         ArrayList<Entities> data = super.loadData("Guest.ser");
         guestList.clear();

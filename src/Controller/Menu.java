@@ -310,10 +310,16 @@ public class Menu extends SerializeDB implements IController, IStorage {
 		}
 	}
 
+	/**
+     * Store list of Items into serializable file
+     */
 	public void storeData() {
 		super.storeData("Menu.ser", itemList);
 	}
 
+	/**
+     * Loads list of Items from serializable file
+     */
 	public void loadData() {
 		ArrayList<Entities> data = super.loadData("Menu.ser");
 		itemList.clear();
