@@ -32,7 +32,6 @@ public class Menu extends SerializeDB implements IController, IStorage {
      */
 	private Menu() {
 		itemList = new ArrayList<Item>();
-		cleanID();
 	}
 	
 	/**
@@ -314,6 +313,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
      */
 	public void storeData() {
 		super.storeData("Menu.ser", itemList);
+		cleanID();
 	}
 
 	/**
