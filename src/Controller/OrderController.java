@@ -196,6 +196,12 @@ public class OrderController extends SerializeDB implements IController, IStorag
         order.viewOrder();
     }
 
+    /**
+     * Returns all existing orders from a room
+     * 
+     * @param roomID
+     * @return ArrayList of Order
+     */
     public ArrayList<Order> retrieveOrdersOfRoom(String roomID) { // by roomID
         ArrayList<Order> retrieveOL = new ArrayList<Order>();
         for (Order order : orderList) {
@@ -208,6 +214,11 @@ public class OrderController extends SerializeDB implements IController, IStorag
             return null;
     }
 
+    /**
+     * Return order status given string input
+     * 
+     * @param value
+     */
     private OrderStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
@@ -224,10 +235,16 @@ public class OrderController extends SerializeDB implements IController, IStorag
         }
     }
 
+    /**
+     * Store list of Orders into serializable file
+     */
     public void storeData() {
         super.storeData("Order.ser", orderList);
     }
 
+    /**
+     * Loads list of Orders from serializable file
+     */
     public void loadData() {
         ArrayList<Entities> data = super.loadData("Order.ser");
         orderList.clear();
