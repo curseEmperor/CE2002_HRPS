@@ -1,7 +1,5 @@
 package UI;
 
-import java.util.Scanner;
-
 import Controller.Menu;
 import Controller.OrderController;
 import Controller.RoomController;
