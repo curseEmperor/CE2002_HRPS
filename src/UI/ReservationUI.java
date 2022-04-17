@@ -289,8 +289,8 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     public void viewAllnoExpired() {
         
         
-        System.out.println("\033[1mReservation Statistics Summary\033[0m");
-        System.out.format("Confirmed: %d \tChecked in: %d\tChecked out: %d\t Waitlist: %d\t Expired: %d", numofStatus(1), numofStatus(2), numofStatus(3), numofStatus(4), numofStatus(5));
+        System.out.println("\033[1mReservation Statistics Summary\033[0m\n");
+        System.out.format("Confirmed: %d \tChecked in: %d\tChecked out: %d\t Waitlist: %d\t Expired: %d\n", numofStatus(1), numofStatus(2), numofStatus(3), numofStatus(4), numofStatus(5));
         System.out.println("\033[1mViewing all reservations\033[0m");
         System.out.println(
                 "================================================================================================================================");
@@ -309,9 +309,10 @@ public class ReservationUI extends StandardUI implements ControllerUI {
      */
     public void viewAllnoExpirednWaitlist() {
         
-        System.out.println("\033[1mViewing all reservations\033[0m");
+        
         System.out.println("\033[1mReservation Statistics Summary\033[0m");
-        System.out.format("Confirmed: %d \tChecked in: %d\tChecked out: %d\t Waitlist: %d\t Expired: %d", numofStatus(1), numofStatus(2), numofStatus(3), numofStatus(4), numofStatus(5));
+        System.out.format("Confirmed: %d \tChecked in: %d\tChecked out: %d\t Waitlist: %d\t Expired: %d\n", numofStatus(1), numofStatus(2), numofStatus(3), numofStatus(4), numofStatus(5));
+        System.out.println("\033[1mViewing all reservations\033[0m");
         System.out.println(
                 "================================================================================================================================");
         System.out.println(

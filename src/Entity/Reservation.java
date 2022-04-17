@@ -206,7 +206,7 @@ public class Reservation extends Entities {
 
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm:ss a");
-        return String.format("%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s", this.reservationID, this.guestID, this.roomID,
+        return String.format("%14s\t%14s\t%10s\t%10s\t%10s\t%10s\t%10s", this.reservationID, this.guestID, this.roomID,
                 this.roomType, this.reservationStatus, sdf.format(this.checkIn), sdf.format(this.checkOut));
 
     }
