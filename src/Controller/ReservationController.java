@@ -596,11 +596,15 @@ public class ReservationUI extends StandardUI implements ControllerUI {
     public void delete() {
         System.out.println("Enter your Reservation ID: ");
         String reservationID = getUserString();
-
         Reservation toBeDeleted = ReservationController.getInstance().checkExistence(reservationID);
         if (toBeDeleted == null) {
             System.out.println("Reservation does not exist");
-        } else {
+        }
+        else if (ReservationController.getInstance().checkExistence(reservationID).getReservationStatus() == ReservationStatus.CHECKIN)
+        {
+            System.out.println("Reservation cannot be cancelled, guests has checked in.");
+        }
+        else {
             ReservationController.getInstance().delete(toBeDeleted);
             System.out.println("Reservation Cancelled.");
         }
