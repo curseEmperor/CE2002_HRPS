@@ -18,8 +18,6 @@ import Enums.RoomStatus;
 
 public class OrderUI extends StandardUI {
     private static OrderUI instance = null;
-    Scanner sc;
-    int choice, qSize;
 
     /**
      * Constructor
