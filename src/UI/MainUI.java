@@ -82,9 +82,9 @@ public class MainUI extends StandardUI {
      */
     public int showSelection() {
 
-        System.out.println("======================");
-        System.out.println("Welcome to Main Menu!");
-        System.out.println("======================");
+        System.out.println("===========================");
+        System.out.println("   Welcome to Main Menu!");
+        System.out.println("===========================");
         System.out.println("1) For Guest options");
         System.out.println("2) For Reservation options");
         System.out.println("3) For Room options");

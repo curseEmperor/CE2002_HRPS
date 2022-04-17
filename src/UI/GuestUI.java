@@ -181,6 +181,8 @@ public class GuestUI extends StandardUI implements ControllerUI {
 
             choice = getUserChoice(8);
             if (choice == 8) {
+                System.out.println("Enter Creditcard Registered Name: ");
+                String cardName = getUserString();
                 System.out.println("Enter Creditcard Number: ");
                 String cardNumber = getUserString();
                 System.out.println("Enter Creditcard Expiry Date (MM/yy): ");
@@ -193,8 +195,6 @@ public class GuestUI extends StandardUI implements ControllerUI {
                 System.out.println("2) MASTER");
                 System.out.println("3) AMEX");
                 int type = getUserChoice(3);
-                System.out.println("Enter Creditcard Registered Name: ");
-                String cardName = getUserString();
                 GuestController.getInstance().updateCreditcard(toBeUpdated, cardNumber, expDate, CVV, type, cardName);
             } else {
                 System.out.println("Enter the relevant details:");
@@ -203,7 +203,11 @@ public class GuestUI extends StandardUI implements ControllerUI {
                 GuestController.getInstance().update(toBeUpdated, choice, content);
             }
 
-            System.out.println(toBeUpdated);
+            System.out.println("========================");
+            System.out.println("   Guest Details ");
+            System.out.printf("========================");
+            System.out.print(toBeUpdated);
+            System.out.println("========================");
         }
     }
 

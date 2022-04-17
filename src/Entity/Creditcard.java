@@ -135,12 +135,12 @@ public class Creditcard extends Entities {
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/yy");
 
 		//result.append(this.getClass().getName() + newLine);
-
-		result.append("cardNumber: " + this.cardNumber + newLine);
-		result.append("expiryDate: " + formatter.format(this.expiryDate) + newLine);
+		result.append("Registered Name: " + this.registeredName + newLine);
+		result.append("Card Number: " + this.cardNumber + newLine);
+		result.append("Expiry Date: " + formatter.format(this.expiryDate) + newLine);
 		result.append("CVV: " + String.format("%03d", this.CVV) + newLine);
 		result.append("Creditcard Type: " + this.cardType.toString() + newLine);
-		result.append("Registered Name: " + this.registeredName + newLine);
+		
 
 		return result.toString();
 	}

@@ -172,10 +172,11 @@ public class RoomUI extends StandardUI implements ControllerUI {
 
         Room roomRead = RoomController.getInstance().checkExistence(roomID);
         if (roomRead != null) {
-            System.out.println("\n==============");
-            System.out.println(" Room Details");
-            System.out.println("==============");
+            System.out.println("\n==========================");
+            System.out.println("        Room Details");
+            System.out.println("==========================");
             System.out.println(roomRead);
+            System.out.println("==========================");
         } else
             System.out.println("Room does not exist!");
 
@@ -261,8 +262,11 @@ public class RoomUI extends StandardUI implements ControllerUI {
             }
 
             RoomController.getInstance().update(toBeUpdated, choice, content);
-
+            System.out.println("\n==========================");
+            System.out.println("       Room Details       ");
+            System.out.println("==========================");
             System.out.println(toBeUpdated);
+            System.out.println("==========================");
         }
     }
 
