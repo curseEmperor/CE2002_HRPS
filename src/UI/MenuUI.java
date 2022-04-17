@@ -5,16 +5,27 @@ import java.util.Scanner;
 import Controller.Menu;
 import Entity.Item;
 
+/***
+ * Represents a MenuUI
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
 public class MenuUI extends StandardUI implements ControllerUI {
     private static MenuUI instance = null;
     Scanner sc;
     int choice, qSize;
 
+    /**
+     * Constructor
+     */
     private MenuUI() {
         sc = new Scanner(System.in);
     }
 
     /**
+     * Returns the MenuUI instance and creates an instance if it does not
+     * 
      * @return MenuUI
      */
     public static MenuUI getInstance() {
@@ -24,6 +35,8 @@ public class MenuUI extends StandardUI implements ControllerUI {
     }
 
     /**
+     * Print selection menu and return number of selections available
+     * 
      * @return int
      */
     public int showSelection() {
@@ -38,6 +51,9 @@ public class MenuUI extends StandardUI implements ControllerUI {
         return 6;
     }
 
+    /**
+     * Select next prompt based on user iuput
+     */
     public void mainMenu() {
         do {
             qSize = showSelection();
@@ -65,6 +81,9 @@ public class MenuUI extends StandardUI implements ControllerUI {
         } while (choice < qSize);
     }
 
+    /**
+     * Create Item with inputs and pass Item object to controller
+     */
     public void create() {
 
         System.out.println("--Adding item--\n"
@@ -97,7 +116,7 @@ public class MenuUI extends StandardUI implements ControllerUI {
     }
 
     /**
-     * @param null
+     * Check for Item existence and print details of specific Item
      */
     public void readOneDets() { // read one Item
         System.out.println("Item ID: ");
@@ -109,9 +128,9 @@ public class MenuUI extends StandardUI implements ControllerUI {
     }
 
     /**
-     * @param null
+     * Check for Item existence and prompts for arguments for update
      */
-    public void update() { // update a single item
+    public void update() {
 
         System.out.println("--Editing item--\nItem ID: ");
 
@@ -155,6 +174,9 @@ public class MenuUI extends StandardUI implements ControllerUI {
 
     }
 
+    /**
+     * Check for Item existence and pass Item Object to controller for delete
+     */
     public void delete() {
         System.out.println("--Removing item--\nItem ID: ");
         String itemID = getUserString();
@@ -169,7 +191,10 @@ public class MenuUI extends StandardUI implements ControllerUI {
         }
     }
 
-    public void catalog() { // view the whole Menu with all the items catagoried
+    /**
+     * Call controller to print whole Menu with all the items catagoried
+     */
+    public void catalog() {
         Menu.getInstance().printMenu();
     }
 

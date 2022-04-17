@@ -118,7 +118,7 @@ public class OrderUI extends StandardUI {
     }
 
     /**
-     * Check for order existed and prompts for arguments for update
+     * Check for order exisitence and prompts for arguments for update
      */
     public void update() {
         System.out.println("Enter the OrderID to be updated: ");
@@ -172,7 +172,7 @@ public class OrderUI extends StandardUI {
     }
 
     /**
-     * Check for Room Exisitence, Order should only be created if there is living in
+     * Check for Room Existence, Order should only be created if there is living in
      * the room
      * 
      * @return String roomID
@@ -195,7 +195,7 @@ public class OrderUI extends StandardUI {
     }
 
     /**
-     * Check for Order Existence and pass Order Object to controller for delete
+     * Check for Order existence and pass Order Object to controller for delete
      */
     public void delete() {
         System.out.println("Enter the OrderID to be deleted: ");
