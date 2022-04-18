@@ -45,7 +45,7 @@ public class OrderController extends SerializeDB implements IController, IStorag
     /**
      * Returns the OrderController instance and creates an instance if it does not exist
      * 
-     * @return OrderController
+     * @return OrderController instance
      */
     public static OrderController getInstance() {
         if (instance == null) {
@@ -57,8 +57,8 @@ public class OrderController extends SerializeDB implements IController, IStorag
     /**
      * Return Order object if orderID matches
      * 
-     * @param orderID
-     * @return Order
+     * @param orderID	ID of desired order
+     * @return order	The Order object with corresponding orderID
      */
     public Order checkExistence(String orderID) { // by orderID eg. 02021
         for (Order order : orderList) {
@@ -72,7 +72,7 @@ public class OrderController extends SerializeDB implements IController, IStorag
      * Downcast to Order and add to list of Orders
      * Sets orderID of order as roomID + date
      * 
-     * @param entities
+     * @param entities	Order object to be saved into list
      */
     public void create(Object entities) {
         Order order = (Order) entities;
@@ -97,7 +97,7 @@ public class OrderController extends SerializeDB implements IController, IStorag
      * Delete single Order Object from list of Orders
      * Order object cannot be deleted if it in delivered status
      * 
-     * @param entities
+     * @param entities	Order object to be deleted from list
      */
     public void delete(Object entities) {
 
@@ -116,7 +116,7 @@ public class OrderController extends SerializeDB implements IController, IStorag
     /**
      * Update field of Order with input values
      * 
-     * @param entities entities is Order
+     * @param entities Order object to be updated
      * @param choice   choice from UI
      * @param value    input from user to be pass to setters
      */
@@ -144,8 +144,8 @@ public class OrderController extends SerializeDB implements IController, IStorag
      * Add Item to existing Order
      * Item can only be added if order is in the confirmed status
      * 
-     * @param Order
-     * @param Item
+     * @param order	Order object to be added with item
+     * @param itemToAdd	Item object to be added to order
      */
     public void addItemtoOrder(Order order, Item itemToAdd) {
         if (order.getOrderStatus() != OrderStatus.CONFIRM) {
@@ -161,8 +161,8 @@ public class OrderController extends SerializeDB implements IController, IStorag
      * Item can only be deleted if order is in the confirmed status
      * Order is deleted if order has no remaining items
      * 
-     * @param Order
-     * @param Item
+     * @param order	Order object to be delete item from
+     * @param itemToDelete Item object to be deleted
      */
     public void deleteItemfromOrder(Order order, Item itemToDelete) 
     {
@@ -196,7 +196,7 @@ public class OrderController extends SerializeDB implements IController, IStorag
     /**
      * Print single Order details
      * 
-     * @param Order
+     * @param order Order object to view list of items in order
      */
     public void read(Order order) {
         order.viewOrder();
@@ -205,8 +205,8 @@ public class OrderController extends SerializeDB implements IController, IStorag
     /**
      * Returns all existing orders from a room
      * 
-     * @param roomID
-     * @return ArrayList of Order
+     * @param roomID ID or room which made order
+     * @return ArrayList of Order full list of all orders made by the room
      */
     public ArrayList<Order> retrieveOrdersOfRoom(String roomID) { // by roomID
         ArrayList<Order> retrieveOL = new ArrayList<Order>();
@@ -223,8 +223,8 @@ public class OrderController extends SerializeDB implements IController, IStorag
     /**
      * Return order status given string input
      * 
-     * @param value
-     * @return OrderStatus
+     * @param value String input to be converted to OrderStatus Enum
+     * @return OrderStatus Enum assigned to input
      */
     private OrderStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);

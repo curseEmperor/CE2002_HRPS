@@ -42,7 +42,7 @@ public class ReservationController extends SerializeDB implements IController, I
     /**
      * Returns the ReservationController instance and creates an instance if it does not exist
      * 
-     * @return ReservationController
+     * @return ReservationController instance
      */
     public static ReservationController getInstance() {
         if (instance == null) {
@@ -56,8 +56,8 @@ public class ReservationController extends SerializeDB implements IController, I
      * Update reservation status as expired if status is confirmed or waitlist, and checkin date is after current date
      * Update reservation status to confirms if status is in waitlist and room is available
      * 
-     * @param reservationID
-     * @return Reservation
+     * @param reservationID ID of desired reservation
+     * @return toBeReturned Reservation Object with corresponding reservationID 
      */
     public Reservation checkExistence(String reservationID) {
         Date thisDate = new Date();
@@ -95,7 +95,7 @@ public class ReservationController extends SerializeDB implements IController, I
      * Downcast to Reservation and add to list of Reservations
      * Set reservationID as checkInDate + guestID
      * 
-     * @param entities
+     * @param entities Reservation object to be added to list
      */
     public void create(Object entities) {
 
@@ -126,7 +126,7 @@ public class ReservationController extends SerializeDB implements IController, I
      * Delete reservation from list of Reservations
      * Check for reservations with waitlist status and update to confirm status
      * 
-     * @param entities
+     * @param entities	Reservation object to be deleted from list
      */
     public void delete(Object entities) {
 
@@ -149,7 +149,7 @@ public class ReservationController extends SerializeDB implements IController, I
     /**
      * Update field of Reservation with input values
      * 
-     * @param entities entities is Reservation
+     * @param entities Reservation object to be updated
      * @param choice   choice from UI
      * @param value    input from user to be pass to setters
      */
@@ -232,8 +232,8 @@ public class ReservationController extends SerializeDB implements IController, I
     /**
      * Return reservation status given string input
      * 
-     * @param value
-     * @return ReservationStatus
+     * @param value	String input to be converted to ReservationStatus Enum
+     * @return ReservationStatus Enum assigned to input
      */
     private ReservationStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
@@ -297,8 +297,8 @@ public class ReservationController extends SerializeDB implements IController, I
     /**
      * Sets time of input date to 00:00:00
      * 
-     * @param date
-     * @return Date
+     * @param date	Date with time to is to be set
+     * @return Date	Date with time set to 00:00:00
      */
     private Date removeTime(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -314,8 +314,8 @@ public class ReservationController extends SerializeDB implements IController, I
      * Return Reservation Object from list of reservations that are checked in
      * Search using registered roomID
      * 
-     * @param roomID
-     * @return Reservation
+     * @param roomID ID of room assigned to a checked-in reservation
+     * @return reservation Reservation object with the assigned roomID
      */
     public Reservation getCheckInReservation(String roomID) {
         List<Reservation> checkedInList = splitReservationByStatus().get(ReservationStatus.CHECKIN);
@@ -329,7 +329,7 @@ public class ReservationController extends SerializeDB implements IController, I
     /**
      * Update Reservation Creditcard details with setter
      * 
-     * @param entities   entities is Reservation
+     * @param entities   Reservation to set creditcard details
      * @param cardNumber
      * @param expiryDate
      * @param CVC

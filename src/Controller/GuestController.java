@@ -47,8 +47,8 @@ public class GuestController extends SerializeDB implements IController, IStorag
     /**
      * Return Guest object if guestID matches
      * 
-     * @param guestID
-     * @return Guest object with corresponding guestID
+     * @param guestID	ID of desired guest
+     * @return guest	Guest object with corresponding guestID
      */
     public Guest checkExistence(String guestID) {
         System.out.println("Checking whether guestID exists...");

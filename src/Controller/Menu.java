@@ -37,7 +37,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	/**
      * Returns the Menu instance and creates an instance if it does not exist
      * 
-     * @return Menu
+     * @return Menu instance
      */
 	public static Menu getInstance() {
 		if (single_instance == null)
@@ -59,7 +59,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	/**
      * Print items in a Category
      * 
-     * @param ItemTypes
+     * @param itemType	the item type to be printed
      */
 	public void printCat(ItemTypes itemType) {
 		List<Item> types = splitItemByType().get(itemType);
@@ -92,7 +92,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	/**
      * Print item details
      * 
-     * @param Item
+     * @param item	the Item object to be printed
      */
 	public void printItem(Item item) {
 		System.out.format("%s %s\n", item.getID(), item.getName());
@@ -103,8 +103,8 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	/**
      * Return Item object if itemID matches
      * 
-     * @param itemID
-     * @return Item
+     * @param itemID	ID of desired item
+     * @return Item		The Item object with corresponding itemID
      */
 	public Item checkExistance(String itemID) {
 		for (Item item : itemList) {
@@ -136,7 +136,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	/**
      * Downcast to Item and add to list of Items
      * 
-     * @param entities
+     * @param entities	Item object to be saved into list
      */
 	public void create(Object entities) {
 		Item toBeAdded = (Item) entities;
@@ -157,7 +157,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	/**
      * Delete single Item Object from list of Items
      * 
-     * @param entities
+     * @param entities	Item object to be deleted from list
      */
 	public void delete(Object entities) {
 		Item toBeDeleted = (Item) entities;
@@ -169,7 +169,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	/**
      * Update field of Item with input values
      * 
-     * @param entities entities is Item
+     * @param entities Item object to be updated
      * @param choice   choice from UI
      * @param value    input from user to be pass to setters
      */
@@ -267,8 +267,8 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	/**
      * Return item type given string input
      * 
-     * @param type
-     * @return ItemTypes
+     * @param type	String input to be converted to ItemTypes Enum
+     * @return ItemTypes Enum assigned to input
      */
 	public ItemTypes toType(String type) {
 		switch (type.charAt(0)) {
@@ -290,8 +290,8 @@ public class Menu extends SerializeDB implements IController, IStorage {
 	/**
      * Return item type given int input
      * 
-     * @param type
-     * @return ItemTypes
+     * @param type int input to be converted to ItemTypes Enum
+     * @return ItemTypes Enum assigned to input
      */
 	public ItemTypes toType(int type) {
 		switch (type) {

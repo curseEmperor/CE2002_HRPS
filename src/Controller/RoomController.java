@@ -42,7 +42,7 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Returns the OrderController instance and creates an instance if it does not exist
      * 
-     * @return OrderController
+     * @return OrderController instance
      */
     public static RoomController getInstance() {
         if (instance == null) {
@@ -175,8 +175,8 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Return Room object if roomID matches
      * 
-     * @param roomID
-     * @return Room
+     * @param roomID ID of desired room
+     * @return room	Room Object with corresponding roomID
      */
     public Room checkExistence(String roomID) {
         for (Room room : roomList) {
@@ -190,7 +190,7 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Downcast to Room and add to list of Rooms
      * 
-     * @param entities
+     * @param entities	Room object to be added to list
      */
     public void create(Object entities) {
         Room newRoom = (Room) entities;
@@ -210,6 +210,8 @@ public class RoomController extends SerializeDB implements IController, IStorage
 
     /**
      * Delete room from list of Rooms
+     * 
+     * @param entities Room object to be deleted from list
      */
     public void delete(Object entities) {
         Room toBeDeleted = (Room) entities;
@@ -220,7 +222,7 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Update field of Room with input values
      * 
-     * @param entities entities is Room
+     * @param entities Room object to be update
      * @param choice   choice from UI
      * @param value    input from user to be pass to setters
      */
@@ -285,7 +287,7 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Split VACANT rooms into separate lists according to room type
      * 
-     * @return Map list of room split by type
+     * @return Map list of VACANT rooms split by type
      */
     public Map<RoomTypes, List<Room>> generateOccupancyReport() {
         Map<RoomTypes, List<Room>> report = new HashMap<>();
@@ -330,7 +332,7 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Split rooms into separate lists according to room type
      * 
-     * @return Map list of room split by type
+     * @return Map list of rooms split by type
      */
     public Map<RoomTypes, List<Room>> splitRoomByType() {
         Map<RoomTypes, List<Room>> roomByType = new HashMap<>();
@@ -371,7 +373,7 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Split rooms into separate lists according to status
      * 
-     * @return Map list of room split by type
+     * @return Map list of rooms split by type
      */
     public Map<RoomStatus, List<Room>> splitRoomByStatus() {
         Map<RoomStatus, List<Room>> roomByStatus = new HashMap<>();
@@ -408,8 +410,8 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Return room status given string input
      * 
-     * @param value
-     * @return RoomStatus
+     * @param value	String input to be converted to RoomStatus Enum
+     * @return RoomStatus Enum assigned to input
      */
     public RoomStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
@@ -431,8 +433,8 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Return room view given string input
      * 
-     * @param value
-     * @return RoomView
+     * @param value String input to be converted to RoomView Enum
+     * @return RoomView Enum assigned to input
      */
     public RoomView generateView(String value) {
         int choice = Integer.parseInt(value);
@@ -451,8 +453,8 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Return room bed type given string input
      * 
-     * @param value
-     * @return BedTypes
+     * @param value String input to be converted to BedTypes Enum
+     * @return BedTypes Enum assigned to input
      */
     public BedTypes generateBedType(String value) {
         int choice = Integer.parseInt(value);
@@ -473,8 +475,8 @@ public class RoomController extends SerializeDB implements IController, IStorage
     /**
      * Return room type given string input
      * 
-     * @param value
-     * @return RoomTypes
+     * @param value String input to be converted to RoomTypes Enum
+     * @return RoomTypes Enum assigned to input
      */
     public RoomTypes generateRoomType(String value) {
         int choice = Integer.parseInt(value);
