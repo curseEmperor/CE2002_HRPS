@@ -14,7 +14,7 @@ import Enums.RoomStatus;
  * @since 2022-04-17
  */
 
-public class OrderUI extends StandardUI {
+public class OrderUI extends StandardUI implements ControllerUI {
     /**
      * The Instance of this Controller
      */
