@@ -53,7 +53,7 @@ public class ReservationController extends SerializeDB implements IController, I
 
     /**
      * Return Reservation object if reservationID matches
-     * Update reservation status as expired if status is confirmed or waitlist and checkin date is after current date
+     * Update reservation status as expired if status is confirmed or waitlist, and checkin date is after current date
      * Update reservation status to confirms if status is in waitlist and room is available
      * 
      * @param reservationID
@@ -71,7 +71,7 @@ public class ReservationController extends SerializeDB implements IController, I
             // Check expiration of reservation
             if (reservation.getReservationStatus() != ReservationStatus.COMPLETED
                     && reservation.getReservationStatus() != ReservationStatus.EXPIRED
-                    && thisDate.compareTo(reservation.getCheckIn()) > 0) {
+                    && thisDate.compareTo(removeTime(reservation.getCheckIn())) > 0) {
                 System.out.println("Current date is past check in time");
                 reservation.setReservationStatus(ReservationStatus.EXPIRED);
             }
@@ -91,6 +91,12 @@ public class ReservationController extends SerializeDB implements IController, I
     }
 
     
+    /**
+     * Downcast to Reservation and add to list of Reservations
+     * Set reservationID as checkInDate + guestID
+     * 
+     * @param entities
+     */
     public void create(Object entities) {
 
         Reservation newReservation = (Reservation) entities;
@@ -107,12 +113,21 @@ public class ReservationController extends SerializeDB implements IController, I
         storeData();
     }
 
+    /**
+     * Print all reservation ID
+     */
     public void read() {
         for (Reservation reservation : reservationList) {
             System.out.println(reservation.getID());
         }
     }
 
+    /**
+     * Delete reservation from list of Reservations
+     * Check for reservations with waitlist status and update to confirm status
+     * 
+     * @param entities
+     */
     public void delete(Object entities) {
 
         Reservation toBeDeleted = (Reservation) entities;
@@ -122,13 +137,22 @@ public class ReservationController extends SerializeDB implements IController, I
         for (Reservation reservation : reservationList) {
             // Check waitlist for confirmation
             if (reservation.getReservationStatus() == ReservationStatus.WAITLIST) {
-                if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0)
-                    reservation.setReservationStatus(ReservationStatus.CONFIRM);
+                if (CheckInOut.getInstance().numAvailability(reservation.getCheckIn(), reservation.getRoomType()) > 0) {
+                	reservation.setReservationStatus(ReservationStatus.CONFIRM);
+                	break;
+                }
             }
         }
         storeData();
     }
 
+    /**
+     * Update field of Reservation with input values
+     * 
+     * @param entities entities is Reservation
+     * @param choice   choice from UI
+     * @param value    input from user to be pass to setters
+     */
     public void update(Object entities, int choice, String value) {
         Reservation toBeUpdated = (Reservation) entities;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm a");

@@ -118,8 +118,8 @@ public class CheckInOut {
 		double roomPrice = RoomController.getInstance().checkExistence(roomID).getRoomPrice();
 
 		// Calculate number of weekends and weekdays
-		Date checkIn = reservation.getCheckIn();
-		Date checkOut = reservation.getCheckOut();
+		Date checkIn = removeTime(reservation.getCheckIn());
+		Date checkOut = removeTime(reservation.getCheckOut());
 		long days = TimeUnit.DAYS.convert(checkOut.getTime() - checkIn.getTime(), TimeUnit.MILLISECONDS);
 		long weekends = countWeekends(reservation.getCheckIn(), reservation.getCheckOut());
 		long weekdays = days - weekends;
@@ -247,7 +247,8 @@ public class CheckInOut {
 
 		Date thisDate = new Date();
 		thisDate = removeTime(thisDate);
-		if (!thisDate.equals(reservation.getCheckOut())) {
+		Date checkOut = removeTime(reservation.getCheckOut());
+		if (!thisDate.equals(checkOut)) {
 			System.out.println("Check Out date does not match");
 			return false;
 		}
