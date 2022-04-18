@@ -41,7 +41,7 @@ public class CheckInOut {
 	/**
      * Returns the CheckInOut instance and creates an instance if it does not exist
      * 
-     * @return CheckInOut
+     * @return CheckInOut instance
      */
 	public static CheckInOut getInstance() {
 		if (instance == null)
@@ -57,9 +57,9 @@ public class CheckInOut {
      * 
      * Send reservation object and discount rates to printReceipt behaviour for receipt printing
      * 
-     * @param roomID
-     * @param roomDiscount
-     * @param orderDiscount
+     * @param roomID	ID of room to be checked-out
+     * @param roomDiscount	User input for discounts on room
+     * @param orderDiscount	User input for discounts on orders
      */
 	public void checkOut(String roomID, float roomDiscount, float orderDiscount) {
 		Date now = new Date();
@@ -98,7 +98,7 @@ public class CheckInOut {
      * 
      * Reservation is assigned to first available room during checkin
      * 
-     * @param reservationID
+     * @param reservationID	ID of reservation to be checked-in
      */
 	public void checkIn(String reservationID) {
 		Date now = new Date();
@@ -137,8 +137,8 @@ public class CheckInOut {
      * - Clear old room guestID and set status to occupied
      * - Set new room guestID and set status to occupied
      * 
-     * @param reservationID
-     * @param roomID
+     * @param reservationID	ID of reservation to change room
+     * @param roomID ID of room to be changed to
      */
 	public void changeRoom(String reservationID, String roomID) {
 		Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
@@ -198,9 +198,9 @@ public class CheckInOut {
      * 		- Number of confirmed guest with booking where dateCheck falls between checkin and checkout date
      * 		- Number of checked in guest with bookings where dateCheck falls before checkout date
      * 
-     * @param dateCheck
-     * @param roomType
-     * @return int
+     * @param dateCheck	Date to check for availability
+     * @param roomType	Room Type to check for availability
+     * @return int Number of available rooms at given date
      */
 	public int numAvailability(Date dateCheck, RoomTypes roomType) {
 		//Retrieve list of rooms of specified roomType
@@ -245,9 +245,9 @@ public class CheckInOut {
      * - Service Charge rate = 10%
      * - Room and order discounts are applied separately to allow for further expansion
      * 
-     * @param reservation
-     * @param roomDiscount
-     * @param orderDiscount
+     * @param reservation Reservation Object to calculate price
+     * @param roomDiscount	Discounts on room cost
+     * @param orderDiscount	Discounts on orders cost
      */
 	public void printReceipt(Reservation reservation, float roomDiscount, float orderDiscount) {
 		String roomID = reservation.getRoomID();
@@ -312,7 +312,7 @@ public class CheckInOut {
 	/**
      * Change all order status of a given reservation to paid
      * 
-     * @param reservationID
+     * @param reservationID which Orders will be changed to paid
      */
 	public void payment(String reservationID) {
 		Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
@@ -348,8 +348,8 @@ public class CheckInOut {
 	/**
      * Sets time of input date to 00:00:00
      * 
-     * @param date
-     * @return Date
+     * @param date	Date to set time
+     * @return Date	after setting time to 00:00:00
      */
 	private Date removeTime(Date date) {
 		Calendar calendar = Calendar.getInstance();
@@ -365,9 +365,9 @@ public class CheckInOut {
      * Count number of weekends between given dates
      * - For purpose of hotel weekends are Friday and Saturday
      * 
-     * @param start
-     * @param end
-     * @return long
+     * @param start	Starting date to check from
+     * @param end	Ending date to check to
+     * @return long	Number of weekends between given dates
      */
 	private long countWeekends(Date start, Date end) {
 		long days = TimeUnit.DAYS.convert(end.getTime() - start.getTime(), TimeUnit.MILLISECONDS);
@@ -391,8 +391,8 @@ public class CheckInOut {
      * - reservation checkin date is not current date
      * - reservation status is not confirm status
      * 
-     * @param reservation
-     * @return boolean
+     * @param reservation	Reservation object to check validity
+     * @return boolean	true - valid, false - invalid
      */
 	private boolean validCheckIn(Reservation reservation) {
 		if (reservation == null) {
@@ -419,8 +419,8 @@ public class CheckInOut {
      * - reservation object is null
      * - reservation status is not checkin status
      * 
-     * @param reservation
-     * @return boolean
+     * @param reservation	Reservation object to check validity
+     * @return boolean	true - valid, false - invalid
      */
 	private boolean validCheckOut(Reservation reservation) {
 		if (reservation == null) {
@@ -450,8 +450,8 @@ public class CheckInOut {
      * - Change date is not checkin date (can only change on checkin date)
      * - New room is not vacant
      * 
-     * @param reservation
-     * @return boolean
+     * @param reservation	Reservation object to check validity
+     * @return boolean	true - valid, false - invalid
      */
 	private boolean validRoomChange(Reservation reservation, Room room) {
 		Date today = new Date();
@@ -485,9 +485,10 @@ public class CheckInOut {
 
 	/**
      * Return first vacant room of reservation roomType
+     * No updates to room and reservation details in this function
      * 
-     * @param reservation
-     * @return Room
+     * @param reservation to assign room to
+     * @return Room	room assigned to reservation
      */
 	private Room assignRoom(Reservation reservation) {
 		RoomTypes roomType = reservation.getRoomType();
