@@ -134,7 +134,7 @@ public class Creditcard extends Entities {
 		String newLine = System.getProperty("line.separator");
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/yy");
 
-		result.append(this.getClass().getName() + newLine);
+		//result.append(this.getClass().getName() + newLine);
 
 		result.append("cardNumber: " + this.cardNumber + newLine);
 		result.append("expiryDate: " + formatter.format(this.expiryDate) + newLine);

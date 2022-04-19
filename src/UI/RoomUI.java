@@ -287,14 +287,25 @@ public class RoomUI extends StandardUI implements ControllerUI {
     private void occupancyReport() {
         HashMap<RoomTypes, List<Room>> report;
         report = (HashMap<RoomTypes, List<Room>>) RoomController.getInstance().generateOccupancyReport();
+        int count = 0;
 
         for (RoomTypes key : report.keySet()) {
-            System.out.format("\n\033[1m===========%s==========\033[0m\n", key);
-            System.out.println("Number: " + report.get(key).size());
+            System.out.format("\033[1m===========%s==========\033[0m\n", key);
+            for (Room room : report.get(key))
+            {
+                if (room.getRoomStatus() == RoomStatus.VACANT)
+                {
+                    count += 1;
+                }
+            }
+            System.out.format("Number: %d out of %d\n", count, report.get(key).size());
             System.out.println("Rooms: ");
             for (Room room : report.get(key)) {
-                System.out.println("\t   " + room.getRoomID());
+                if (room.getRoomStatus() == RoomStatus.VACANT)
+                    System.out.println(room.getRoomID());
+                System.out.println("\t" + room.getRoomID());
             }
+            System.out.printf("\n");
         }
     }
 
@@ -306,10 +317,12 @@ public class RoomUI extends StandardUI implements ControllerUI {
         roomByStatus = (HashMap<RoomStatus, List<Room>>) RoomController.getInstance().splitRoomByStatus();
 
         for (RoomStatus key : roomByStatus.keySet()) {
-            System.out.println(key + ": ");
+            System.out.format("\033[1m===========%s==========\033[0m\n", key);
             for (Room room : roomByStatus.get(key)) {
-                System.out.println(room.getRoomID());
+                if (room.getRoomStatus() != RoomStatus.RESERVED)
+                    System.out.println(room.getRoomID());
             }
+            System.out.printf("\n");
         }
     }
 
