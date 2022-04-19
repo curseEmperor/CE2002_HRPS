@@ -181,9 +181,9 @@ public class OrderUI extends StandardUI {
         // Check for valid room
         System.out.println("Please enter your Room ID:");
         String roomID = sc.nextLine();
-        while (RoomController.getInstance().checkExistence(roomID) == null) {
-            System.out.println("Please enter valid Room ID:");
-            roomID = sc.nextLine();
+        if (RoomController.getInstance().checkExistence(roomID) == null) {
+            System.out.println("Invalid Room ID");
+            return null;
         }
 
         // Check if room is occupied
