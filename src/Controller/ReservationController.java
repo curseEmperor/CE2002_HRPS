@@ -229,6 +229,11 @@ public class ReservationController extends SerializeDB implements IController, I
         storeData();
     }
 
+    /**
+     * Return reservation status given string input
+     * 
+     * @param value
+     */
     private ReservationStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
