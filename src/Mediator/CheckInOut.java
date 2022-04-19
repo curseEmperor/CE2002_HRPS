@@ -18,18 +18,48 @@ import Enums.ReservationStatus;
 import java.util.List;
 import java.util.Map;
 
+/***
+ * Represents a CheckInOut mediator
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
+
 public class CheckInOut {
+	/**
+     * The Instance of this Mediator
+     */
 	private static CheckInOut instance = null;
 
+	/**
+     * Constructor
+     */
 	private CheckInOut() {
 	}
 
+	/**
+     * Returns the CheckInOut instance and creates an instance if it does not exist
+     * 
+     * @return CheckInOut
+     */
 	public static CheckInOut getInstance() {
 		if (instance == null)
 			instance = new CheckInOut();
 		return instance;
 	}
 
+	/**
+     * Run checkout process communicating across RoomController and ReservationController
+     * 
+     * Room > Update status to vacant and clear registered guestID
+     * Reservation > Update status to completed and set checkout date to current time
+     * 
+     * Send reservation object and discount rates to printReceipt behaviour for receipt printing
+     * 
+     * @param roomID
+     * @param roomDiscount
+     * @param orderDiscount
+     */
 	public void checkOut(String roomID, float roomDiscount, float orderDiscount) {
 		Date now = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm a");
@@ -59,6 +89,16 @@ public class CheckInOut {
 		printReceipt(reservation, roomDiscount, orderDiscount);
 	}
 
+	/**
+     * Run checkin process communicating across RoomController and ReservationController
+     * 
+     * Room > Update status to occupied and register guestID
+     * Reservation > Update status to checkin, set checkin date to current time, and update roomID to assigned room
+     * 
+     * Reservation is assigned to first available room during checkin
+     * 
+     * @param reservationID
+     */
 	public void checkIn(String reservationID) {
 		Date now = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm a");
@@ -88,32 +128,65 @@ public class CheckInOut {
 		System.out.println("Assigned Room: " + room.getRoomID());
 	}
 
+	/**
+     * Check for number of available rooms of specified roomType at a specified date
+     * 
+     * Number of available rooms =
+     * 		Total number of rooms
+     * 		- Number of confirmed guest with booking where dateCheck falls between checkin and checkout date
+     * 		- Number of checked in guest with bookings where dateCheck falls before checkout date
+     * 
+     * @param dateCheck
+     * @param roomType
+     * @return int
+     */
 	public int numAvailability(Date dateCheck, RoomTypes roomType) {
-		// No of room type >= Count date is between checkin to checkout date
+		//Retrieve list of rooms of specified roomType
 		Map<RoomTypes, List<Room>> roomList = RoomController.getInstance().splitRoomByType();
+		
+		//Retrieve list of reservations split by status
 		Map<ReservationStatus, List<Reservation>> reservationList = ReservationController.getInstance()
 				.splitReservationByStatus();
+		
+		//Counter for number of reservations which fall under criteria
 		int reservationCount = 0;
+		dateCheck = removeTime(dateCheck);
+		Date checkIn;
+		Date checkOut;
 		for (Reservation reservation : reservationList.get(ReservationStatus.CONFIRM)) {
 			if (reservation.getRoomType() == roomType) {
-				if (dateCheck.equals(reservation.getCheckIn()))
+				checkIn = removeTime(reservation.getCheckIn());
+				checkOut = removeTime(reservation.getCheckOut());
+				if (dateCheck.equals(checkIn))
 					reservationCount++;
-				else if (dateCheck.after(reservation.getCheckIn()) && dateCheck.before(reservation.getCheckOut()))
+				else if (dateCheck.after(checkIn) && dateCheck.before(checkOut))
 					reservationCount++;
 			}
 		}
 		for (Reservation reservation : reservationList.get(ReservationStatus.CHECKIN)) {
+			checkOut = removeTime(reservation.getCheckOut());
 			if (reservation.getRoomType() == roomType) {
-				if (dateCheck.before(reservation.getCheckOut()))
+				if (dateCheck.before(checkOut))
 					reservationCount++;
 			}
 		}
 
-		// Rooms are available if number of room type is larger than number of guesting
-		// using the room type at date
+		// Returns difference of number of rooms and number of reservations under criteria
 		return roomList.get(roomType).size() - reservationCount;
 	}
 
+	/**
+     * Calculate and print receipt of a reservation
+     * 
+     * - Weekends bookings (Fri-Sat & Sat-Sun) cost 10% more
+     * - GST rate = 7%
+     * - Service Charge rate = 10%
+     * - Room and order discounts are applied separately to allow for further expansion
+     * 
+     * @param reservation
+     * @param roomDiscount
+     * @param orderDiscount
+     */
 	public void printReceipt(Reservation reservation, float roomDiscount, float orderDiscount) {
 		String roomID = reservation.getRoomID();
 
@@ -174,8 +247,13 @@ public class CheckInOut {
 		System.out.println();
 	}
 
-	public void payment(String ID) {
-		Reservation reservation = ReservationController.getInstance().checkExistence(ID);
+	/**
+     * Change all order status of a given reservation to paid
+     * 
+     * @param reservationID
+     */
+	public void payment(String reservationID) {
+		Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
 		if (reservation == null) {
 			System.out.println("Invalid Reservation ID");
 			return;
@@ -187,14 +265,30 @@ public class CheckInOut {
 				OrderController.getInstance().update(order, 3, "4");
 	}
 
-	public void setReservationCreditcard(String ID, String cardNumber, Date expiryDate, int CVV, int type,
+	/**
+     * Set creditcard details used for payment of a reservation
+     * 
+     * @param reservationID
+     * @param cardNumber
+     * @param expiryDate
+     * @param CVC
+     * @param type
+     * @param cardName
+     */
+	public void setReservationCreditcard(String reservationID, String cardNumber, Date expiryDate, int CVV, int type,
 			String cardName) {
-		Reservation reservation = ReservationController.getInstance().checkExistence(ID);
+		Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
 		if (reservation == null)
 			return;
 		ReservationController.getInstance().updateCreditcard(reservation, cardNumber, expiryDate, CVV, type, cardName);
 	}
 
+	/**
+     * Sets time of input date to 00:00:00
+     * 
+     * @param date
+     * @return Date
+     */
 	private Date removeTime(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -205,6 +299,14 @@ public class CheckInOut {
 		return calendar.getTime();
 	}
 
+	/**
+     * Count number of weekends between given dates
+     * - For purpose of hotel weekends are Friday and Saturday
+     * 
+     * @param start
+     * @param end
+     * @return long
+     */
 	private long countWeekends(Date start, Date end) {
 		long days = TimeUnit.DAYS.convert(end.getTime() - start.getTime(), TimeUnit.MILLISECONDS);
 		long weekends = 2 * (int) (days / 7);
@@ -221,6 +323,15 @@ public class CheckInOut {
 		return weekends;
 	}
 
+	/**
+     * Check if reservation is invalid for checkin
+     * - reservation object is null
+     * - reservation checkin date is not current date
+     * - reservation status is not confirm status
+     * 
+     * @param reservation
+     * @return boolean
+     */
 	private boolean validCheckIn(Reservation reservation) {
 		if (reservation == null) {
 			System.out.println("Invalid Reservation ID");
@@ -241,6 +352,14 @@ public class CheckInOut {
 		return true;
 	}
 
+	/**
+     * Check if reservation is invalid for checkout
+     * - reservation object is null
+     * - reservation status is not checkin status
+     * 
+     * @param reservation
+     * @return boolean
+     */
 	private boolean validCheckOut(Reservation reservation) {
 		if (reservation == null) {
 			System.out.println("No reservation found (Please enter room ID)");
@@ -262,6 +381,12 @@ public class CheckInOut {
 		return true;
 	}
 
+	/**
+     * Return first vacant room of reservation roomType
+     * 
+     * @param reservation
+     * @return Room
+     */
 	private Room assignRoom(Reservation reservation) {
 		RoomTypes roomType = reservation.getRoomType();
 		List<Room> vacantRooms = RoomController.getInstance().generateOccupancyReport().get(roomType);

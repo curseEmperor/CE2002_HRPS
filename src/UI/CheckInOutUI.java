@@ -126,7 +126,7 @@ public class CheckInOutUI extends StandardUI {
 
     /**
      * Prompts for payment by cash or card
-     * Assign card to guest if haven't
+     * Assign card to reservation if haven't
      */
     private void payment() {
         String ID;
