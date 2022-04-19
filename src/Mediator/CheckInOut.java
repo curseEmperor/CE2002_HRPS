@@ -251,13 +251,13 @@ public class CheckInOut {
 			return false;
 		}
 
-		Date thisDate = new Date();
+		/*Date thisDate = new Date();
 		thisDate = removeTime(thisDate);
 		Date checkOut = removeTime(reservation.getCheckOut());
 		if (!thisDate.equals(checkOut)) {
 			System.out.println("Check Out date does not match");
 			return false;
-		}
+		}*/
 		
 		return true;
 	}
