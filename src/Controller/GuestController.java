@@ -136,9 +136,9 @@ public class GuestController extends SerializeDB implements IController, IStorag
     }
 
     /**
-     * Update Creditcard with setter
+     * Update Guest Creditcard details with setter
      * 
-     * @param entities   entities is Creditcard
+     * @param entities   entities is Guest
      * @param cardNumber
      * @param expiryDate
      * @param CVC

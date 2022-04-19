@@ -23,7 +23,7 @@ public class SerializeDB {
 	 * Fixed load function from Serialize file to data array
 	 * 
 	 * @param filename Each file for each class
-	 * @return ArrayList<Entities> Return collection of entites
+	 * @return ArrayList<Entities> Return collection of entities
 	 */
 	public static ArrayList<Entities> loadData(String filename) {
 		ArrayList<Entities> pDetails = new ArrayList<>();

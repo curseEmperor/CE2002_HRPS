@@ -233,6 +233,7 @@ public class ReservationController extends SerializeDB implements IController, I
      * Return reservation status given string input
      * 
      * @param value
+     * @return ReservationStatus
      */
     private ReservationStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
@@ -252,6 +253,11 @@ public class ReservationController extends SerializeDB implements IController, I
         }
     }
 
+    /**
+     * Splits reservations into separate lists according to status
+     * 
+     * @return Map list of reservation split by reservationStatus
+     */
     public Map<ReservationStatus, List<Reservation>> splitReservationByStatus() {
         Map<ReservationStatus, List<Reservation>> reservationByStatus = new HashMap<>();
 
@@ -288,6 +294,12 @@ public class ReservationController extends SerializeDB implements IController, I
         return reservationByStatus;
     }
 
+    /**
+     * Sets time of input date to 00:00:00
+     * 
+     * @param date
+     * @return Date
+     */
     private Date removeTime(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -298,6 +310,13 @@ public class ReservationController extends SerializeDB implements IController, I
         return calendar.getTime();
     }
 
+    /**
+     * Return Reservation Object from list of reservations that are checked in
+     * Search using registered roomID
+     * 
+     * @param roomID
+     * @return Reservation
+     */
     public Reservation getCheckInReservation(String roomID) {
         List<Reservation> checkedInList = splitReservationByStatus().get(ReservationStatus.CHECKIN);
         for (Reservation reservation : checkedInList) {
@@ -307,21 +326,42 @@ public class ReservationController extends SerializeDB implements IController, I
         return null;
     }
 
+    /**
+     * Update Reservation Creditcard details with setter
+     * 
+     * @param entities   entities is Reservation
+     * @param cardNumber
+     * @param expiryDate
+     * @param CVC
+     * @param type
+     * @param cardName
+     */
     public void updateCreditcard(Object entities, String cardNumber, Date expiryDate, int CVV, int type,
             String cardName) {
         Reservation toBeUpdated = (Reservation) entities;
         toBeUpdated.setCreditcard(cardNumber, expiryDate, CVV, type, cardName);
     }
 
+    /**
+     * Return list of reservations
+     * 
+     * return ArrayList of Reservation
+     */
     public ArrayList<Reservation> getReservationList() {
         return this.reservationList;
     }
 
+    /**
+     * Store list of Reservations into serializable file
+     */
     public void storeData() {
         super.storeData("Reservation.ser", reservationList);
 
     }
 
+    /**
+     * Loads list of Reservations from serializable file
+     */
     public void loadData() {
         ArrayList<Entities> data = super.loadData("Reservation.ser");
         reservationList.clear();
