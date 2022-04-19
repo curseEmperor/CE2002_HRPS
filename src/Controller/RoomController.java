@@ -13,17 +13,37 @@ import Enums.RoomStatus;
 import Enums.RoomTypes;
 import Enums.RoomView;
 
-public class RoomController extends SerializeDB implements IController, IStorage {
-    private static RoomController instance = null;
+/***
+ * Represents a Room Controller
+ * 
+ * @version 1.0
+ * @since 2022-04-17
+ */
 
+public class RoomController extends SerializeDB implements IController, IStorage {
+	/**
+     * The Instance of this Controller
+     */
+	private static RoomController instance = null;
+	/**
+     * The collection of rooms
+     */
     private ArrayList<Room> roomList;
 
+    /**
+     * Constructor
+     */
     private RoomController() {
         roomList = new ArrayList<>();
-        initHotel();
-        storeData();
+        //initHotel();
+        //storeData();
     }
-
+    
+    /**
+     * Returns the OrderController instance and creates an instance if it does not exist
+     * 
+     * @return OrderController
+     */
     public static RoomController getInstance() {
         if (instance == null) {
             instance = new RoomController();
@@ -31,6 +51,11 @@ public class RoomController extends SerializeDB implements IController, IStorage
         return instance;
     }
 
+    /**
+     * Initializes roomController with pre-determined rooms
+     * 
+     * DO NOT REMOVE, keep in case of data loss
+     */
     private void initHotel() {
         Room r1 = new Room("02-01", 100.21, RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.NIL, false);
         Room r2 = new Room("02-02", 125.21, RoomTypes.SINGLE, BedTypes.SINGLE, false, RoomView.NIL, true);
@@ -147,6 +172,12 @@ public class RoomController extends SerializeDB implements IController, IStorage
         roomList.add(r56);
     }
 
+    /**
+     * Return Room object if roomID matches
+     * 
+     * @param roomID
+     * @return Room
+     */
     public Room checkExistence(String roomID) {
         for (Room room : roomList) {
             if (room.getRoomID().equals(roomID)) {
@@ -156,6 +187,11 @@ public class RoomController extends SerializeDB implements IController, IStorage
         return null;
     }
 
+    /**
+     * Downcast to Room and add to list of Rooms
+     * 
+     * @param entities
+     */
     public void create(Object entities) {
         Room newRoom = (Room) entities;
         roomList.add(newRoom);
@@ -163,17 +199,30 @@ public class RoomController extends SerializeDB implements IController, IStorage
         storeData();
     }
 
+    /**
+     * Print all roomIDs
+     */
     public void read() {
         for (Room room : roomList) {
             System.out.println(room.getRoomID());
         }
     }
 
+    /**
+     * Delete room from list of Rooms
+     */
     public void delete(Object entities) {
         Room toBeDeleted = (Room) entities;
         roomList.remove(toBeDeleted);
     }
 
+    /**
+     * Update field of Room with input values
+     * 
+     * @param entities entities is Room
+     * @param choice   choice from UI
+     * @param value    input from user to be pass to setters
+     */
     public void update(Object entities, int choice, String value) {
         Room toBeUpdated = (Room) entities;
 
@@ -224,6 +273,11 @@ public class RoomController extends SerializeDB implements IController, IStorage
         }
     }
 
+    /**
+     * Split VACANT rooms into separate lists according to room type
+     * 
+     * @return Map list of room split by type
+     */
     public Map<RoomTypes, List<Room>> generateOccupancyReport() {
         Map<RoomTypes, List<Room>> report = new HashMap<>();
         ArrayList<Room> vacantRooms = new ArrayList<>();
@@ -264,6 +318,11 @@ public class RoomController extends SerializeDB implements IController, IStorage
         return report;
     }
 
+    /**
+     * Split rooms into separate lists according to room type
+     * 
+     * @return Map list of room split by type
+     */
     public Map<RoomTypes, List<Room>> splitRoomByType() {
         Map<RoomTypes, List<Room>> roomByType = new HashMap<>();
 
@@ -300,6 +359,11 @@ public class RoomController extends SerializeDB implements IController, IStorage
         return roomByType;
     }
 
+    /**
+     * Split rooms into separate lists according to status
+     * 
+     * @return Map list of room split by type
+     */
     public Map<RoomStatus, List<Room>> splitRoomByStatus() {
         Map<RoomStatus, List<Room>> roomByStatus = new HashMap<>();
 
@@ -332,6 +396,12 @@ public class RoomController extends SerializeDB implements IController, IStorage
 
     }
 
+    /**
+     * Return room status given string input
+     * 
+     * @param value
+     * @return RoomStatus
+     */
     public RoomStatus generateStatus(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
@@ -349,6 +419,12 @@ public class RoomController extends SerializeDB implements IController, IStorage
         }
     }
 
+    /**
+     * Return room view given string input
+     * 
+     * @param value
+     * @return RoomView
+     */
     public RoomView generateView(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
@@ -363,6 +439,12 @@ public class RoomController extends SerializeDB implements IController, IStorage
         }
     }
 
+    /**
+     * Return room bed type given string input
+     * 
+     * @param value
+     * @return BedTypes
+     */
     public BedTypes generateBedType(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
@@ -379,6 +461,12 @@ public class RoomController extends SerializeDB implements IController, IStorage
         }
     }
 
+    /**
+     * Return room type given string input
+     * 
+     * @param value
+     * @return RoomTypes
+     */
     public RoomTypes generateRoomType(String value) {
         int choice = Integer.parseInt(value);
         switch (choice) {
@@ -395,10 +483,16 @@ public class RoomController extends SerializeDB implements IController, IStorage
         }
     }
 
+    /**
+     * Store list of Rooms into serializable file
+     */
     public void storeData() {
         super.storeData("Room.ser", roomList);
     }
 
+    /**
+     * Loads list of Items from serializable file
+     */
     public void loadData() {
         ArrayList<Entities> data = super.loadData("Room.ser");
         roomList.clear();

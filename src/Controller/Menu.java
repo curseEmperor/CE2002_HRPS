@@ -268,6 +268,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
      * Return item type given string input
      * 
      * @param type
+     * @return ItemTypes
      */
 	public ItemTypes toType(String type) {
 		switch (type.charAt(0)) {
@@ -290,6 +291,7 @@ public class Menu extends SerializeDB implements IController, IStorage {
      * Return item type given int input
      * 
      * @param type
+     * @return ItemTypes
      */
 	public ItemTypes toType(int type) {
 		switch (type) {
