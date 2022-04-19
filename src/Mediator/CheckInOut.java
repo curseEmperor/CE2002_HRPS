@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import Enums.RoomTypes;
 import Enums.ReservationStatus;
+import Enums.RoomStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -126,6 +127,64 @@ public class CheckInOut {
 		System.out.println("Check-In Successful");
 		System.out.println("Reservation ID: " + reservation.getID());
 		System.out.println("Assigned Room: " + room.getRoomID());
+	}
+	
+	/**
+     * Run change room process
+     * - Check for validity of change room request
+     * - Transfer all existing orders to new room
+     * - Update reservation with roomID and new room type
+     * - Clear old room guestID and set status to occupied
+     * - Set new room guestID and set status to occupied
+     * 
+     * @param reservationID
+     * @param roomID
+     */
+	public void changeRoom(String reservationID, String roomID) {
+		Reservation reservation = ReservationController.getInstance().checkExistence(reservationID);
+		Room room = RoomController.getInstance().checkExistence(roomID);
+		
+		if (validRoomChange(reservation, room) == false) {
+			System.out.println("Room Change failed");
+			return;
+		}
+		
+		Room oldRoom = RoomController.getInstance().checkExistence(reservation.getRoomID());
+		
+		String oldRoomID = reservation.getRoomID();
+		
+		//Transfer all orders
+		List<Order> orderList = OrderController.getInstance().retrieveOrdersOfRoom(oldRoomID);
+		if (orderList != null)
+			for (Order order : orderList)
+				OrderController.getInstance().update(order, 1, roomID);
+		
+		//Update reservation roomID and roomType
+		ReservationController.getInstance().update(reservation, 2, roomID);
+		String roomType = null;
+		switch (room.getRoomType()) {
+		case SINGLE:
+			roomType = "1";
+			break;
+		case DOUBLE:
+			roomType = "2";
+			break;
+		case DELUXE:
+			roomType = "3";
+			break;
+		case SUITE:
+			roomType = "4";
+			break;
+		}
+		ReservationController.getInstance().update(reservation, 8, roomType);
+		
+		//Update room details
+		RoomController.getInstance().update(oldRoom, 2, null);
+		RoomController.getInstance().update(oldRoom, 9, "1");
+		RoomController.getInstance().update(room, 2, reservation.getGuestID());
+		RoomController.getInstance().update(room, 9, "2");
+		
+		System.out.println("Room Change successful");
 	}
 
 	/**
@@ -377,6 +436,42 @@ public class CheckInOut {
 			System.out.println("Check Out date does not match");
 			return false;
 		}*/
+		
+		return true;
+	}
+	
+	/**
+     * Check if change room request is invalid
+     * - Reservation object is null
+     * - Room object is null
+     * - Change date is not checkin date (can only change on checkin date)
+     * - New room is not vacant
+     * 
+     * @param reservation
+     * @return boolean
+     */
+	private boolean validRoomChange(Reservation reservation, Room room) {
+		Date today = new Date();
+		today = removeTime(today);
+		
+		
+		if (reservation == null) {
+			System.out.println("Invalid reservation ID");
+			return false;
+		}
+		if (room == null) {
+			System.out.println("Invalid room ID");
+			return false;
+		}
+		Date checkIn = removeTime(reservation.getCheckIn());
+		if (today.equals(checkIn)==false) {
+			System.out.println("Can only change room on Check-In day");
+			return false;
+		}
+		if (room.getRoomStatus()!=RoomStatus.VACANT) {
+			System.out.println("Room is not vacant");
+			return false;
+		}
 		
 		return true;
 	}

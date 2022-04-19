@@ -47,9 +47,10 @@ public class CheckInOutUI extends StandardUI {
         System.out.println("1) Check In");
         System.out.println("2) Check Out");
         System.out.println("3) Make Payment");
-        System.out.println("4) Return to MainUI");
+        System.out.println("4) Change assigned room");
+        System.out.println("5) Return to MainUI");
 
-        return 4;
+        return 5;
     }
 
     /**
@@ -86,7 +87,14 @@ public class CheckInOutUI extends StandardUI {
                     payment();
                     break;
                 case 4:
-                    return;
+                	System.out.println("Enter reservation ID: ");
+                	reservationID = getUserString();
+                	System.out.println("Enter room ID of new room: ");
+                	String roomID = getUserString();
+                	CheckInOut.getInstance().changeRoom(reservationID, roomID);
+                    break;
+                case 5:
+                	return;
             }
         } while (choice < qSize);
     }
