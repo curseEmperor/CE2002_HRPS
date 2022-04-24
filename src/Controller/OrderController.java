@@ -110,6 +110,7 @@ public class OrderController extends SerializeDB implements IController, IStorag
         }
 
         System.out.println("Order can't be deleted as it is delivered.");
+        storeData();
     }
 
     /**
@@ -163,19 +164,24 @@ public class OrderController extends SerializeDB implements IController, IStorag
      * @param Order
      * @param Item
      */
-    public void deleteItemfromOrder(Order order, Item itemToDelete) {
-        if (order.getOrderStatus() != OrderStatus.CONFIRM) {
-            System.out.println("Order is preparing or is delivered, no changes can be made.");
-            return;
-        }
-        if (order.getListOfFood().remove(itemToDelete)) {
-            System.out.println("Item removed from order " + order.getOrderID());
-            if (order.getListOfFood().size() == 0) {
-                System.out.println("No items left... Deleting order...");
-                orderList.remove(order);
+    public void deleteItemfromOrder(Order order, Item itemToDelete) 
+    {
+            if (order.getOrderStatus() != OrderStatus.CONFIRM) {
+                System.out.println("Order is preparing or is delivered, no changes can be made.");
+                return;
             }
-        }
-        storeData();
+            if (order.getListOfFood().remove(itemToDelete)) {
+                System.out.println("Item removed from order " + order.getOrderID());
+                if (order.getListOfFood().size() == 0) {
+                    System.out.println("No items left... Deleting order...");
+                    orderList.remove(order);
+                }
+                storeData();
+            }
+            else {
+              System.out.println("Order " + order.getOrderID() + " does not have item " + itemToDelete.getID());
+            }
+            storeData();
     }
 
     /**

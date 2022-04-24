@@ -338,7 +338,7 @@ public class ReservationUI extends StandardUI implements ControllerUI {
         System.out.println(
                 "================================================================================================================================");
         for (Reservation reservations : ReservationController.getInstance().getReservationList())
-            if (reservations.getReservationStatus() != ReservationStatus.EXPIRED) //task: print but dont show waitlist
+            if (reservations.getReservationStatus() == ReservationStatus.CONFIRM) //task: print but dont show waitlist
                 System.out.println(reservations.toString().replace("[", "").replace("]", ""));
         System.out.println(
                 "================================================================================================================================");

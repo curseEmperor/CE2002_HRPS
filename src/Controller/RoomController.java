@@ -35,8 +35,8 @@ public class RoomController extends SerializeDB implements IController, IStorage
      */
     private RoomController() {
         roomList = new ArrayList<>();
-        initHotel();
-        storeData();
+        //initHotel();
+        //storeData();
     }
     
     /**
@@ -214,6 +214,7 @@ public class RoomController extends SerializeDB implements IController, IStorage
     public void delete(Object entities) {
         Room toBeDeleted = (Room) entities;
         roomList.remove(toBeDeleted);
+        storeData();
     }
 
     /**
@@ -271,6 +272,7 @@ public class RoomController extends SerializeDB implements IController, IStorage
                 toBeUpdated.setRoomStatus(generateStatus(value));
                 break;
         }
+        storeData();
     }
     /**
      * Return roomList
@@ -380,16 +382,16 @@ public class RoomController extends SerializeDB implements IController, IStorage
         ArrayList<Room> maintainRooms = new ArrayList<Room>();
 
         for (Room room : roomList) {
-            if (room.getRoomStatus() == RoomStatus.VACANT) { // vacant
+            if (room.getRoomStatus() == RoomStatus.VACANT) { // VACANT
                 vacantRooms.add(room);
             }
-            if (room.getRoomStatus() == RoomStatus.OCCUPIED) { // vacant
+            if (room.getRoomStatus() == RoomStatus.OCCUPIED) { // OCCUPIED
                 occupiedRooms.add(room);
             }
-            if (room.getRoomStatus() == RoomStatus.RESERVED) { // vacant
+            if (room.getRoomStatus() == RoomStatus.RESERVED) { // RESERVED
                 reservedRooms.add(room);
             }
-            if (room.getRoomStatus() == RoomStatus.MAINTAINENCE) { // vacant
+            if (room.getRoomStatus() == RoomStatus.MAINTAINENCE) { // MAINTAINENCE
                 maintainRooms.add(room);
             }
         }

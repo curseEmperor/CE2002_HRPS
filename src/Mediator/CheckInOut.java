@@ -175,6 +175,9 @@ public class CheckInOut {
 		case SUITE:
 			roomType = "4";
 			break;
+		case STANDARD:
+			roomType = "5";
+			break;
 		}
 		ReservationController.getInstance().update(reservation, 8, roomType);
 		

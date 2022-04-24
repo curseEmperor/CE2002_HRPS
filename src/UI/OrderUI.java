@@ -77,8 +77,9 @@ public class OrderUI extends StandardUI {
                     delete();
                     break;
                 case 5:
-                    break;
+                    return;
             }
+            choice = 0;
         } while (choice < qSize);
 
     }

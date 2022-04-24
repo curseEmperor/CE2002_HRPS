@@ -3,6 +3,7 @@ package UI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Map;
 
 import Controller.RoomController;
 import Entity.Room;
@@ -119,21 +120,21 @@ public class RoomUI extends StandardUI implements ControllerUI {
         }
 
         System.out.println("Choose Room Type: ");
-        System.out.println("1) Single ");
-        System.out.println("2) Double ");
-        System.out.println("3) Standard ");
-        System.out.println("4) Deluxe ");
-        System.out.println("5) Suite ");
+        System.out.println("1) SINGLE");
+        System.out.println("2) DOUBLE");
+        System.out.println("3) DELUXE");
+        System.out.println("4) SUITE");
+        System.out.println("5) STANDARD");
         RoomTypes roomType = null;
 
         choice = getUserChoice(5);
         roomType = RoomController.getInstance().generateRoomType(String.valueOf(choice));
 
         System.out.println("Enter Bed Type: ");
-        System.out.println("1) Single Bed");
-        System.out.println("2) Double Bed");
-        System.out.println("3) Queen Bed");
-        System.out.println("4) King Bed");
+        System.out.println("1) SINGLE");
+        System.out.println("2) DOUBLE");
+        System.out.println("3) QUEEN");
+        System.out.println("4) KING");
         BedTypes bedType = null;
 
         choice = getUserChoice(4);
@@ -147,9 +148,9 @@ public class RoomUI extends StandardUI implements ControllerUI {
         boolean WiFi = choice == 1 ? true : false;
 
         System.out.println("Please select the room's view: ");
-        System.out.println("1) City View");
-        System.out.println("2) Pool View");
-        System.out.println("3) No View");
+        System.out.println("1) CITY");
+        System.out.println("2) POOL");
+        System.out.println("3) NO VIEW");
         RoomView view = null;
 
         choice = getUserChoice(3);
@@ -213,25 +214,23 @@ public class RoomUI extends StandardUI implements ControllerUI {
             if (choice == 10)
                 return;
             String content = null;
-            int count;
 
             switch (choice) {
                 case 4: // roomType
-                    count = 0;
-                    for (RoomTypes roomType : RoomTypes.values()) {
-                        count++;
-                        System.out.println(count + ") " + roomType.name());
-                    }
                     System.out.println("Choose room type: ");
+                    System.out.println("1) SINGLE");
+                    System.out.println("2) DOUBLE");
+                    System.out.println("3) DELUXE");
+                    System.out.println("4) SUITE");
+                    System.out.println("5) STANDARD");
                     content = String.valueOf(getUserChoice(RoomTypes.values().length));
                     break;
                 case 5: // bedType
-                    count = 0;
-                    for (BedTypes bedType : BedTypes.values()) {
-                        count++;
-                        System.out.println(count + ") " + bedType.name());
-                    }
                     System.out.println("Choose bed type: ");
+                    System.out.println("1) SINGLE");
+                    System.out.println("2) DOUBLE");
+                    System.out.println("3) QUEEN");
+                    System.out.println("4) KING");
                     content = String.valueOf(getUserChoice(BedTypes.values().length));
                     break;
                 case 6:
@@ -239,12 +238,10 @@ public class RoomUI extends StandardUI implements ControllerUI {
                     content = getUserYN();
                     break;
                 case 7: // roomView
-                    count = 0;
-                    for (RoomView view : RoomView.values()) {
-                        count++;
-                        System.out.println(count + ") " + view.name());
-                    }
                     System.out.println("Choose view: ");
+                    System.out.println("1) CITY");
+                    System.out.println("2) POOL");
+                    System.out.println("3) NO VIEW");
                     content = String.valueOf(getUserChoice(RoomView.values().length));
                     break;
                 case 8: // smoking
@@ -252,13 +249,12 @@ public class RoomUI extends StandardUI implements ControllerUI {
                     content = getUserYN();
                     break;
                 case 9: // roomStatus
-                    count = 0;
-                    for (RoomStatus roomStatus : RoomStatus.values()) {
-                        count++;
-                        System.out.println(count + ") " + roomStatus.name());
-                    }
                     System.out.println("Choose status: ");
-                    content = String.valueOf(getUserChoice(RoomStatus.values().length) + 1);
+                    System.out.println("1) VACANT");
+                    System.out.println("2) OCCUPIED");
+                    System.out.println("3) MAINTAINENCE");
+                    System.out.println("4) RESERVED");
+                    content = String.valueOf(getUserChoice(RoomStatus.values().length));
                     break;
                 default:
                     System.out.println("Enter the relevant details: ");
@@ -273,7 +269,7 @@ public class RoomUI extends StandardUI implements ControllerUI {
             System.out.println("==========================");
         }
     }
-
+    
     /**
      * Check for Room existence and pass Room Object to controller for delete
      */
@@ -399,12 +395,13 @@ public class RoomUI extends StandardUI implements ControllerUI {
      * Print out occupancy report by room type for vacant room only
      */
     private void occupancyReport() {
+        Map<RoomTypes, List<Room>> roomList = RoomController.getInstance().splitRoomByType();
         HashMap<RoomTypes, List<Room>> report;
         report = (HashMap<RoomTypes, List<Room>>) RoomController.getInstance().generateOccupancyReport();
 
         for (RoomTypes key : report.keySet()) {
             System.out.format("\033[1m===========%s==========\033[0m\n", key);
-            System.out.println("Number : " + report.get(key).size());
+            System.out.println("Number : " + report.get(key).size() + " out of " + roomList.get(key).size());
             System.out.println("Rooms : ");
             for (Room room : report.get(key)) {
                 System.out.println("\t"+ room.getRoomID());
